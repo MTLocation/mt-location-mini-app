@@ -1,17 +1,12 @@
-"use client";
+ import Link from "next/link";
 
-import { useState } from "react";
-
-export default function PriseDePossession() {
-  const [email, setEmail] = useState("");
-  const [telephone, setTelephone] = useState("");
-
+export default function Home() {
   return (
     <main
       style={{
         minHeight: "100vh",
         background: "#0b0b0b",
-        color: "white",
+        color: "#ffffff",
         display: "flex",
         alignItems: "center",
         justifyContent: "center",
@@ -20,79 +15,68 @@ export default function PriseDePossession() {
       }}
     >
       <div style={{ width: "100%", maxWidth: "430px" }}>
-        <div style={{ textAlign: "center", marginBottom: "35px" }}>
+        <div style={{ textAlign: "center", marginBottom: "36px" }}>
+          <h1 style={{ margin: 0, fontSize: "30px" }}>MT LOCATION</h1>
+
           <div
             style={{
+              marginTop: "8px",
               color: "#ff6b00",
-              fontWeight: "bold",
-              marginBottom: "10px",
+              fontSize: "22px",
+              fontWeight: "700",
             }}
           >
-            MT LOCATION REMORQUES
+            REMORQUES
           </div>
 
-          <h1 style={{ fontSize: "28px", marginBottom: "10px" }}>
-            Prise de possession
-          </h1>
-
-          <p style={{ color: "#aaa", lineHeight: "1.5" }}>
-            Retrouvez votre réservation pour débuter votre location.
+          <p style={{ color: "#aaaaaa", marginTop: "12px" }}>
+            Remorque fermée 7 × 14
           </p>
         </div>
 
-        <div
+        <Link
+          href="/prise-de-possession"
           style={{
+            display: "block",
             background: "#151515",
-            border: "1px solid #333",
+            border: "1px solid #444444",
             borderRadius: "18px",
             padding: "24px",
+            marginBottom: "18px",
+            color: "#ffffff",
+            textDecoration: "none",
           }}
         >
-          <h2 style={{ fontSize: "20px", marginTop: 0 }}>
-            Retrouver ma réservation
-          </h2>
+          <div style={{ fontSize: "23px", fontWeight: "700" }}>
+            Débuter la location
+          </div>
 
-          <label
-            style={{
-              display: "block",
-              marginTop: "22px",
-              marginBottom: "8px",
-            }}
-          >
-            Courriel
-          </label>
+          <div style={{ color: "#aaaaaa", marginTop: "6px" }}>
+            Prendre possession de votre remorque
+          </div>
+        </Link>
 
-          <input
-            type="email"
-            value={email}
-            onChange={(e) => setEmail(e.target.value)}
-            placeholder="votre@email.com"
-            style={{
-              width: "100%",
-              boxSizing: "border-box",
-              padding: "15px",
-              borderRadius: "10px",
-              border: "1px solid #444",
-              background: "#0b0b0b",
-              color: "white",
-              fontSize: "16px",
-            }}
-          />
+        <Link
+          href="/retour"
+          style={{
+            display: "block",
+            background: "#151515",
+            border: "1px solid #444444",
+            borderRadius: "18px",
+            padding: "24px",
+            color: "#ffffff",
+            textDecoration: "none",
+          }}
+        >
+          <div style={{ fontSize: "23px", fontWeight: "700" }}>
+            Retourner la remorque
+          </div>
 
-          <label
-            style={{
-              display: "block",
-              marginTop: "20px",
-              marginBottom: "8px",
-            }}
-          >
-            Téléphone
-          </label>
-
-          <input
-            type="tel"
-            value={telephone}
-            onChange={(e) => setTelephone(e.target.value)}
-            placeholder="514 555-1234"
-            style={{
-              width: "100
+          <div style={{ color: "#aaaaaa", marginTop: "6px" }}>
+            Finaliser votre location
+          </div>
+        </Link>
+      </div>
+    </main>
+  );
+}
