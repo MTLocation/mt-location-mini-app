@@ -1,6 +1,11 @@
- import Link from "next/link";
+"use client";
 
-export default function Home() {
+import { useState } from "react";
+
+export default function PriseDePossession() {
+  const [email, setEmail] = useState("");
+  const [telephone, setTelephone] = useState("");
+
   return (
     <main
       style={{
@@ -15,67 +20,98 @@ export default function Home() {
       }}
     >
       <div style={{ width: "100%", maxWidth: "430px" }}>
-        <div style={{ textAlign: "center", marginBottom: "36px" }}>
-          <h1 style={{ margin: 0, fontSize: "30px" }}>MT LOCATION</h1>
-
+        <div style={{ textAlign: "center", marginBottom: "30px" }}>
           <div
             style={{
-              marginTop: "8px",
               color: "#ff6b00",
-              fontSize: "22px",
               fontWeight: "700",
+              marginBottom: "10px",
             }}
           >
-            REMORQUES
+            MT LOCATION REMORQUES
           </div>
 
-          <p style={{ color: "#aaaaaa", marginTop: "12px" }}>
-            Remorque fermée 7 × 14
+          <h1 style={{ fontSize: "28px", marginBottom: "10px" }}>
+            Prise de possession
+          </h1>
+
+          <p style={{ color: "#aaaaaa" }}>
+            Retrouvez votre réservation pour continuer.
           </p>
         </div>
 
-        <Link
-          href="/prise-de-possession"
+        <div
           style={{
-            display: "block",
             background: "#151515",
-            border: "1px solid #444444",
+            border: "1px solid #333333",
             borderRadius: "18px",
             padding: "24px",
-            marginBottom: "18px",
-            color: "#ffffff",
-            textDecoration: "none",
           }}
         >
-          <div style={{ fontSize: "23px", fontWeight: "700" }}>
-            Débuter la location
-          </div>
+          <h2 style={{ marginTop: 0 }}>Retrouver ma réservation</h2>
 
-          <div style={{ color: "#aaaaaa", marginTop: "6px" }}>
-            Prendre possession de votre remorque
-          </div>
-        </Link>
+          <label style={{ display: "block", marginTop: "20px" }}>
+            Courriel
+          </label>
 
-        <Link
-          href="/retour"
-          style={{
-            display: "block",
-            background: "#151515",
-            border: "1px solid #444444",
-            borderRadius: "18px",
-            padding: "24px",
-            color: "#ffffff",
-            textDecoration: "none",
-          }}
-        >
-          <div style={{ fontSize: "23px", fontWeight: "700" }}>
-            Retourner la remorque
-          </div>
+          <input
+            type="email"
+            value={email}
+            onChange={(e) => setEmail(e.target.value)}
+            placeholder="votre@email.com"
+            style={{
+              width: "100%",
+              boxSizing: "border-box",
+              marginTop: "8px",
+              padding: "15px",
+              borderRadius: "10px",
+              border: "1px solid #444444",
+              background: "#0b0b0b",
+              color: "#ffffff",
+              fontSize: "16px",
+            }}
+          />
 
-          <div style={{ color: "#aaaaaa", marginTop: "6px" }}>
-            Finaliser votre location
-          </div>
-        </Link>
+          <label style={{ display: "block", marginTop: "20px" }}>
+            Téléphone
+          </label>
+
+          <input
+            type="tel"
+            value={telephone}
+            onChange={(e) => setTelephone(e.target.value)}
+            placeholder="514 555-1234"
+            style={{
+              width: "100%",
+              boxSizing: "border-box",
+              marginTop: "8px",
+              padding: "15px",
+              borderRadius: "10px",
+              border: "1px solid #444444",
+              background: "#0b0b0b",
+              color: "#ffffff",
+              fontSize: "16px",
+            }}
+          />
+
+          <button
+            type="button"
+            style={{
+              width: "100%",
+              marginTop: "26px",
+              padding: "17px",
+              border: "none",
+              borderRadius: "12px",
+              background: "#ff6b00",
+              color: "#ffffff",
+              fontSize: "18px",
+              fontWeight: "700",
+              cursor: "pointer",
+            }}
+          >
+            Continuer
+          </button>
+        </div>
       </div>
     </main>
   );
