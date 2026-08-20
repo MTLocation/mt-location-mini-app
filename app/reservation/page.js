@@ -1,4 +1,61 @@
+"use client";
+
+import { useEffect, useState } from "react";
+
 export default function Reservation() {
+  const [data, setData] = useState(null);
+
+  useEffect(() => {
+    const stored = sessionStorage.getItem("mtReservation");
+
+    if (stored) {
+      try {
+        setData(JSON.parse(stored));
+      } catch {
+        setData(null);
+      }
+    }
+  }, []);
+
+  function formatDate(dateString) {
+    if (!dateString) return "Non disponible";
+
+    const date = new Date(dateString);
+
+    return new Intl.DateTimeFormat("fr-CA", {
+      dateStyle: "long",
+      timeStyle: "short",
+      timeZone: "America/Toronto",
+    }).format(date);
+  }
+
+  if (!data) {
+    return (
+      <main
+        style={{
+          minHeight: "100vh",
+          background: "#0b0b0b",
+          color: "#ffffff",
+          display: "flex",
+          alignItems: "center",
+          justifyContent: "center",
+          fontFamily: "Arial, sans-serif",
+          padding: "20px",
+        }}
+      >
+        <div style={{ textAlign: "center" }}>
+          <h1>Réservation introuvable</h1>
+          <p style={{ color: "#aaaaaa" }}>
+            Veuillez recommencer la recherche.
+          </p>
+        </div>
+      </main>
+    );
+  }
+
+  const customer = data.customer || {};
+  const reservation = data.reservation || {};
+
   return (
     <main
       style={{
@@ -13,7 +70,6 @@ export default function Reservation() {
       }}
     >
       <div style={{ width: "100%", maxWidth: "430px" }}>
-
         <div style={{ textAlign: "center", marginBottom: "30px" }}>
           <div
             style={{
@@ -46,8 +102,9 @@ export default function Reservation() {
             <div style={{ color: "#aaaaaa", fontSize: "14px" }}>
               Client
             </div>
+
             <div style={{ fontSize: "20px", fontWeight: "700" }}>
-              Matthieu Trépanier
+              {customer.name || "Nom non disponible"}
             </div>
           </div>
 
@@ -55,8 +112,9 @@ export default function Reservation() {
             <div style={{ color: "#aaaaaa", fontSize: "14px" }}>
               Réservation
             </div>
+
             <div style={{ fontSize: "18px" }}>
-              MT-001
+              {reservation.number || "Numéro non disponible"}
             </div>
           </div>
 
@@ -64,8 +122,9 @@ export default function Reservation() {
             <div style={{ color: "#aaaaaa", fontSize: "14px" }}>
               Prise de possession
             </div>
+
             <div style={{ fontSize: "18px" }}>
-              22 août 2026 • 18:00
+              {formatDate(reservation.startsAt)}
             </div>
           </div>
 
@@ -73,8 +132,9 @@ export default function Reservation() {
             <div style={{ color: "#aaaaaa", fontSize: "14px" }}>
               Retour
             </div>
+
             <div style={{ fontSize: "18px" }}>
-              23 août 2026 • 18:00
+              {formatDate(reservation.stopsAt)}
             </div>
           </div>
 
@@ -95,7 +155,6 @@ export default function Reservation() {
             Vérifier mon identité
           </button>
         </div>
-
       </div>
     </main>
   );
