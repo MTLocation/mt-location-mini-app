@@ -25,7 +25,7 @@ export default function Reservation() {
     return new Intl.DateTimeFormat("fr-CA", {
       dateStyle: "long",
       timeStyle: "short",
-      timeZone: "America/Toronto",
+      timeZone: "UTC",
     }).format(date);
   }
 
