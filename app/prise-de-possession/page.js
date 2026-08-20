@@ -1,145 +1,191 @@
-export async function POST(request) {
-  try {
-    const { email } = await request.json();
+"use client";
 
-    if (!email) {
-      return Response.json(
-        { success: false, message: "Courriel requis." },
-        { status: 400 }
-      );
+import { useState } from "react";
+import { useRouter } from "next/navigation";
+
+export default function PriseDePossession() {
+  const [email, setEmail] = useState("");
+  const [telephone, setTelephone] = useState("");
+  const [loading, setLoading] = useState(false);
+  const [erreur, setErreur] = useState("");
+
+  const router = useRouter();
+
+  async function rechercherReservation() {
+    setErreur("");
+
+    if (!email.trim()) {
+      setErreur("Veuillez entrer votre courriel.");
+      return;
     }
 
-    const apiKey = process.env.BOOQABLE_API_KEY;
-
-    if (!apiKey) {
-      return Response.json(
-        { success: false, message: "Clé Booqable manquante." },
-        { status: 500 }
-      );
+    if (!telephone.trim()) {
+      setErreur("Veuillez entrer votre numéro de téléphone.");
+      return;
     }
 
-    const baseUrl =
-      "https://mt-location-remorques.booqable.com/api/4";
+    try {
+      setLoading(true);
 
-    // 1. Chercher le client par courriel
-    const customerUrl =
-      `${baseUrl}/customers.json` +
-      `?filter[email][eql]=${encodeURIComponent(email)}`;
-
-    const customerResponse = await fetch(customerUrl, {
-      headers: {
-        Authorization: `Bearer ${apiKey}`,
-        Accept: "application/json",
-      },
-      cache: "no-store",
-    });
-
-    if (!customerResponse.ok) {
-      const errorText = await customerResponse.text();
-
-      return Response.json(
-        {
-          success: false,
-          message: "Erreur lors de la recherche du client.",
-          details: errorText,
+      const response = await fetch("/api/booqable/reservation", {
+        method: "POST",
+        headers: {
+          "Content-Type": "application/json",
         },
-        { status: customerResponse.status }
+        body: JSON.stringify({
+          email: email.trim(),
+          telephone: telephone.trim(),
+        }),
+      });
+
+      const data = await response.json();
+
+      if (!response.ok || !data.success) {
+        setErreur(
+          data.message || "Aucune réservation correspondante trouvée."
+        );
+        return;
+      }
+
+      sessionStorage.setItem(
+        "mtReservation",
+        JSON.stringify(data)
       );
-    }
 
-    const customerData = await customerResponse.json();
-    const customers = customerData.data || [];
-
-    if (customers.length === 0) {
-      return Response.json(
-        {
-          success: false,
-          found: false,
-          message: "Aucun client trouvé avec ce courriel.",
-        },
-        { status: 404 }
+      router.push("/reservation");
+    } catch (error) {
+      setErreur(
+        "Impossible de rechercher la réservation pour le moment."
       );
+    } finally {
+      setLoading(false);
     }
-
-    const customer = customers[0];
-
-    // 2. Chercher les commandes de ce client
-    const ordersUrl =
-      `${baseUrl}/orders.json` +
-      `?filter[customer_id]=${encodeURIComponent(customer.id)}` +
-      `&include=customer` +
-      `&sort=-starts_at` +
-      `&page[size]=10`;
-
-    const ordersResponse = await fetch(ordersUrl, {
-      headers: {
-        Authorization: `Bearer ${apiKey}`,
-        Accept: "application/json",
-      },
-      cache: "no-store",
-    });
-
-    if (!ordersResponse.ok) {
-      const errorText = await ordersResponse.text();
-
-      return Response.json(
-        {
-          success: false,
-          message: "Erreur lors de la recherche de la réservation.",
-          details: errorText,
-        },
-        { status: ordersResponse.status }
-      );
-    }
-
-    const ordersData = await ordersResponse.json();
-    const orders = ordersData.data || [];
-
-    // On privilégie une location réservée ou déjà commencée
-    const order =
-      orders.find(
-        (item) =>
-          item.status === "reserved" ||
-          item.status === "started"
-      ) || orders[0];
-
-    if (!order) {
-      return Response.json(
-        {
-          success: false,
-          found: false,
-          message: "Aucune réservation trouvée pour ce client.",
-        },
-        { status: 404 }
-      );
-    }
-
-    return Response.json({
-      success: true,
-      found: true,
-      customer: {
-        id: customer.id,
-        name: customer.name,
-        email: customer.email,
-      },
-      reservation: {
-        id: order.id,
-        number: order.number,
-        status: order.status,
-        startsAt: order.starts_at,
-        stopsAt: order.stops_at,
-      },
-    });
-  } catch (error) {
-    return Response.json(
-      {
-        success: false,
-        message: "Erreur interne.",
-        details: error.message,
-      },
-      { status: 500 }
-    );
   }
+
+  return (
+    <main
+      style={{
+        minHeight: "100vh",
+        background: "#0b0b0b",
+        color: "#ffffff",
+        display: "flex",
+        alignItems: "center",
+        justifyContent: "center",
+        fontFamily: "Arial, sans-serif",
+        padding: "20px",
+      }}
+    >
+      <div style={{ width: "100%", maxWidth: "430px" }}>
+        <div style={{ textAlign: "center", marginBottom: "30px" }}>
+          <div
+            style={{
+              color: "#ff6b00",
+              fontWeight: "700",
+              marginBottom: "10px",
+            }}
+          >
+            MT LOCATION REMORQUES
+          </div>
+
+          <h1 style={{ fontSize: "28px", marginBottom: "10px" }}>
+            Prise de possession
+          </h1>
+
+          <p style={{ color: "#aaaaaa" }}>
+            Retrouvez votre réservation pour continuer.
+          </p>
+        </div>
+
+        <div
+          style={{
+            background: "#151515",
+            border: "1px solid #333333",
+            borderRadius: "18px",
+            padding: "24px",
+          }}
+        >
+          <h2 style={{ marginTop: 0 }}>
+            Retrouver ma réservation
+          </h2>
+
+          <label style={{ display: "block", marginTop: "20px" }}>
+            Courriel
+          </label>
+
+          <input
+            type="email"
+            value={email}
+            onChange={(e) => setEmail(e.target.value)}
+            placeholder="votre@email.com"
+            style={{
+              width: "100%",
+              boxSizing: "border-box",
+              marginTop: "8px",
+              padding: "15px",
+              borderRadius: "10px",
+              border: "1px solid #444444",
+              background: "#0b0b0b",
+              color: "#ffffff",
+              fontSize: "16px",
+            }}
+          />
+
+          <label style={{ display: "block", marginTop: "20px" }}>
+            Téléphone
+          </label>
+
+          <input
+            type="tel"
+            value={telephone}
+            onChange={(e) => setTelephone(e.target.value)}
+            placeholder="514 555-1234"
+            style={{
+              width: "100%",
+              boxSizing: "border-box",
+              marginTop: "8px",
+              padding: "15px",
+              borderRadius: "10px",
+              border: "1px solid #444444",
+              background: "#0b0b0b",
+              color: "#ffffff",
+              fontSize: "16px",
+            }}
+          />
+
+          {erreur && (
+            <div
+              style={{
+                marginTop: "18px",
+                color: "#ff6b6b",
+                fontSize: "14px",
+              }}
+            >
+              {erreur}
+            </div>
+          )}
+
+          <button
+            type="button"
+            onClick={rechercherReservation}
+            disabled={loading}
+            style={{
+              width: "100%",
+              marginTop: "26px",
+              padding: "17px",
+              border: "none",
+              borderRadius: "12px",
+              background: "#ff6b00",
+              color: "#ffffff",
+              fontSize: "18px",
+              fontWeight: "700",
+              cursor: loading ? "default" : "pointer",
+              opacity: loading ? 0.7 : 1,
+            }}
+          >
+            {loading ? "Recherche..." : "Continuer"}
+          </button>
+        </div>
+      </div>
+    </main>
+  );
 }
-            
-          
