@@ -84,7 +84,7 @@ export default function PriseDePossession() {
         fontFamily: "Arial, sans-serif",
         display: "flex",
         justifyContent: "center",
-        alignItems: "flex-start",
+        alignItems: "center",
         padding: "30px 20px",
         boxSizing: "border-box",
       }}
