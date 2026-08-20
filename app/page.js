@@ -95,7 +95,6 @@ export default function Home() {
 
             <div
               style={{
-               style={{
   width: "100%",
   display: "flex",
   justifyContent: "center",
@@ -103,7 +102,6 @@ export default function Home() {
   textAlign: "center",
   fontSize: "23px",
   fontWeight: "700",
-}}
               }}
             >
               Prendre possession de votre remorque
@@ -115,8 +113,7 @@ export default function Home() {
 
         <Link href="/retour" style={cardStyle}>
           <div
-            style={{
-              style={{
+         style={{
   width: "100%",
   display: "flex",
   justifyContent: "center",
@@ -126,15 +123,17 @@ export default function Home() {
   fontSize: "16px",
   marginTop: "12px",
 }}
-            }}
           >
             <div
               style={{
-                width: "100%",
-                fontSize: "23px",
-                fontWeight: "700",
-                textAlign: "center",
-              }}
+  width: "100%",
+  display: "flex",
+  justifyContent: "center",
+  alignItems: "center",
+  textAlign: "center",
+  fontSize: "23px",
+  fontWeight: "700",
+}}
             >
               Retourner la remorque
             </div>
