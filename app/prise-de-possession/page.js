@@ -100,7 +100,7 @@ export default function PriseDePossession() {
           style={{
             width: "100%",
             textAlign: "center",
-            marginBottom: "34px",
+            marginBottom: "18px",
           }}
         >
           <div
@@ -109,7 +109,7 @@ export default function PriseDePossession() {
               fontWeight: "700",
               fontSize: "16px",
               textAlign: "center",
-              marginBottom: "24px",
+              marginBottom: "10px",
             }}
           >
             MT LOCATION REMORQUES
@@ -128,7 +128,7 @@ export default function PriseDePossession() {
           <p
             style={{
               color: "#aaaaaa",
-              marginTop: "24px",
+              marginTop: "12px",
               marginBottom: 0,
               textAlign: "center",
               fontSize: "16px",
@@ -144,14 +144,14 @@ export default function PriseDePossession() {
             background: "#151515",
             border: "1px solid #444444",
             borderRadius: "18px",
-            padding: "24px",
+            padding: "18px",
             boxSizing: "border-box",
           }}
         >
           <h2
             style={{
               margin: 0,
-              marginBottom: "28px",
+              marginBottom: "16px",
               textAlign: "center",
               fontSize: "24px",
             }}
@@ -162,7 +162,7 @@ export default function PriseDePossession() {
           <label
             style={{
               display: "block",
-              marginBottom: "20px",
+              marginBottom: "14px",
             }}
           >
             <div
@@ -188,7 +188,7 @@ export default function PriseDePossession() {
           <label
             style={{
               display: "block",
-              marginBottom: "20px",
+              marginBottom: "14px",
             }}
           >
             <div
@@ -230,7 +230,7 @@ export default function PriseDePossession() {
             disabled={loading}
             style={{
               width: "100%",
-              marginTop: "6px",
+              marginTop: "0px",
               padding: "17px",
               border: "none",
               borderRadius: "12px",
