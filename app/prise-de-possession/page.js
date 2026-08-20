@@ -82,6 +82,9 @@ export default function PriseDePossession() {
         background: "#0b0b0b",
         color: "#ffffff",
         fontFamily: "Arial, sans-serif",
+        display: "flex",
+        justifyContent: "center",
+        alignItems: "flex-start",
         padding: "30px 20px",
         boxSizing: "border-box",
       }}
