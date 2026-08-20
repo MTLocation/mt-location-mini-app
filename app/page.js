@@ -12,11 +12,27 @@ export default function Home() {
         justifyContent: "center",
         fontFamily: "Arial, sans-serif",
         padding: "20px",
+        boxSizing: "border-box",
       }}
     >
-      <div style={{ width: "100%", maxWidth: "430px" }}>
-        <div style={{ textAlign: "center", marginBottom: "36px" }}>
-          <h1 style={{ margin: 0, fontSize: "30px" }}>MT LOCATION</h1>
+      <div
+        style={{
+          width: "100%",
+          maxWidth: "430px",
+          textAlign: "center",
+        }}
+      >
+        {/* LOGO / IDENTITÉ */}
+        <div style={{ marginBottom: "32px" }}>
+          <div
+            style={{
+              fontSize: "30px",
+              fontWeight: "700",
+              lineHeight: "1.1",
+            }}
+          >
+            MT LOCATION
+          </div>
 
           <div
             style={{
@@ -29,15 +45,23 @@ export default function Home() {
             REMORQUES
           </div>
 
-          <p style={{ color: "#aaaaaa", marginTop: "12px" }}>
+          <div
+            style={{
+              color: "#aaaaaa",
+              marginTop: "18px",
+              fontSize: "16px",
+            }}
+          >
             Remorque fermée 7 × 14
-          </p>
+          </div>
         </div>
 
+        {/* DÉBUTER */}
         <Link
           href="/prise-de-possession"
           style={{
-            display: "block",
+            display: "flex",
+            minHeight: "120px",
             background: "#151515",
             border: "1px solid #444444",
             borderRadius: "18px",
@@ -45,35 +69,69 @@ export default function Home() {
             marginBottom: "18px",
             color: "#ffffff",
             textDecoration: "none",
+            alignItems: "center",
+            justifyContent: "center",
+            boxSizing: "border-box",
           }}
         >
-          <div style={{ fontSize: "23px", fontWeight: "700" }}>
-            Débuter la location
-          </div>
+          <div style={{ textAlign: "center" }}>
+            <div
+              style={{
+                fontSize: "23px",
+                fontWeight: "700",
+              }}
+            >
+              Débuter la location
+            </div>
 
-          <div style={{ color: "#aaaaaa", marginTop: "6px" }}>
-            Prendre possession de votre remorque
+            <div
+              style={{
+                color: "#aaaaaa",
+                marginTop: "8px",
+                fontSize: "16px",
+              }}
+            >
+              Prendre possession de votre remorque
+            </div>
           </div>
         </Link>
 
+        {/* RETOUR */}
         <Link
           href="/retour"
           style={{
-            display: "block",
+            display: "flex",
+            minHeight: "120px",
             background: "#151515",
             border: "1px solid #444444",
             borderRadius: "18px",
             padding: "24px",
             color: "#ffffff",
             textDecoration: "none",
+            alignItems: "center",
+            justifyContent: "center",
+            boxSizing: "border-box",
           }}
         >
-          <div style={{ fontSize: "23px", fontWeight: "700" }}>
-            Retourner la remorque
-          </div>
+          <div style={{ textAlign: "center" }}>
+            <div
+              style={{
+                fontSize: "23px",
+                fontWeight: "700",
+              }}
+            >
+              Retourner la remorque
+            </div>
 
-          <div style={{ color: "#aaaaaa", marginTop: "6px" }}>
-            Finaliser votre location
+            <div
+              style={{
+                color: "#aaaaaa",
+                marginTop: "8px",
+                fontSize: "16px",
+              }}
+            >
+              Finaliser votre location
+            </div>
           </div>
         </Link>
       </div>
