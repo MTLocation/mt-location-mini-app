@@ -1,11 +1,11 @@
 "use client";
 
 import { useState } from "react";
-
+import { useRouter } from "next/navigation";
 export default function PriseDePossession() {
   const [email, setEmail] = useState("");
   const [telephone, setTelephone] = useState("");
-
+const router = useRouter();
   return (
     <main
       style={{
@@ -96,6 +96,7 @@ export default function PriseDePossession() {
 
           <button
             type="button"
+onClick={() => router.push("/reservation")}
             style={{
               width: "100%",
               marginTop: "26px",
