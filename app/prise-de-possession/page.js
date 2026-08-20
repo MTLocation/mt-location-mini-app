@@ -62,102 +62,159 @@ export default function PriseDePossession() {
     }
   }
 
+  const inputStyle = {
+    width: "100%",
+    boxSizing: "border-box",
+    marginTop: "8px",
+    padding: "15px",
+    borderRadius: "10px",
+    border: "1px solid #444444",
+    background: "#0b0b0b",
+    color: "#ffffff",
+    fontSize: "16px",
+  };
+
   return (
     <main
       style={{
         minHeight: "100vh",
+        width: "100%",
         background: "#0b0b0b",
         color: "#ffffff",
-        display: "flex",
-        alignItems: "center",
-        justifyContent: "center",
         fontFamily: "Arial, sans-serif",
-        padding: "20px",
+        padding: "30px 20px",
+        boxSizing: "border-box",
       }}
     >
-      <div style={{ width: "100%", maxWidth: "430px" }}>
-        <div style={{ textAlign: "center", marginBottom: "30px" }}>
+      <div
+        style={{
+          width: "100%",
+          maxWidth: "430px",
+          margin: "0 auto",
+        }}
+      >
+        <div
+          style={{
+            width: "100%",
+            textAlign: "center",
+            marginBottom: "34px",
+          }}
+        >
           <div
             style={{
               color: "#ff6b00",
               fontWeight: "700",
-              marginBottom: "10px",
+              fontSize: "16px",
+              textAlign: "center",
+              marginBottom: "24px",
             }}
           >
             MT LOCATION REMORQUES
           </div>
 
-          <h1 style={{ fontSize: "28px", marginBottom: "10px" }}>
+          <h1
+            style={{
+              margin: 0,
+              fontSize: "30px",
+              textAlign: "center",
+            }}
+          >
             Prise de possession
           </h1>
 
-          <p style={{ color: "#aaaaaa" }}>
+          <p
+            style={{
+              color: "#aaaaaa",
+              marginTop: "24px",
+              marginBottom: 0,
+              textAlign: "center",
+              fontSize: "16px",
+            }}
+          >
             Retrouvez votre réservation pour continuer.
           </p>
         </div>
 
         <div
           style={{
+            width: "100%",
             background: "#151515",
-            border: "1px solid #333333",
+            border: "1px solid #444444",
             borderRadius: "18px",
             padding: "24px",
+            boxSizing: "border-box",
           }}
         >
-          <h2 style={{ marginTop: 0 }}>
+          <h2
+            style={{
+              margin: 0,
+              marginBottom: "28px",
+              textAlign: "center",
+              fontSize: "24px",
+            }}
+          >
             Retrouver ma réservation
           </h2>
 
-          <label style={{ display: "block", marginTop: "20px" }}>
-            Courriel
+          <label
+            style={{
+              display: "block",
+              marginBottom: "20px",
+            }}
+          >
+            <div
+              style={{
+                width: "100%",
+                textAlign: "center",
+                fontWeight: "700",
+                marginBottom: "8px",
+              }}
+            >
+              Courriel
+            </div>
+
+            <input
+              type="email"
+              value={email}
+              onChange={(e) => setEmail(e.target.value)}
+              placeholder="votre@email.com"
+              style={inputStyle}
+            />
           </label>
 
-          <input
-            type="email"
-            value={email}
-            onChange={(e) => setEmail(e.target.value)}
-            placeholder="votre@email.com"
+          <label
             style={{
-              width: "100%",
-              boxSizing: "border-box",
-              marginTop: "8px",
-              padding: "15px",
-              borderRadius: "10px",
-              border: "1px solid #444444",
-              background: "#0b0b0b",
-              color: "#ffffff",
-              fontSize: "16px",
+              display: "block",
+              marginBottom: "20px",
             }}
-          />
+          >
+            <div
+              style={{
+                width: "100%",
+                textAlign: "center",
+                fontWeight: "700",
+                marginBottom: "8px",
+              }}
+            >
+              Téléphone
+            </div>
 
-          <label style={{ display: "block", marginTop: "20px" }}>
-            Téléphone
+            <input
+              type="tel"
+              value={telephone}
+              onChange={(e) => setTelephone(e.target.value)}
+              placeholder="514 555-1234"
+              style={inputStyle}
+            />
           </label>
-
-          <input
-            type="tel"
-            value={telephone}
-            onChange={(e) => setTelephone(e.target.value)}
-            placeholder="514 555-1234"
-            style={{
-              width: "100%",
-              boxSizing: "border-box",
-              marginTop: "8px",
-              padding: "15px",
-              borderRadius: "10px",
-              border: "1px solid #444444",
-              background: "#0b0b0b",
-              color: "#ffffff",
-              fontSize: "16px",
-            }}
-          />
 
           {erreur && (
             <div
               style={{
-                marginTop: "18px",
+                marginBottom: "16px",
                 color: "#ff6b6b",
                 fontSize: "14px",
+                textAlign: "center",
               }}
             >
               {erreur}
@@ -170,7 +227,7 @@ export default function PriseDePossession() {
             disabled={loading}
             style={{
               width: "100%",
-              marginTop: "26px",
+              marginTop: "6px",
               padding: "17px",
               border: "none",
               borderRadius: "12px",
@@ -180,6 +237,7 @@ export default function PriseDePossession() {
               fontWeight: "700",
               cursor: loading ? "default" : "pointer",
               opacity: loading ? 0.7 : 1,
+              textAlign: "center",
             }}
           >
             {loading ? "Recherche..." : "Continuer"}
