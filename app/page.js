@@ -9,8 +9,13 @@ export default function Home() {
     borderRadius: "18px",
     color: "#ffffff",
     textDecoration: "none",
-    display: "grid",
-    placeItems: "center",
+
+    display: "flex",
+    flexDirection: "column",
+    alignItems: "center",
+    justifyContent: "center",
+
+    textAlign: "center",
     padding: "24px",
     boxSizing: "border-box",
   };
@@ -23,8 +28,8 @@ export default function Home() {
         background: "#0b0b0b",
         color: "#ffffff",
         fontFamily: "Arial, sans-serif",
-        boxSizing: "border-box",
         padding: "30px 20px",
+        boxSizing: "border-box",
       }}
     >
       <div
@@ -35,18 +40,11 @@ export default function Home() {
           textAlign: "center",
         }}
       >
-        <div
-          style={{
-            width: "100%",
-            textAlign: "center",
-            marginBottom: "36px",
-          }}
-        >
+        <div style={{ marginBottom: "36px", textAlign: "center" }}>
           <div
             style={{
               fontSize: "30px",
               fontWeight: "700",
-              textAlign: "center",
             }}
           >
             MT LOCATION
@@ -58,7 +56,6 @@ export default function Home() {
               fontSize: "22px",
               fontWeight: "700",
               marginTop: "8px",
-              textAlign: "center",
             }}
           >
             REMORQUES
@@ -68,7 +65,6 @@ export default function Home() {
             style={{
               marginTop: "20px",
               fontSize: "16px",
-              textAlign: "center",
             }}
           >
             Remorque fermée 7 × 14
@@ -80,32 +76,23 @@ export default function Home() {
             style={{
               width: "100%",
               textAlign: "center",
+              fontSize: "23px",
+              fontWeight: "700",
             }}
           >
-            <div
-              style={{
-                width: "100%",
-                fontSize: "23px",
-                fontWeight: "700",
-                textAlign: "center",
-              }}
-            >
-              Débuter la location
-            </div>
+            Débuter la location
+          </div>
 
-            <div
-              style={{
-  width: "100%",
-  display: "flex",
-  justifyContent: "center",
-  alignItems: "center",
-  textAlign: "center",
-  fontSize: "23px",
-  fontWeight: "700",
-              }}
-            >
-              Prendre possession de votre remorque
-            </div>
+          <div
+            style={{
+              width: "100%",
+              textAlign: "center",
+              color: "#aaaaaa",
+              fontSize: "16px",
+              marginTop: "12px",
+            }}
+          >
+            Prendre possession de votre remorque
           </div>
         </Link>
 
@@ -113,42 +100,26 @@ export default function Home() {
 
         <Link href="/retour" style={cardStyle}>
           <div
-         style={{
-  width: "100%",
-  display: "flex",
-  justifyContent: "center",
-  alignItems: "center",
-  textAlign: "center",
-  color: "#aaaaaa",
-  fontSize: "16px",
-  marginTop: "12px",
-}}
+            style={{
+              width: "100%",
+              textAlign: "center",
+              fontSize: "23px",
+              fontWeight: "700",
+            }}
           >
-            <div
-              style={{
-  width: "100%",
-  display: "flex",
-  justifyContent: "center",
-  alignItems: "center",
-  textAlign: "center",
-  fontSize: "23px",
-  fontWeight: "700",
-}}
-            >
-              Retourner la remorque
-            </div>
+            Retourner la remorque
+          </div>
 
-            <div
-              style={{
-                width: "100%",
-                color: "#aaaaaa",
-                fontSize: "16px",
-                marginTop: "12px",
-                textAlign: "center",
-              }}
-            >
-              Finaliser votre location
-            </div>
+          <div
+            style={{
+              width: "100%",
+              textAlign: "center",
+              color: "#aaaaaa",
+              fontSize: "16px",
+              marginTop: "12px",
+            }}
+          >
+            Finaliser votre location
           </div>
         </Link>
       </div>
