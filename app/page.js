@@ -69,12 +69,12 @@ export default function Home() {
             marginBottom: "18px",
             color: "#ffffff",
             textDecoration: "none",
-            alignItems: "center",
+            textAlign: "center",
             justifyContent: "center",
             boxSizing: "border-box",
           }}
         >
-          <div style={{ textAlign: "center" }}>
+          <div style={{ width: "100%", textAlign: "center" }}>
             <div
               style={{
                 fontSize: "23px",
@@ -109,11 +109,12 @@ export default function Home() {
             color: "#ffffff",
             textDecoration: "none",
             alignItems: "center",
+        textAlign: "center",
             justifyContent: "center",
             boxSizing: "border-box",
           }}
         >
-          <div style={{ textAlign: "center" }}>
+         <div style={{ width: "100%", textAlign: "center" }}>
             <div
               style={{
                 fontSize: "23px",
