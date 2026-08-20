@@ -1,34 +1,52 @@
 import Link from "next/link";
 
 export default function Home() {
+  const cardStyle = {
+    width: "100%",
+    minHeight: "150px",
+    background: "#151515",
+    border: "1px solid #444444",
+    borderRadius: "18px",
+    color: "#ffffff",
+    textDecoration: "none",
+    display: "grid",
+    placeItems: "center",
+    padding: "24px",
+    boxSizing: "border-box",
+  };
+
   return (
     <main
       style={{
         minHeight: "100vh",
+        width: "100%",
         background: "#0b0b0b",
         color: "#ffffff",
-        display: "flex",
-        alignItems: "center",
-        justifyContent: "center",
         fontFamily: "Arial, sans-serif",
-        padding: "20px",
         boxSizing: "border-box",
+        padding: "30px 20px",
       }}
     >
       <div
         style={{
           width: "100%",
           maxWidth: "430px",
+          margin: "0 auto",
           textAlign: "center",
         }}
       >
-        {/* LOGO / IDENTITÉ */}
-        <div style={{ marginBottom: "32px" }}>
+        <div
+          style={{
+            width: "100%",
+            textAlign: "center",
+            marginBottom: "36px",
+          }}
+        >
           <div
             style={{
               fontSize: "30px",
               fontWeight: "700",
-              lineHeight: "1.1",
+              textAlign: "center",
             }}
           >
             MT LOCATION
@@ -36,10 +54,11 @@ export default function Home() {
 
           <div
             style={{
-              marginTop: "8px",
               color: "#ff6b00",
               fontSize: "22px",
               fontWeight: "700",
+              marginTop: "8px",
+              textAlign: "center",
             }}
           >
             REMORQUES
@@ -47,38 +66,28 @@ export default function Home() {
 
           <div
             style={{
-              color: "#aaaaaa",
-              marginTop: "18px",
+              marginTop: "20px",
               fontSize: "16px",
+              textAlign: "center",
             }}
           >
             Remorque fermée 7 × 14
           </div>
         </div>
 
-        {/* DÉBUTER */}
-        <Link
-          href="/prise-de-possession"
-          style={{
-            display: "flex",
-            minHeight: "120px",
-            background: "#151515",
-            border: "1px solid #444444",
-            borderRadius: "18px",
-            padding: "24px",
-            marginBottom: "18px",
-            color: "#ffffff",
-            textDecoration: "none",
-            textAlign: "center",
-            justifyContent: "center",
-            boxSizing: "border-box",
-          }}
-        >
-          <div style={{ width: "100%", textAlign: "center" }}>
+        <Link href="/prise-de-possession" style={cardStyle}>
+          <div
+            style={{
+              width: "100%",
+              textAlign: "center",
+            }}
+          >
             <div
               style={{
+                width: "100%",
                 fontSize: "23px",
                 fontWeight: "700",
+                textAlign: "center",
               }}
             >
               Débuter la location
@@ -86,9 +95,11 @@ export default function Home() {
 
             <div
               style={{
+                width: "100%",
                 color: "#aaaaaa",
-                marginTop: "8px",
                 fontSize: "16px",
+                marginTop: "12px",
+                textAlign: "center",
               }}
             >
               Prendre possession de votre remorque
@@ -96,29 +107,21 @@ export default function Home() {
           </div>
         </Link>
 
-        {/* RETOUR */}
-        <Link
-          href="/retour"
-          style={{
-            display: "flex",
-            minHeight: "120px",
-            background: "#151515",
-            border: "1px solid #444444",
-            borderRadius: "18px",
-            padding: "24px",
-            color: "#ffffff",
-            textDecoration: "none",
-            alignItems: "center",
-        textAlign: "center",
-            justifyContent: "center",
-            boxSizing: "border-box",
-          }}
-        >
-         <div style={{ width: "100%", textAlign: "center" }}>
+        <div style={{ height: "18px" }} />
+
+        <Link href="/retour" style={cardStyle}>
+          <div
+            style={{
+              width: "100%",
+              textAlign: "center",
+            }}
+          >
             <div
               style={{
+                width: "100%",
                 fontSize: "23px",
                 fontWeight: "700",
+                textAlign: "center",
               }}
             >
               Retourner la remorque
@@ -126,9 +129,11 @@ export default function Home() {
 
             <div
               style={{
+                width: "100%",
                 color: "#aaaaaa",
-                marginTop: "8px",
                 fontSize: "16px",
+                marginTop: "12px",
+                textAlign: "center",
               }}
             >
               Finaliser votre location
