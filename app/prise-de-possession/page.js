@@ -127,11 +127,11 @@ export default function PriseDePossession() {
            style={{
   margin: 0,
   width: "100%",
-  display: "flex",
-  alignItems: "center",
-  justifyContent: "center",
+  style={{
+  margin: 0,
+  width: "100%",
   textAlign: "center",
-  fontSize: "28px",
+  fontSize: "30px",
 }}
           >
             Prise de possession
@@ -175,7 +175,31 @@ export default function PriseDePossession() {
     Retrouver ma réservation
   </h2>
          
+<label
+  style={{
+    display: "block",
+    marginBottom: "14px",
+  }}
+>
+  <div
+    style={{
+      width: "100%",
+      textAlign: "center",
+      fontWeight: "700",
+      marginBottom: "8px",
+    }}
+  >
+    Courriel
+  </div>
 
+  <input
+    type="email"
+    value={email}
+    onChange={(e) => setEmail(e.target.value)}
+    placeholder="votre@email.com"
+    style={inputStyle}
+  />
+</label>
           <label
             style={{
               display: "block",
