@@ -122,7 +122,7 @@ overflow: "hidden",
             border: "1px solid #333333",
             borderRadius: "18px",
             padding: "10px 14px",
-                    marginTop: "-12px",
+                    marginTop: "-24px",
           }}
         >
           <div style={{ marginBottom: "6px" }}>
