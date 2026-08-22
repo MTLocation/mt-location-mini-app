@@ -1,6 +1,6 @@
 "use client";
 
-import { useEffect, useState } from "react";
+import { useEffect,https://github.com/MTLocation/mt-location-mini-app/blob/main/app/reservation/page.js useState } from "react";
 
 export default function Reservation() {
   const [data, setData] = useState(null);
@@ -40,7 +40,7 @@ export default function Reservation() {
           alignItems: "center",
           justifyContent: "center",
           fontFamily: "Arial, sans-serif",
-          padding: "8px 20px",
+          padding: "4px 20px 12px",
           boxSizing: "border-box",
 overflow: "hidden",
         }}
