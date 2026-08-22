@@ -112,12 +112,14 @@ export default function Home() {
 
           <div
             style={{
-              width: "100%",
-              textAlign: "center",
-              color: "#aaaaaa",
-              fontSize: "16px",
-              marginTop: "12px",
-            }}
+  width: "100%",
+  display: "flex",
+  justifyContent: "center",
+  alignItems: "center",
+  textAlign: "center",
+  fontSize: "23px",
+  fontWeight: "700",
+}}
           >
             Finaliser votre location
           </div>
