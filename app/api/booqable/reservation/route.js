@@ -66,7 +66,7 @@ export async function POST(request) {
     // 2. Chercher les commandes de ce client
     const ordersUrl =
       `${baseUrl}/orders.json` +
-      `?filter[customer_id]=${encodeURIComponent(customer.id)}` +
+      `?filter[customer_id][eq]=${encodeURIComponent(customer.id)}` +
       `&include=customer` +
       `&sort=-starts_at` +
       `&page[size]=100`;
