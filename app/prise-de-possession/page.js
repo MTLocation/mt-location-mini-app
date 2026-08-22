@@ -39,6 +39,17 @@ export default function PriseDePossession() {
       });
 
       const data = await response.json();
+            if (data.debug && data.orders) {
+  setErreur(
+    data.orders
+      .map(
+        (item) =>
+          `#${item.number} | statut: ${item.status} | début: ${item.starts_at} | fin: ${item.stops_at}`
+      )
+      .join(" || ")
+  );
+  return;
+}
 
       if (!response.ok || !data.success) {
         setErreur(
