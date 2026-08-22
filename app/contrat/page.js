@@ -27,10 +27,9 @@ async function handleSendContract() {
         "Content-Type": "application/json",
       },
       body: JSON.stringify({
-  email,
-  orderId: reservationId,
-}),
-}),
+        email,
+        orderId: reservationId,
+      }),
     });
 
     const result = await response.json();
