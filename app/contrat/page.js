@@ -28,7 +28,8 @@ async function handleSendContract() {
       },
       body: JSON.stringify({
   email,
-  reservationId,
+  orderId: reservationId,
+}),
 }),
     });
 
