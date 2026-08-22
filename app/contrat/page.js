@@ -5,7 +5,7 @@ import { useEffect, useState } from "react";
 export default function Contrat() {
   const [email, setEmail] = useState("");
   const [reservationId, setReservationId] = useState("");
-
+const [customerId, setCustomerId] = useState("");
   useEffect(() => {
     const stored = sessionStorage.getItem("mtReservation");
 
@@ -14,6 +14,7 @@ export default function Contrat() {
         const data = JSON.parse(stored);
         setEmail(data?.customer?.email || "");
         setReservationId(data?.reservation?.id || "");
+        setCustomerId(data?.customer?.id || "");
       } catch {
         setEmail("");
       }
@@ -27,9 +28,10 @@ async function handleSendContract() {
         "Content-Type": "application/json",
       },
       body: JSON.stringify({
-        email,
-        orderId: reservationId,
-      }),
+  email,
+  orderId: reservationId,
+  customerId,
+}),
     });
 
     const result = await response.json();
