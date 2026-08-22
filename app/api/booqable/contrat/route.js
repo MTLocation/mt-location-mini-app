@@ -108,7 +108,7 @@ export async function POST(request) {
     }
 // 3. Trouver le modèle Booqable de demande de signature
 const templatesResponse = await fetch(
-  `${baseUrl}/email_templates?filter[contexts][any_of]=signature&page[size]=100`,
+  `${baseUrl}/email_templates?page[size]=100`,
   {
     headers: {
       Authorization: `Bearer ${apiKey}`,
