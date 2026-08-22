@@ -85,7 +85,7 @@ export default function PriseDePossession() {
         display: "flex",
         justifyContent: "center",
         alignItems: "center",
-        padding: "30px 20px",
+        padding: "18px 20px",
         boxSizing: "border-box",
       }}
     >
@@ -107,7 +107,7 @@ export default function PriseDePossession() {
   style={{
     width: "100%",
     textAlign: "center",
-    marginBottom: "12px",
+    marginBottom: "6px",
   }}
 >
   <img
@@ -155,7 +155,7 @@ export default function PriseDePossession() {
     background: "#151515",
     border: "1px solid #444444",
     borderRadius: "18px",
-    padding: "18px",
+    padding: "14px",
     boxSizing: "border-box",
   }}
 >
@@ -248,7 +248,7 @@ export default function PriseDePossession() {
               padding: "17px",
               border: "none",
               borderRadius: "12px",
-              background: "#ff6b00",
+              background: "#d4a017",
               color: "#ffffff",
               fontSize: "18px",
               fontWeight: "700",
