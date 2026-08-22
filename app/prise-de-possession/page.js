@@ -127,7 +127,6 @@ export default function PriseDePossession() {
            style={{
   margin: 0,
   width: "100%",
-  style={{
   margin: 0,
   width: "100%",
   textAlign: "center",
