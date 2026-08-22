@@ -40,7 +40,7 @@ export default function Reservation() {
           alignItems: "center",
           justifyContent: "center",
           fontFamily: "Arial, sans-serif",
-          padding: "20px",
+          padding: "12px 20px",
         }}
       >
         <div style={{ textAlign: "center" }}>
@@ -70,12 +70,12 @@ export default function Reservation() {
       }}
     >
       <div style={{ width: "100%", maxWidth: "430px" }}>
-        <div style={{ textAlign: "center", marginBottom: "30px" }}>
+        <div style={{ textAlign: "center", marginBottom: "14px" }}>
           <div
             style={{
               color: "#ff6b00",
               fontWeight: "700",
-              marginBottom: "12px",
+              marginBottom: "4px",
             }}
 >
         <img
@@ -117,10 +117,10 @@ export default function Reservation() {
             background: "#151515",
             border: "1px solid #333333",
             borderRadius: "18px",
-            padding: "24px",
+            padding: "14px",
           }}
         >
-          <div style={{ marginBottom: "22px" }}>
+          <div style={{ marginBottom: "12px" }}>
             <div style={{ color: "#aaaaaa", fontSize: "14px" }}>
               Client
             </div>
@@ -130,7 +130,7 @@ export default function Reservation() {
             </div>
           </div>
 
-          <div style={{ marginBottom: "22px" }}>
+          <div style={{ marginBottom: "12px" }}>
             <div style={{ color: "#aaaaaa", fontSize: "14px" }}>
               Réservation
             </div>
@@ -140,7 +140,7 @@ export default function Reservation() {
             </div>
           </div>
 
-          <div style={{ marginBottom: "22px" }}>
+          <div style={{ marginBottom: "12px" }}>
             <div style={{ color: "#aaaaaa", fontSize: "14px" }}>
               Prise de possession
             </div>
@@ -150,7 +150,7 @@ export default function Reservation() {
             </div>
           </div>
 
-          <div style={{ marginBottom: "26px" }}>
+          <div style={{ marginBottom: "12px" }}>
             <div style={{ color: "#aaaaaa", fontSize: "14px" }}>
               Retour
             </div>
