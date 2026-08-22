@@ -77,6 +77,7 @@ export default function Reservation() {
               fontWeight: "700",
               marginBottom: "12px",
             }}
+>
         <img
   src="/logo-mt.PNG"
   alt="MT Location Remorques"
