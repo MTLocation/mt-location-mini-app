@@ -165,9 +165,9 @@ export default function Reservation() {
             style={{
               width: "100%",
               padding: "17px",
-              border: "none",
+              border: "1px solid #666666",
               borderRadius: "12px",
-              background: "#ff6b00",
+              background: "#000000",
               color: "#ffffff",
               fontSize: "17px",
               fontWeight: "700",
