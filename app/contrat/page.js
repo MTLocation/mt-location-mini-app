@@ -17,7 +17,28 @@ export default function Contrat() {
       }
     }
   }, []);
+async function handleSendContract() {
+  try {
+    const response = await fetch("/api/booqable/contrat", {
+      method: "POST",
+      headers: {
+        "Content-Type": "application/json",
+      },
+      body: JSON.stringify({ email }),
+    });
 
+    const result = await response.json();
+
+    if (!response.ok) {
+      alert(result.message || "Erreur lors de l'envoi du contrat.");
+      return;
+    }
+
+    alert("Contrat envoyé avec succès.");
+  } catch (error) {
+    alert("Erreur lors de l'envoi du contrat.");
+  }
+}
   return (
     <main
       style={{
@@ -114,6 +135,7 @@ export default function Contrat() {
 
           <button
             type="button"
+onClick={handleSendContract}
             style={{
               width: "100%",
               padding: "16px",
