@@ -245,7 +245,7 @@ export default function PriseDePossession() {
               width: "100%",
               marginTop: "0px",
               padding: "17px",
-              border: "none",
+              border: "1px solid #666666",
               borderRadius: "12px",
               background: "#0b0b0b",
               color: "#ffffff",
