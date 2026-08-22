@@ -167,6 +167,7 @@ overflow: "hidden",
 
           <button
             type="button"
+onClick={() => (window.location.href = "/contrat")}
             style={{
               width: "100%",
               padding: "17px",
