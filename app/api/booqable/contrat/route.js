@@ -1,6 +1,6 @@
 export async function POST(request) {
   try {
-    const { orderId } = await request.json();
+    const { orderId, email, customerId } = await request.json();
 
     if (!orderId) {
       return Response.json(
