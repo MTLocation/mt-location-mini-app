@@ -77,17 +77,37 @@ export default function Reservation() {
               fontWeight: "700",
               marginBottom: "12px",
             }}
-          >
-            MT LOCATION REMORQUES
-          </div>
+        <img
+  src="/logo-mt.PNG"
+  alt="MT Location Remorques"
+  style={{
+    width: "280px",
+    maxWidth: "90%",
+    height: "auto",
+    display: "block",
+    margin: "0 auto",
+  }}
+/>
+          <h1
+  style={{
+    fontSize: "28px",
+    margin: "8px 0",
+    width: "100%",
+    textAlign: "center",
+  }}
+>
+  Réservation trouvée ✓
+</h1>
 
-          <h1 style={{ fontSize: "28px", marginBottom: "10px" }}>
-            Réservation trouvée ✓
-          </h1>
-
-          <p style={{ color: "#aaaaaa" }}>
-            Vérifiez les informations de votre location.
-          </p>
+          <p
+  style={{
+    color: "#aaaaaa",
+    textAlign: "center",
+    margin: "6px 0 12px 0",
+  }}
+>
+  Vérifiez les informations de votre location.
+</p>
         </div>
 
         <div
