@@ -33,14 +33,16 @@ export default function Reservation() {
     return (
       <main
         style={{
-          minHeight: "100vh",
+          Height: "100vh",
           background: "#0b0b0b",
           color: "#ffffff",
           display: "flex",
           alignItems: "center",
           justifyContent: "center",
           fontFamily: "Arial, sans-serif",
-          padding: "12px 20px",
+          padding: "8px 20px",
+          boxSizing: "border-box",
+overflow: "hidden",
         }}
       >
         <div style={{ textAlign: "center" }}>
@@ -59,7 +61,7 @@ export default function Reservation() {
   return (
     <main
       style={{
-        minHeight: "100vh",
+        Height: "100vh",
         background: "#0b0b0b",
         color: "#ffffff",
         display: "flex",
@@ -67,10 +69,12 @@ export default function Reservation() {
         justifyContent: "center",
         fontFamily: "Arial, sans-serif",
         padding: "20px",
+        boxSizing: "border-box",
+overflow: "hidden",
       }}
     >
       <div style={{ width: "100%", maxWidth: "430px" }}>
-        <div style={{ textAlign: "center", marginBottom: "14px" }}>
+        <div style={{ textAlign: "center", marginBottom: "6px" }}>
           <div
             style={{
               color: "#ff6b00",
@@ -93,7 +97,7 @@ export default function Reservation() {
           <h1
   style={{
     fontSize: "28px",
-    margin: "8px 0",
+    margin: "2px 0",
     width: "100%",
     textAlign: "center",
   }}
@@ -105,7 +109,7 @@ export default function Reservation() {
   style={{
     color: "#aaaaaa",
     textAlign: "center",
-    margin: "6px 0 12px 0",
+    margin: "2px 0 6px 0",
   }}
 >
   Vérifiez les informations de votre location.
@@ -117,10 +121,10 @@ export default function Reservation() {
             background: "#151515",
             border: "1px solid #333333",
             borderRadius: "18px",
-            padding: "14px",
+            padding: "10px 14px",
           }}
         >
-          <div style={{ marginBottom: "12px" }}>
+          <div style={{ marginBottom: "8px" }}>
             <div style={{ color: "#aaaaaa", fontSize: "14px" }}>
               Client
             </div>
@@ -130,7 +134,7 @@ export default function Reservation() {
             </div>
           </div>
 
-          <div style={{ marginBottom: "12px" }}>
+          <div style={{ marginBottom: "8px" }}>
             <div style={{ color: "#aaaaaa", fontSize: "14px" }}>
               Réservation
             </div>
@@ -140,7 +144,7 @@ export default function Reservation() {
             </div>
           </div>
 
-          <div style={{ marginBottom: "12px" }}>
+          <div style={{ marginBottom: "8px" }}>
             <div style={{ color: "#aaaaaa", fontSize: "14px" }}>
               Prise de possession
             </div>
@@ -150,7 +154,7 @@ export default function Reservation() {
             </div>
           </div>
 
-          <div style={{ marginBottom: "12px" }}>
+          <div style={{ marginBottom: "8px" }}>
             <div style={{ color: "#aaaaaa", fontSize: "14px" }}>
               Retour
             </div>
