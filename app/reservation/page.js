@@ -61,14 +61,15 @@ overflow: "hidden",
   return (
     <main
       style={{
-        Height: "100vh",
+        height: "100vh",
+overflow: "hidden",
         background: "#0b0b0b",
         color: "#ffffff",
         display: "flex",
         alignItems: "center",
         justifyContent: "center",
         fontFamily: "Arial, sans-serif",
-        padding: "20px",
+        padding: "8px 20px",
         boxSizing: "border-box",
 overflow: "hidden",
       }}
@@ -86,7 +87,7 @@ overflow: "hidden",
   src="/logo-mt.PNG"
   alt="MT Location Remorques"
   style={{
-    width: "280px",
+    width: "200px",
     maxWidth: "90%",
     height: "auto",
     display: "block",
