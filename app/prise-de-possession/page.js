@@ -103,17 +103,25 @@ export default function PriseDePossession() {
             marginBottom: "18px",
           }}
         >
-          <div
-            style={{
-              color: "#ff6b00",
-              fontWeight: "700",
-              fontSize: "16px",
-              textAlign: "center",
-              marginBottom: "10px",
-            }}
-          >
-            MT LOCATION REMORQUES
-          </div>
+        <div
+  style={{
+    width: "100%",
+    textAlign: "center",
+    marginBottom: "12px",
+  }}
+>
+  <img
+    src="/logo-mt.PNG"
+    alt="MT Location Remorques"
+    style={{
+      width: "240px",
+      maxWidth: "85%",
+      height: "auto",
+      display: "block",
+      margin: "0 auto",
+    }}
+  />
+</div>
 
           <h1
            style={{
@@ -123,7 +131,7 @@ export default function PriseDePossession() {
   alignItems: "center",
   justifyContent: "center",
   textAlign: "center",
-  fontSize: "30px",
+  fontSize: "28px",
 }}
           >
             Prise de possession
@@ -133,7 +141,7 @@ export default function PriseDePossession() {
             style={{
               color: "#aaaaaa",
               marginTop: "12px",
-              marginBottom: 0,
+              marginBottom: "10px",
               textAlign: "center",
               fontSize: "16px",
             }}
@@ -155,7 +163,7 @@ export default function PriseDePossession() {
   <h2
     style={{
       margin: 0,
-      marginBottom: "12px",
+      marginBottom: "6px",
       width: "100%",
       display: "flex",
       alignItems: "center",
