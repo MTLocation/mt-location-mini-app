@@ -1,7 +1,6 @@
 "use client";
 
-import { useEffect,https://github.com/MTLocation/mt-location-mini-app/blob/main/app/reservation/page.js useState } from "react";
-
+import { useEffect, useState } from "react";
 export default function Reservation() {
   const [data, setData] = useState(null);
 
