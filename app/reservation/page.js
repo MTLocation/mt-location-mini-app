@@ -89,6 +89,7 @@ export default function Reservation() {
     margin: "0 auto",
   }}
 />
+  </div>
           <h1
   style={{
     fontSize: "28px",
