@@ -134,9 +134,18 @@ if (!templatesResponse.ok) {
 const templatesData = await templatesResponse.json();
 const templates = templatesData.data || [];
 
-const signatureTemplate = templates.find((template) =>
-  (template.attributes?.contexts || []).includes("signature")
-);
+const signatureTemplate = templates.find((template) => {
+  const name = (
+    template.attributes?.name ||
+    template.attributes?.title ||
+    ""
+  ).toLowerCase();
+
+  return (
+    name === "request signature" ||
+    name.includes("request signature")
+  );
+});
 
 if (!signatureTemplate) {
   return Response.json(
