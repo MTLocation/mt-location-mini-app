@@ -92,16 +92,33 @@ export async function POST(request) {
       );
     }
 
-    const ordersData = await ordersResponse.json();
-    const orders = ordersData.data || [];
+   
 
-    // On privilégie une location réservée ou déjà commencée
-    const order =
-      orders.find(
-        (item) =>
-          item.status === "reserved" ||
-          item.status === "started"
-      ) || orders[0];
+    const ordersData = await ordersResponse.json();
+const orders = ordersData.data || [];
+
+const now = new Date();
+
+const order = orders.find((item) => {
+  if (
+    item.status !== "reserved" &&
+    item.status !== "started"
+  ) {
+    return false;
+  }
+
+  const startsAt = new Date(item.starts_at);
+  const stopsAt = new Date(item.stops_at);
+
+  // Accès permis 30 minutes avant la prise de possession
+  const accessStartsAt = new Date(
+    startsAt.getTime() - 30 * 60 * 1000
+  );
+
+  return now >= accessStartsAt && now <= stopsAt;
+});
+    
+        
 
     if (!order) {
       return Response.json(
