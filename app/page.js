@@ -40,61 +40,54 @@ export default function Home() {
           textAlign: "center",
         }}
       >
-        <div style={{ marginBottom: "36px", textAlign: "center" }}>
-          <div
-            style={{
-              fontSize: "30px",
-              fontWeight: "700",
-            }}
-          >
-            MT LOCATION
-          </div>
+       <div style={{ marginBottom: "36px", textAlign: "center" }}>
+  <img
+    src="/logo-mt.png"
+    alt="MT Location Remorques"
+    style={{
+      width: "280px",
+      maxWidth: "90%",
+      height: "auto",
+      display: "block",
+      margin: "0 auto",
+    }}
+  />
 
-          <div
-            style={{
-              color: "#ff6b00",
-              fontSize: "22px",
-              fontWeight: "700",
-              marginTop: "8px",
-            }}
-          >
-            REMORQUES
-          </div>
+  <div
+    style={{
+      marginTop: "20px",
+      fontSize: "16px",
+    }}
+  >
+    Remorque fermée 7 × 14
+  </div>
+</div>
 
-          <div
-            style={{
-              marginTop: "20px",
-              fontSize: "16px",
-            }}
-          >
-            Remorque fermée 7 × 14
-          </div>
-        </div>
+<Link href="/prise-de-possession" style={cardStyle}>
+  <div
+    style={{
+      width: "100%",
+      textAlign: "center",
+      fontSize: "23px",
+      fontWeight: "700",
+    }}
+  >
+    Débuter la location
+  </div>
 
-        <Link href="/prise-de-possession" style={cardStyle}>
-          <div
-            style={{
-              width: "100%",
-              textAlign: "center",
-              fontSize: "23px",
-              fontWeight: "700",
-            }}
-          >
-            Débuter la location
-          </div>
-
-          <div
-            style={{
-              width: "100%",
-              textAlign: "center",
-              color: "#aaaaaa",
-              fontSize: "16px",
-              marginTop: "12px",
-            }}
-          >
-            Prendre possession de votre remorque
-          </div>
-        </Link>
+  <div
+    style={{
+      width: "100%",
+      textAlign: "center",
+      color: "#aaaaaa",
+      fontSize: "16px",
+      fontWeight: "400",
+      marginTop: "12px",
+    }}
+  >
+    Prendre possession de votre remorque
+  </div>
+</Link>
 
         <div style={{ height: "18px" }} />
 
