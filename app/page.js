@@ -98,32 +98,39 @@ export default function Home() {
 
         <div style={{ height: "18px" }} />
 
-        <Link href="/retour" style={cardStyle}>
-          <div
-            style={{
-              width: "100%",
-              textAlign: "center",
-              fontSize: "23px",
-              fontWeight: "700",
-            }}
-          >
-            Retourner la remorque
-          </div>
+       <Link href="/retour" style={cardStyle}>
+  <div
+    style={{
+      width: "100%",
+      height: "100%",
+      display: "flex",
+      flexDirection: "column",
+      justifyContent: "center",
+      alignItems: "center",
+      textAlign: "center",
+    }}
+  >
+    <div
+      style={{
+        fontSize: "23px",
+        fontWeight: "700",
+      }}
+    >
+      Retourner la remorque
+    </div>
 
-          <div
-            style={{
-  width: "100%",
-  display: "flex",
-  justifyContent: "center",
-  alignItems: "center",
-  textAlign: "center",
-  fontSize: "23px",
-  fontWeight: "700",
-}}
-          >
-            Finaliser votre location
-          </div>
-        </Link>
+    <div
+      style={{
+        color: "#aaaaaa",
+        fontSize: "16px",
+        fontWeight: "400",
+        marginTop: "12px",
+      }}
+    >
+      Finaliser votre location
+    </div>
+  </div>
+</Link>
       </div>
     </main>
   );
