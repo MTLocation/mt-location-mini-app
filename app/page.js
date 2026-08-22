@@ -42,7 +42,7 @@ export default function Home() {
       >
        <div style={{ marginBottom: "36px", textAlign: "center" }}>
   <img
-    src="/logo-mt.png"
+    src="/logo-mt.PNG"
     alt="MT Location Remorques"
     style={{
       width: "280px",
@@ -59,7 +59,7 @@ export default function Home() {
       fontSize: "16px",
     }}
   >
-    Remorque fermée 7 × 14
+    MT-01-7x14
   </div>
 </div>
 
