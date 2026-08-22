@@ -4,6 +4,7 @@ import { useEffect, useState } from "react";
 
 export default function Contrat() {
   const [email, setEmail] = useState("");
+  const [reservationId, setReservationId] = useState("");
 
   useEffect(() => {
     const stored = sessionStorage.getItem("mtReservation");
@@ -12,6 +13,7 @@ export default function Contrat() {
       try {
         const data = JSON.parse(stored);
         setEmail(data?.customer?.email || "");
+        setReservationId(data?.reservation?.id || "");
       } catch {
         setEmail("");
       }
@@ -24,7 +26,10 @@ async function handleSendContract() {
       headers: {
         "Content-Type": "application/json",
       },
-      body: JSON.stringify({ email }),
+      body: JSON.stringify({
+  email,
+  reservationId,
+}),
     });
 
     const result = await response.json();
