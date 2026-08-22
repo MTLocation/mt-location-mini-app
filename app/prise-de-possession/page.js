@@ -116,11 +116,15 @@ export default function PriseDePossession() {
           </div>
 
           <h1
-            style={{
-              margin: 0,
-              fontSize: "30px",
-              textAlign: "center",
-            }}
+           style={{
+  margin: 0,
+  width: "100%",
+  display: "flex",
+  alignItems: "center",
+  justifyContent: "center",
+  textAlign: "center",
+  fontSize: "30px",
+}}
           >
             Prise de possession
           </h1>
@@ -138,52 +142,31 @@ export default function PriseDePossession() {
           </p>
         </div>
 
-        <div
-          style={{
-            width: "100%",
-            background: "#151515",
-            border: "1px solid #444444",
-            borderRadius: "18px",
-            padding: "18px",
-            boxSizing: "border-box",
-          }}
-        >
-          <h2
-            style={{
-              margin: 0,
-              marginBottom: "16px",
-              textAlign: "center",
-              fontSize: "24px",
-            }}
-          >
-            Retrouver ma réservation
-          </h2>
-
-          <label
-            style={{
-              display: "block",
-              marginBottom: "14px",
-            }}
-          >
-            <div
-              style={{
-                width: "100%",
-                textAlign: "center",
-                fontWeight: "700",
-                marginBottom: "8px",
-              }}
-            >
-              Courriel
-            </div>
-
-            <input
-              type="email"
-              value={email}
-              onChange={(e) => setEmail(e.target.value)}
-              placeholder="votre@email.com"
-              style={inputStyle}
-            />
-          </label>
+    <div   
+  style={{
+    width: "100%",
+    background: "#151515",
+    border: "1px solid #444444",
+    borderRadius: "18px",
+    padding: "18px",
+    boxSizing: "border-box",
+  }}
+>
+  <h2
+    style={{
+      margin: 0,
+      marginBottom: "12px",
+      width: "100%",
+      display: "flex",
+      alignItems: "center",
+      justifyContent: "center",
+      textAlign: "center",
+      fontSize: "24px",
+    }}
+  >
+    Retrouver ma réservation
+  </h2>
+         
 
           <label
             style={{
