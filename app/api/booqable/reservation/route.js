@@ -69,7 +69,7 @@ export async function POST(request) {
       `?filter[customer_id]=${encodeURIComponent(customer.id)}` +
       `&include=customer` +
       `&sort=-starts_at` +
-      `&page[size]=10`;
+      `&page[size]=100`;
 
     const ordersResponse = await fetch(ordersUrl, {
       headers: {
