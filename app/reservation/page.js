@@ -109,7 +109,7 @@ overflow: "hidden",
   style={{
     color: "#aaaaaa",
     textAlign: "center",
-    margin: "2px 0 6px 0",
+    margin: "0px 0 2px 0",
   }}
 >
   Vérifiez les informations de votre location.
