@@ -260,9 +260,10 @@ export default function Contrat() {
   color: "#aaaaaa",
   fontSize: "15px",
   lineHeight: "1.5",
-  margin: "0 0 18px",
+  margin: "0 auto 18px",
   width: "100%",
   textAlign: "center",
+  boxSizing: "border-box",
 }}
               >
                 Consultez votre courriel et signez votre contrat.
@@ -275,22 +276,22 @@ export default function Contrat() {
                 onClick={handleCheckContract}
                 disabled={checking}
                 style={{
-                  width: "100%",
-                  padding: "16px",
-                  border: "1px solid #666666",
-                  borderRadius: "12px",
-                  background: "#0b0b0b",
-                  color: "#ffffff",
-                  fontSize: "17px",
-                  fontWeight: "700",
-                  cursor: checking ? "default" : "pointer",
-                  opacity: checking ? 0.6 : 1,
-                  textAlign: "center",
-display: "flex",
-alignItems: "center",
-justifyContent: "center",
-boxSizing: "border-box",
-                }}
+  width: "100%",
+  maxWidth: "100%",
+  margin: "0 auto",
+  padding: "16px",
+  border: "1px solid #666666",
+  borderRadius: "12px",
+  background: "#0b0b0b",
+  color: "#ffffff",
+  fontSize: "17px",
+  fontWeight: "700",
+  cursor: checking ? "default" : "pointer",
+  opacity: checking ? 0.6 : 1,
+  textAlign: "center",
+  display: "block",
+  boxSizing: "border-box",
+}}
               >
                 {checking
                   ? "Vérification..."
