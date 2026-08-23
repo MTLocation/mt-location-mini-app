@@ -311,7 +311,7 @@ export default function Contrat() {
       >
         {checking
           ? "Vérification..."
-          : "Vérifier mon contrat et continuer"}
+          : "TEST CENTRAGE"}
       </button>
     </div>
 
