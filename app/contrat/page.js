@@ -186,7 +186,7 @@ export default function Contrat() {
             border: "1px solid #444444",
             borderRadius: "18px",
             padding: "20px",
-            textAlign: "left",
+            textAlign: "center",
           }}
         >
           {!contractSent && (
@@ -235,6 +235,10 @@ export default function Contrat() {
                   fontWeight: "700",
                   cursor: sending ? "default" : "pointer",
                   opacity: sending ? 0.6 : 1,
+                  textAlign: "center",
+display: "flex",
+alignItems: "center",
+justifyContent: "center",
                 }}
               >
                 {sending
