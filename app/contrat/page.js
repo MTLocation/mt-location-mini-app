@@ -294,7 +294,8 @@ export default function Contrat() {
         onClick={handleCheckContract}
         disabled={checking}
         style={{
-          width: "100%",
+          width: "90%",
+          margin: "0 auto",
           padding: "16px",
           border: "1px solid #666666",
           borderRadius: "12px",
