@@ -32,16 +32,6 @@ export default function Contrat() {
   }, []);
 
   async function handleSendContract() {
-    if (!reservationId) {
-      setMessage("Réservation introuvable.");
-      return;
-    }
-
-    if (!email) {
-      setMessage("Veuillez entrer votre adresse courriel.");
-      return;
-    }
-
     try {
       setSending(true);
       setMessage("");
@@ -61,32 +51,25 @@ export default function Contrat() {
       const result = await response.json();
 
       if (!response.ok) {
-        setMessage(
+        alert(
           result.message || "Erreur lors de l'envoi du contrat."
         );
         return;
       }
 
       setContractSent(true);
-      setMessage(
-        "Contrat envoyé. Consultez votre courriel et signez-le avant de poursuivre."
-      );
+      setMessage("");
     } catch (error) {
-      setMessage("Erreur lors de l'envoi du contrat.");
+      alert("Erreur lors de l'envoi du contrat.");
     } finally {
       setSending(false);
     }
   }
 
   async function handleCheckContract() {
-    if (!reservationId) {
-      setMessage("Réservation introuvable.");
-      return;
-    }
-
     try {
       setChecking(true);
-      setMessage("Vérification de votre contrat...");
+      setMessage("Vérification du contrat...");
 
       const response = await fetch("/api/check-contract", {
         method: "POST",
@@ -110,12 +93,15 @@ export default function Contrat() {
       if (result.signed === true) {
         setMessage("Contrat signé avec succès.");
 
-        router.push("/inspection-depart");
+        setTimeout(() => {
+          router.push("/inspection-depart");
+        }, 500);
+
         return;
       }
 
       setMessage(
-        "Votre contrat n'est pas encore signé. Consultez votre courriel, signez le contrat, puis revenez ici."
+        "Votre contrat n'est pas encore signé. Signez-le dans votre courriel puis réessayez."
       );
     } catch (error) {
       setMessage("Impossible de vérifier le contrat.");
@@ -164,7 +150,7 @@ export default function Contrat() {
             margin: "0 0 8px",
           }}
         >
-          Contrat de location
+          Recevoir le contrat
         </h1>
 
         <p
@@ -177,17 +163,17 @@ export default function Contrat() {
         >
           Votre identité a été vérifiée avec succès.
           <br />
-          Faites signer votre contrat avant de poursuivre.
+          Votre contrat sera envoyé par courriel.
         </p>
 
         <div
           style={{
-  background: "#151515",
-  border: "1px solid #444444",
-  borderRadius: "18px",
-  padding: "20px",
-  textAlign: "left",
-}}
+            background: "#151515",
+            border: "1px solid #444444",
+            borderRadius: "18px",
+            padding: "20px",
+            textAlign: "left",
+          }}
         >
           {!contractSent && (
             <>
@@ -225,23 +211,17 @@ export default function Contrat() {
                 onClick={handleSendContract}
                 disabled={sending}
                 style={{
-  width: "100%",
-  maxWidth: "320px",
-  padding: "16px",
-  border: "1px solid #666666",
-  borderRadius: "12px",
-  background: "#0b0b0b",
-  color: "#ffffff",
-  fontSize: "17px",
-  fontWeight: "700",
-  cursor: checking ? "default" : "pointer",
-  opacity: checking ? 0.6 : 1,
-  textAlign: "center",
-  display: "flex",
-  justifyContent: "center",
-  alignItems: "center",
-  margin: "0 auto",
-}}
+                  width: "100%",
+                  padding: "16px",
+                  border: "1px solid #666666",
+                  borderRadius: "12px",
+                  background: "#0b0b0b",
+                  color: "#ffffff",
+                  fontSize: "17px",
+                  fontWeight: "700",
+                  cursor: sending ? "default" : "pointer",
+                  opacity: sending ? 0.6 : 1,
+                }}
               >
                 {sending
                   ? "Envoi en cours..."
@@ -251,10 +231,14 @@ export default function Contrat() {
           )}
 
           {contractSent && (
-            <>
+            <div
+              style={{
+                width: "100%",
+                textAlign: "center",
+              }}
+            >
               <div
                 style={{
-                  textAlign: "center",
                   fontSize: "40px",
                   marginBottom: "10px",
                 }}
@@ -264,7 +248,6 @@ export default function Contrat() {
 
               <h2
                 style={{
-                  textAlign: "center",
                   fontSize: "21px",
                   margin: "0 0 10px",
                 }}
@@ -274,13 +257,11 @@ export default function Contrat() {
 
               <p
                 style={{
-  color: "#aaaaaa",
-  width: "100%",
-  textAlign: "center",
-  fontSize: "15px",
-  lineHeight: "1.5",
-  margin: "0 0 18px",
-}}
+                  color: "#aaaaaa",
+                  fontSize: "15px",
+                  lineHeight: "1.5",
+                  margin: "0 0 18px",
+                }}
               >
                 Consultez votre courriel et signez votre contrat.
                 <br />
@@ -308,21 +289,20 @@ export default function Contrat() {
                   ? "Vérification..."
                   : "Vérifier mon contrat et continuer"}
               </button>
-            </>
-          )}
 
-          {message && (
-            <p
-              style={{
-                margin: "16px 0 0",
-                textAlign: "center",
-                color: "#cccccc",
-                fontSize: "14px",
-                lineHeight: "1.4",
-              }}
-            >
-              {message}
-            </p>
+              {message && (
+                <p
+                  style={{
+                    margin: "16px 0 0",
+                    color: "#cccccc",
+                    fontSize: "14px",
+                    lineHeight: "1.4",
+                  }}
+                >
+                  {message}
+                </p>
+              )}
+            </div>
           )}
         </div>
       </div>
