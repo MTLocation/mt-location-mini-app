@@ -257,11 +257,13 @@ export default function Contrat() {
 
               <p
                 style={{
-                  color: "#aaaaaa",
-                  fontSize: "15px",
-                  lineHeight: "1.5",
-                  margin: "0 0 18px",
-                }}
+  color: "#aaaaaa",
+  fontSize: "15px",
+  lineHeight: "1.5",
+  margin: "0 0 18px",
+  width: "100%",
+  textAlign: "center",
+}}
               >
                 Consultez votre courriel et signez votre contrat.
                 <br />
@@ -283,6 +285,11 @@ export default function Contrat() {
                   fontWeight: "700",
                   cursor: checking ? "default" : "pointer",
                   opacity: checking ? 0.6 : 1,
+                  textAlign: "center",
+display: "flex",
+alignItems: "center",
+justifyContent: "center",
+boxSizing: "border-box",
                 }}
               >
                 {checking
