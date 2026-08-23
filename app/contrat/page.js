@@ -182,12 +182,15 @@ export default function Contrat() {
 
         <div
           style={{
-            background: "#151515",
-            border: "1px solid #444444",
-            borderRadius: "18px",
-            padding: "20px",
-            textAlign: "center",
-          }}
+  background: "#151515",
+  border: "1px solid #444444",
+  borderRadius: "18px",
+  padding: "20px",
+  textAlign: "center",
+  display: "flex",
+  flexDirection: "column",
+  alignItems: "center",
+}}
         >
           {!contractSent && (
             <>
@@ -225,21 +228,23 @@ export default function Contrat() {
                 onClick={handleSendContract}
                 disabled={sending}
                 style={{
-                  width: "100%",
-                  padding: "16px",
-                  border: "1px solid #666666",
-                  borderRadius: "12px",
-                  background: "#0b0b0b",
-                  color: "#ffffff",
-                  fontSize: "17px",
-                  fontWeight: "700",
-                  cursor: sending ? "default" : "pointer",
-                  opacity: sending ? 0.6 : 1,
-                  textAlign: "center",
-display: "flex",
-alignItems: "center",
-justifyContent: "center",
-                }}
+  width: "100%",
+  maxWidth: "320px",
+  padding: "16px",
+  border: "1px solid #666666",
+  borderRadius: "12px",
+  background: "#0b0b0b",
+  color: "#ffffff",
+  fontSize: "17px",
+  fontWeight: "700",
+  cursor: checking ? "default" : "pointer",
+  opacity: checking ? 0.6 : 1,
+  textAlign: "center",
+  display: "flex",
+  justifyContent: "center",
+  alignItems: "center",
+  margin: "0 auto",
+}}
               >
                 {sending
                   ? "Envoi en cours..."
@@ -272,12 +277,13 @@ justifyContent: "center",
 
               <p
                 style={{
-                  color: "#aaaaaa",
-                  textAlign: "center",
-                  fontSize: "15px",
-                  lineHeight: "1.5",
-                  margin: "0 0 18px",
-                }}
+  color: "#aaaaaa",
+  width: "100%",
+  textAlign: "center",
+  fontSize: "15px",
+  lineHeight: "1.5",
+  margin: "0 0 18px",
+}}
               >
                 Consultez votre courriel et signez votre contrat.
                 <br />
