@@ -230,88 +230,106 @@ export default function Contrat() {
             </>
           )}
 
-          {contractSent && (
-            <div
-              style={{
-                width: "100%",
-                textAlign: "center",
-              }}
-            >
-              <div
-                style={{
-                  fontSize: "40px",
-                  marginBottom: "10px",
-                }}
-              >
-                ✓
-              </div>
+       {contractSent && (
+  <div
+    style={{
+      width: "100%",
+      boxSizing: "border-box",
+      textAlign: "center",
+    }}
+  >
+    <div
+      style={{
+        width: "100%",
+        textAlign: "center",
+        fontSize: "40px",
+        marginBottom: "10px",
+      }}
+    >
+      ✓
+    </div>
 
-              <h2
-                style={{
-                  fontSize: "21px",
-                  margin: "0 0 10px",
-                }}
-              >
-                Contrat envoyé
-              </h2>
+    <h2
+      style={{
+        width: "100%",
+        textAlign: "center",
+        fontSize: "21px",
+        margin: "0 0 10px",
+      }}
+    >
+      Contrat envoyé
+    </h2>
 
-              <p
-                style={{
-  color: "#aaaaaa",
-  fontSize: "15px",
-  lineHeight: "1.5",
-  margin: "0 auto 18px",
-  width: "100%",
-  textAlign: "center",
-  boxSizing: "border-box",
-}}
-              >
-                Consultez votre courriel et signez votre contrat.
-                <br />
-                Revenez ensuite ici pour poursuivre.
-              </p>
+    <div
+      style={{
+        width: "100%",
+        textAlign: "center",
+        marginBottom: "18px",
+      }}
+    >
+      <p
+        style={{
+          color: "#aaaaaa",
+          fontSize: "15px",
+          lineHeight: "1.5",
+          margin: "0",
+          textAlign: "center",
+        }}
+      >
+        Consultez votre courriel et signez votre contrat.
+        <br />
+        Revenez ensuite ici pour poursuivre.
+      </p>
+    </div>
 
-              <button
-                type="button"
-                onClick={handleCheckContract}
-                disabled={checking}
-                style={{
-  width: "100%",
-  maxWidth: "100%",
-  margin: "0 auto",
-  padding: "16px",
-  border: "1px solid #666666",
-  borderRadius: "12px",
-  background: "#0b0b0b",
-  color: "#ffffff",
-  fontSize: "17px",
-  fontWeight: "700",
-  cursor: checking ? "default" : "pointer",
-  opacity: checking ? 0.6 : 1,
-  textAlign: "center",
-  display: "block",
-  boxSizing: "border-box",
-}}
-              >
-                {checking
-                  ? "Vérification..."
-                  : "Vérifier mon contrat et continuer"}
-              </button>
+    <div
+      style={{
+        width: "100%",
+        display: "flex",
+        justifyContent: "center",
+      }}
+    >
+      <button
+        type="button"
+        onClick={handleCheckContract}
+        disabled={checking}
+        style={{
+          width: "100%",
+          padding: "16px",
+          border: "1px solid #666666",
+          borderRadius: "12px",
+          background: "#0b0b0b",
+          color: "#ffffff",
+          fontSize: "17px",
+          fontWeight: "700",
+          cursor: checking ? "default" : "pointer",
+          opacity: checking ? 0.6 : 1,
+          textAlign: "center",
+          boxSizing: "border-box",
+        }}
+      >
+        {checking
+          ? "Vérification..."
+          : "Vérifier mon contrat et continuer"}
+      </button>
+    </div>
 
-              {message && (
-                <p
-                  style={{
-                    margin: "16px 0 0",
-                    color: "#cccccc",
-                    fontSize: "14px",
-                    lineHeight: "1.4",
-                  }}
-                >
-                  {message}
-                </p>
-              )}
-            </div>
-          )}
+    {message && (
+      <p
+        style={{
+          width: "100%",
+          margin: "16px 0 0",
+          color: "#cccccc",
+          fontSize: "14px",
+          lineHeight: "1.4",
+          textAlign: "center",
+        }}
+      >
+        {message}
+      </p>
+    )}
+  </div>
+)}
         </div>
       </div>
     </main>
