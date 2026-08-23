@@ -186,10 +186,7 @@ export default function Contrat() {
   border: "1px solid #444444",
   borderRadius: "18px",
   padding: "20px",
-  textAlign: "center",
-  display: "flex",
-  flexDirection: "column",
-  alignItems: "center",
+  textAlign: "left",
 }}
         >
           {!contractSent && (
