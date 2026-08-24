@@ -142,7 +142,15 @@ export default function InspectionDepart() {
 
                 }}
               >
-                {photos[key] ? "Reprendre" : "photo"}
+                <span
+  style={{
+    display: "block",
+    width: "100%",
+    textAlign: "center",
+  }}
+>
+  {photos[key] ? "Reprendre" : "Photo"}
+</span>
 
                 <input
                   type="file"
