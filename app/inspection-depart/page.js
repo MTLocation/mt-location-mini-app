@@ -127,10 +127,11 @@ export default function InspectionDepart() {
 
               <label
                 style={{
-                  display: "flex",
-                  alignItems: "center",
-                  justifyContent: "center",
+                  display: "block",
+                  position: "relative",
+                
                   width: "100%",
+                  minHeight: "52px",
                   padding: "14px",
                   boxSizing: "border-box",
                   border: "1px solid #666666",
@@ -138,16 +139,18 @@ export default function InspectionDepart() {
                   background: "#0b0b0b",
                   cursor: "pointer",
                   fontWeight: "700",
-                  textAlign: "center",
+                  
 
                 }}
               >
                 <span
   style={{
-    display: "block",
-    width: "100%",
-    textAlign: "center",
-  }}
+  position: "absolute",
+  left: "50%",
+  top: "50%",
+  transform: "translate(-50%, -50%)",
+  whiteSpace: "nowrap",
+}}
 >
   {photos[key] ? "Reprendre" : "Photo"}
 </span>
