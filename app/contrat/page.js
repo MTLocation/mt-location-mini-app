@@ -230,6 +230,10 @@ export default function Contrat() {
                   color: "#ffffff",
                   fontSize: "17px",
                   fontWeight: "700",
+                  textAlign: "center",
+display: "flex",
+alignItems: "center",
+justifyContent: "center",
                   cursor: sending ? "default" : "pointer",
                   opacity: sending ? 0.6 : 1,
                 }}
