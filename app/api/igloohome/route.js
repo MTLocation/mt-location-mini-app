@@ -16,8 +16,9 @@
     
 
     const credentials = Buffer.from(
-      `${clientId}:${clientSecret}`
-    ).toString("base64");
+  `${clientId.trim()}:${clientSecret.trim()}`,
+  "utf8"
+).toString("base64");
 
     const tokenResponse = await fetch(
   "https://auth.igloohome.co/oauth2/token",
