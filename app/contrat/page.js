@@ -158,6 +158,7 @@ export default function Contrat() {
 >
   Recevoir le contrat
 </h1>
+
 <p
   style={{
     width: "100%",
@@ -174,10 +175,6 @@ export default function Contrat() {
   <br />
   Votre contrat sera envoyé par courriel.
 </p>
-          <br />
-          Votre contrat sera envoyé par courriel.
-        </p>
-
         <div
           style={{
             background: "#151515",
