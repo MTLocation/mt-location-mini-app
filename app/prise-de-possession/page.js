@@ -148,7 +148,7 @@ export default function PriseDePossession() {
 
           <p
             style={{
-                        width: "100%"
+                        width: "100%",
               color: "#aaaaaa",
               marginTop: "2px",
               marginBottom: "8px",
