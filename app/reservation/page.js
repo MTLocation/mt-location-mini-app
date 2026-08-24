@@ -112,7 +112,7 @@ overflow: "hidden",
     margin: "0px 0 2px 0",
   }}
 >
-  Vérifiez les informations de votre location.
+  Vérifiez votre réservation.
 </p>
         </div>
 
@@ -122,7 +122,7 @@ overflow: "hidden",
             border: "1px solid #333333",
             borderRadius: "18px",
             padding: "10px 14px",
-                    marginTop: "-24px",
+                    marginTop: "-40px",
           }}
         >
           <div style={{ marginBottom: "6px" }}>
