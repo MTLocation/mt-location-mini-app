@@ -4,10 +4,15 @@
     const clientSecret = process.env.IGLOOHOME_CLIENT_SECRET;
 
     if (!clientId || !clientSecret) {
-      return Response.json(
-        { error: "Identifiants Igloohome manquants." },
-        { status: 500 }
-      );
+  return Response.json(
+    {
+      error: "Identifiants Igloohome manquants.",
+      clientIdPresent: !!clientId,
+      clientSecretPresent: !!clientSecret,
+    },
+    { status: 500 }
+  );
+}
     }
 
     const credentials = Buffer.from(
