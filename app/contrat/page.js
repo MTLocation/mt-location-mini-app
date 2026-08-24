@@ -240,7 +240,7 @@ justifyContent: "center",
               >
                 {sending
                   ? "Envoi en cours..."
-                  : "Envoyer mon contrat"}
+                  : "Mon contrat"}
               </button>
             </>
           )}
