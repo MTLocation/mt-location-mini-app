@@ -147,23 +147,30 @@ export default function Contrat() {
         />
 
         <h1
-          style={{
-            fontSize: "28px",
-            margin: "0 0 8px",
-          }}
-        >
-          Recevoir le contrat
-        </h1>
-
-        <p
-          style={{
-            color: "#aaaaaa",
-            fontSize: "16px",
-            lineHeight: "1.4",
-            margin: "0 0 22px",
-          }}
-        >
-          Votre identité a été vérifiée avec succès.
+  style={{
+    width: "100%",
+    fontSize: "28px",
+    margin: "0 0 8px",
+    padding: "0",
+    textAlign: "center",
+    boxSizing: "border-box",
+  }}
+<p
+  style={{
+    width: "100%",
+    color: "#aaaaaa",
+    fontSize: "16px",
+    lineHeight: "1.4",
+    margin: "0 0 22px",
+    padding: "0",
+    textAlign: "center",
+    boxSizing: "border-box",
+  }}
+>
+  Votre identité a été vérifiée avec succès.
+  <br />
+  Votre contrat sera envoyé par courriel.
+</p>
           <br />
           Votre contrat sera envoyé par courriel.
         </p>
