@@ -291,7 +291,7 @@ justifyContent: "center",
           textAlign: "center",
         }}
       >
-        Consultez votre courriel et signez le contrat.
+        Consultez votre courriel et signez.
       </p>
     </div>
 
