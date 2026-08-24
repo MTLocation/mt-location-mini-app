@@ -143,7 +143,7 @@ export default function PriseDePossession() {
   fontSize: "30px",
 }}
           >
-            Prise de possession
+            Départ
           </h1>
 
           <p
@@ -157,7 +157,7 @@ export default function PriseDePossession() {
               fontSize: "16px",
             }}
           >
-            Retrouvez votre réservation pour continuer.
+            Identifiez votre réservation.
           </p>
         </div>
 
