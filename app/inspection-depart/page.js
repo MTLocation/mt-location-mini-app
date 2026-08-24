@@ -137,12 +137,10 @@ export default function InspectionDepart() {
                   cursor: "pointer",
                   fontWeight: "700",
                   textAlign: "center",
-display: "flex",
-alignItems: "center",
-justifyContent: "center",
+
                 }}
               >
-                {photos[key] ? "Reprendre une photo" : "Prendre une photo"}
+                {photos[key] ? "Reprendre" : "photo"}
 
                 <input
                   type="file"
