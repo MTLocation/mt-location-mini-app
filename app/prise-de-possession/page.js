@@ -168,6 +168,7 @@ export default function PriseDePossession() {
     border: "1px solid #444444",
     borderRadius: "18px",
     padding: "10px",
+              marginTop: "-35px",
     boxSizing: "border-box",
   }}
 >
