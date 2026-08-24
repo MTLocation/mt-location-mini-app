@@ -130,6 +130,8 @@ export default function Contrat() {
           width: "100%",
           maxWidth: "430px",
           textAlign: "center",
+                  margin: "0 auto",
+                  boxSizing: "border-box",
         }}
       >
         <img
