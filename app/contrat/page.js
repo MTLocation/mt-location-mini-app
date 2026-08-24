@@ -155,6 +155,9 @@ export default function Contrat() {
     textAlign: "center",
     boxSizing: "border-box",
   }}
+>
+  Recevoir le contrat
+</h1>
 <p
   style={{
     width: "100%",
