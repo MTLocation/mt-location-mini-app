@@ -183,7 +183,7 @@ export default function PriseDePossession() {
       fontSize: "24px",
     }}
   >
-    Retrouver ma réservation
+    Ma réservation
   </h2>
          
 <label
