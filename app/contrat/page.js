@@ -188,11 +188,13 @@ export default function Contrat() {
             <>
               <label
                 style={{
-                  display: "block",
-                  fontSize: "15px",
-                  fontWeight: "700",
-                  marginBottom: "8px",
-                }}
+  display: "block",
+  width: "100%",
+  fontSize: "15px",
+  fontWeight: "700",
+  marginBottom: "8px",
+  textAlign: "center",
+}}
               >
                 Courriel
               </label>
@@ -314,9 +316,11 @@ export default function Contrat() {
           fontWeight: "700",
           cursor: checking ? "default" : "pointer",
           opacity: checking ? 0.6 : 1,
-          textAlign: "center",
-          display: "block",
-          boxSizing: "border-box",
+         textAlign: "center",
+display: "flex",
+alignItems: "center",
+justifyContent: "center",
+boxSizing: "border-box",
         }}
       >
         {checking
