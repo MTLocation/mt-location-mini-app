@@ -127,7 +127,9 @@ export default function InspectionDepart() {
 
               <label
                 style={{
-                  display: "block",
+                  display: "flex",
+                  alignItems: "center",
+                  justifyContent: "center",
                   width: "100%",
                   padding: "14px",
                   boxSizing: "border-box",
