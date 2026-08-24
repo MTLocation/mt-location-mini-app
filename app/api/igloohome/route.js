@@ -13,7 +13,7 @@
     { status: 500 }
   );
 }
-    }
+    
 
     const credentials = Buffer.from(
       `${clientId}:${clientSecret}`
