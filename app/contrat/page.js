@@ -315,6 +315,7 @@ export default function Contrat() {
           cursor: checking ? "default" : "pointer",
           opacity: checking ? 0.6 : 1,
           textAlign: "center",
+          display: "block",
           boxSizing: "border-box",
         }}
       >
