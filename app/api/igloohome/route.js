@@ -20,18 +20,21 @@
     ).toString("base64");
 
     const tokenResponse = await fetch(
-      "https://auth.igloohome.co/oauth2/token",
-      {
-        method: "POST",
-        headers: {
-          Authorization: `Basic ${credentials}`,
-          "Content-Type": "application/x-www-form-urlencoded",
-        },
-        body: new URLSearchParams({
-  grant_type: "client_credentials",
-}),
-      }
-    );
+  "https://auth.igloohome.co/oauth2/token",
+  {
+    method: "POST",
+    headers: {
+      Authorization: `Basic ${credentials}`,
+      "Content-Type": "application/x-www-form-urlencoded",
+      Accept: "application/json",
+    },
+    body: new URLSearchParams({
+      grant_type: "client_credentials",
+      scope: "igloohomeapi/algopin-hourly",
+    }).toString(),
+  }
+);
+    
 
     const tokenData = await tokenResponse.json();
 
