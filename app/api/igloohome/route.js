@@ -28,9 +28,8 @@
           "Content-Type": "application/x-www-form-urlencoded",
         },
         body: new URLSearchParams({
-          grant_type: "client_credentials",
-          scope: "igloohomeapi/algopin-hourly",
-        }),
+  grant_type: "client_credentials",
+}),
       }
     );
 
