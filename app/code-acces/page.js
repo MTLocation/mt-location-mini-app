@@ -86,7 +86,7 @@ export default function CodeAccesPage() {
             textAlign: "center",
           }}
         >
-          Votre code d’accès
+          Test code d’accès
         </h1>
 
         <p
