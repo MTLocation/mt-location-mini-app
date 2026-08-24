@@ -1,4 +1,4 @@
-export async function POST(request) {
+ async function testIgloohome() {
   try {
     const clientId = process.env.IGLOOHOME_CLIENT_ID;
     const clientSecret = process.env.IGLOOHOME_CLIENT_SECRET;
@@ -54,4 +54,11 @@ export async function POST(request) {
       { status: 500 }
     );
   }
+}
+export async function POST() {
+  return testIgloohome();
+}
+
+export async function GET() {
+  return testIgloohome();
 }
