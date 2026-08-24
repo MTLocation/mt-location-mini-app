@@ -82,7 +82,7 @@ export default function InspectionDepart() {
             margin: "0 0 22px",
           }}
         >
-          Prenez une photo de chaque côté de la remorque avant votre départ.
+          Prenez les photos demandées.
         </p>
 
         <div
@@ -138,7 +138,7 @@ export default function InspectionDepart() {
                   fontWeight: "700",
                 }}
               >
-                {photos[key] ? "Reprendre la photo" : "Prendre la photo"}
+                {photos[key] ? "Reprendre" : "photo"}
 
                 <input
                   type="file"
