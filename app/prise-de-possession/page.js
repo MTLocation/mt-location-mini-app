@@ -137,9 +137,9 @@ export default function PriseDePossession() {
           <h1
            style={{
   margin: 0,
-  width: "100vw",
-  marginLeft: "calc(50% - 50vw)",
+  width: "100%",
   textAlign: "center",
+  boxSizing: "border-box",
   fontSize: "30px",
 }}
           >
@@ -148,10 +148,12 @@ export default function PriseDePossession() {
 
           <p
             style={{
+                        width: "100%"
               color: "#aaaaaa",
               marginTop: "2px",
               marginBottom: "8px",
               textAlign: "center",
+               boxSizing: "border-box",         
               fontSize: "16px",
             }}
           >
