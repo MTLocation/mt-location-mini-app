@@ -30,7 +30,7 @@
     },
     body: new URLSearchParams({
       grant_type: "client_credentials",
-      scope: "igloohomeapi/algopin-hourly",
+      
     }).toString(),
   }
 );
