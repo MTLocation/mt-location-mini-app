@@ -14,7 +14,7 @@ export default function Contrat() {
   const [sending, setSending] = useState(false);
   const [checking, setChecking] = useState(false);
   const [message, setMessage] = useState("");
-
+const [contractSigned, setContractSigned] = useState(false);
   useEffect(() => {
     const stored = sessionStorage.getItem("mtReservation");
 
@@ -91,14 +91,10 @@ export default function Contrat() {
       }
 
       if (result.signed === true) {
-        setMessage("Contrat signé avec succès.");
-
-        setTimeout(() => {
-          router.push("/inspection-depart");
-        }, 500);
-
-        return;
-      }
+  setContractSigned(true);
+  setMessage("");
+  return;
+}
 
       setMessage(
         "Votre contrat n'est pas encore signé. Signez-le dans votre courriel puis réessayez."
@@ -272,7 +268,7 @@ justifyContent: "center",
         margin: "0 0 10px",
       }}
     >
-      Contrat envoyé
+      {contractSigned ? "Contrat signé" : "Contrat envoyé"}
     </h2>
 
     <div
@@ -291,7 +287,9 @@ justifyContent: "center",
           textAlign: "center",
         }}
       >
-        Consultez votre courriel et signez.
+        {contractSigned
+  ? "Vous pouvez maintenant poursuivre."
+  : "Consultez votre courriel et signez le contrat."}
       </p>
     </div>
 
@@ -304,7 +302,13 @@ justifyContent: "center",
     >
       <button
         type="button"
-        onClick={handleCheckContract}
+       onClick={() => {
+  if (contractSigned) {
+    router.push("/inspection-depart");
+  } else {
+    handleCheckContract();
+  }
+}}
         disabled={checking}
         style={{
           width: "100%",
@@ -326,8 +330,10 @@ boxSizing: "border-box",
         }}
       >
         {checking
-          ? "Vérification..."
-          : "PHOTOS"}
+  ? "Vérification..."
+  : contractSigned
+  ? "PHOTOS"
+  : "VÉRIFIER"}
       </button>
     </div>
 
