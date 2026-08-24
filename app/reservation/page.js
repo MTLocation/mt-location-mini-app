@@ -121,11 +121,11 @@ overflow: "hidden",
             background: "#151515",
             border: "1px solid #333333",
             borderRadius: "18px",
-            padding: "10px 14px",
+            padding: "8px 14px",
                     marginTop: "-40px",
           }}
         >
-          <div style={{ marginBottom: "6px" }}>
+          <div style={{ marginBottom: "2px" }}>
             <div style={{ color: "#aaaaaa", fontSize: "14px" }}>
               Client
             </div>
@@ -135,7 +135,7 @@ overflow: "hidden",
             </div>
           </div>
 
-          <div style={{ marginBottom: "6px" }}>
+          <div style={{ marginBottom: "2px" }}>
             <div style={{ color: "#aaaaaa", fontSize: "14px" }}>
               Réservation
             </div>
@@ -145,7 +145,7 @@ overflow: "hidden",
             </div>
           </div>
 
-          <div style={{ marginBottom: "6px" }}>
+          <div style={{ marginBottom: "2px" }}>
             <div style={{ color: "#aaaaaa", fontSize: "14px" }}>
               Prise de possession
             </div>
@@ -155,7 +155,7 @@ overflow: "hidden",
             </div>
           </div>
 
-          <div style={{ marginBottom: "6px" }}>
+          <div style={{ marginBottom: "2px" }}>
             <div style={{ color: "#aaaaaa", fontSize: "14px" }}>
               Retour
             </div>
