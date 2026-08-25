@@ -130,7 +130,13 @@ if (
 ) {
   end.setHours(end.getHours() + 1);
 }
+end.setMinutes(0, 0, 0);
 
+// Sécurité : la fin doit toujours être après le début
+if (end <= start) {
+  end.setTime(start.getTime());
+  end.setHours(end.getHours() + 1);
+}
 // Fin : heure pleine suivante
 if (
   end.getMinutes() !== 0 ||
