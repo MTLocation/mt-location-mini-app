@@ -109,6 +109,27 @@ end.setMinutes(end.getMinutes() + 30);
 
 // Début : heure pleine précédente
 start.setMinutes(0, 0, 0);
+    // Début : heure pleine précédente
+start.setMinutes(0, 0, 0);
+
+// Si cette heure est déjà passée,
+// utiliser la prochaine heure pleine
+const now = new Date();
+
+if (start < now) {
+  start.setTime(now.getTime());
+  start.setMinutes(0, 0, 0);
+  start.setHours(start.getHours() + 1);
+}
+
+// Fin : heure pleine suivante
+if (
+  end.getMinutes() !== 0 ||
+  end.getSeconds() !== 0 ||
+  end.getMilliseconds() !== 0
+) {
+  end.setHours(end.getHours() + 1);
+}
 
 // Fin : heure pleine suivante
 if (
