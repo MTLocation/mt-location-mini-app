@@ -86,7 +86,7 @@ export default function CodeAccesPage() {
             textAlign: "center",
           }}
         >
-          Test code d’accès
+          Votre code d’accès
         </h1>
 
         <p
@@ -138,17 +138,21 @@ export default function CodeAccesPage() {
 
           {!loading && !error && (
             <div
-              style={{
-                width: "100%",
-                fontSize: "38px",
-                fontWeight: "700",
-                letterSpacing: "4px",
-                textAlign: "center",
-                wordBreak: "break-word",
-              }}
-            >
-              {pin}
-            </div>
+  style={{
+    width: "100%",
+    minHeight: "90px",
+    display: "flex",
+    alignItems: "center",
+    justifyContent: "center",
+    fontSize: "clamp(26px, 8vw, 38px)",
+    fontWeight: "700",
+    letterSpacing: "3px",
+    textAlign: "center",
+    whiteSpace: "nowrap",
+  }}
+>
+  {pin}
+</div>
           )}
         </div>
 
