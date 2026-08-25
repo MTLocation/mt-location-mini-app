@@ -20,7 +20,7 @@ export default function CodeAccesPage() {
           );
         }
 
-        setPin(data.pin);
+        setPin(String(data.pin).replace(/\D/g, ""));
       } catch (err) {
         setError(err.message);
       } finally {
@@ -45,187 +45,219 @@ export default function CodeAccesPage() {
   }
 
   return (
-    <main
-      style={{
-        minHeight: "100vh",
-        width: "100%",
-        background: "#080808",
-        color: "#ffffff",
-        display: "flex",
-        flexDirection: "column",
-        justifyContent: "flex-start",
-        alignItems: "center",
-        padding: "5px 20px 20px",
-        boxSizing: "border-box",
-        fontFamily: "Arial, sans-serif",
-      }}
-    >
-      <div
-        style={{
-          width: "100%",
-          maxWidth: "430px",
-          textAlign: "center",
-        }}
-      >
-        <img
-          src="/logo-mt.PNG"
-          alt="MT Location Remorques"
-          style={{
-            width: "240px",
-            maxWidth: "80%",
-            height: "auto",
-            display: "block",
-            margin: "0 auto 28px",
-          }}
-        />
+    <>
+      <style>{`
+        .code-page {
+          min-height: 100vh;
+          width: 100%;
+          background: #080808;
+          color: #ffffff;
+          display: flex;
+          flex-direction: column;
+          align-items: center;
+          justify-content: flex-start;
+          box-sizing: border-box;
+          padding: 8px 18px 24px;
+          font-family: Arial, sans-serif;
+        }
 
-        <h1
-          style={{
-            width: "100%",
-            margin: "0 0 10px",
-            fontSize: "30px",
-            textAlign: "center",
-          }}
-        >
-          Votre code d’accès
-        </h1>
+        .code-wrapper {
+          width: 100%;
+          max-width: 430px;
+          text-align: center;
+        }
 
-        <p
-          style={{
-            width: "100%",
-            margin: "0 0 22px",
-            color: "#aaaaaa",
-            fontSize: "16px",
-            lineHeight: "1.4",
-            textAlign: "center",
-          }}
-        >
-          Utilisez ce code pour déverrouiller la remorque.
-        </p>
+        .code-logo {
+          width: 180px;
+          max-width: 62vw;
+          height: auto;
+          display: block;
+          margin: 0 auto 12px;
+        }
 
-        <div
-          style={{
-            width: "100%",
-            background: "#151515",
-            border: "1px solid #444444",
-            borderRadius: "18px",
-            padding: "28px 20px",
-            boxSizing: "border-box",
-            textAlign: "center",
-          }}
-        >
-          {loading && (
-            <div
-              style={{
-                fontSize: "17px",
-                color: "#aaaaaa",
-              }}
-            >
-              Génération du code...
-            </div>
+        .code-title {
+          margin: 0 0 6px;
+          font-size: 28px;
+          line-height: 1.1;
+        }
+
+        .code-subtitle {
+          margin: 0 0 16px;
+          color: #aaaaaa;
+          font-size: 15px;
+          line-height: 1.35;
+        }
+
+        .pin-box {
+          width: 100%;
+          min-height: 120px;
+          background: #151515;
+          border: 1px solid #444444;
+          border-radius: 18px;
+          box-sizing: border-box;
+          padding: 18px 10px;
+          display: flex;
+          align-items: center;
+          justify-content: center;
+          overflow: hidden;
+        }
+
+        .pin-value {
+          width: 100%;
+          font-size: 30px;
+          line-height: 1;
+          font-weight: 700;
+          letter-spacing: 1px;
+          text-align: center;
+          white-space: nowrap;
+          word-break: normal;
+          overflow-wrap: normal;
+        }
+
+        .copy-button {
+          width: 100%;
+          margin-top: 10px;
+          padding: 13px;
+          border: 1px solid #666666;
+          border-radius: 12px;
+          background: #0b0b0b;
+          color: #ffffff;
+          font-size: 15px;
+          font-weight: 700;
+          box-sizing: border-box;
+        }
+
+        .delay-text {
+          width: 100%;
+          margin: 14px 0 0;
+          color: #aaaaaa;
+          font-size: 13px;
+          line-height: 1.4;
+          text-align: center;
+        }
+
+        .good-road {
+          margin-top: 18px;
+          font-size: 25px;
+          line-height: 1.1;
+          font-weight: 700;
+        }
+
+        .brand {
+          margin: 6px 0 0;
+          color: #aaaaaa;
+          font-size: 13px;
+        }
+
+        .status-text {
+          font-size: 15px;
+          color: #aaaaaa;
+          line-height: 1.4;
+        }
+
+        @media (min-width: 700px) {
+          .code-page {
+            padding-top: 18px;
+          }
+
+          .code-logo {
+            width: 220px;
+            margin-bottom: 20px;
+          }
+
+          .code-title {
+            font-size: 32px;
+            margin-bottom: 10px;
+          }
+
+          .code-subtitle {
+            font-size: 16px;
+            margin-bottom: 20px;
+          }
+
+          .pin-box {
+            min-height: 150px;
+          }
+
+          .pin-value {
+            font-size: 34px;
+          }
+
+          .delay-text {
+            font-size: 14px;
+          }
+
+          .good-road {
+            font-size: 28px;
+            margin-top: 24px;
+          }
+        }
+      `}</style>
+
+      <main className="code-page">
+        <div className="code-wrapper">
+          <img
+            src="/logo-mt.PNG"
+            alt="MT Location Remorques"
+            className="code-logo"
+          />
+
+          <h1 className="code-title">
+            Votre code d’accès
+          </h1>
+
+          <p className="code-subtitle">
+            Utilisez ce code pour déverrouiller la remorque.
+          </p>
+
+          <div className="pin-box">
+            {loading && (
+              <div className="status-text">
+                Génération du code...
+              </div>
+            )}
+
+            {!loading && error && (
+              <div className="status-text">
+                {error}
+              </div>
+            )}
+
+            {!loading && !error && (
+              <div className="pin-value">
+                {pin}
+              </div>
+            )}
+          </div>
+
+          {!loading && !error && (
+            <>
+              <button
+                type="button"
+                onClick={handleCopyPin}
+                className="copy-button"
+              >
+                {copied ? "Code copié ✓" : "Copier le code"}
+              </button>
+
+              <p className="delay-text">
+                Votre code restera valide jusqu’à 30 minutes après
+                l’heure prévue de votre retour.
+                <br />
+                Veuillez nous aviser à l’avance de tout retard potentiel.
+              </p>
+
+              <div className="good-road">
+                Bonne route!
+              </div>
+
+              <p className="brand">
+                MT Location Remorques
+              </p>
+            </>
           )}
-
-          {!loading && error && (
-            <div
-              style={{
-                fontSize: "16px",
-                color: "#aaaaaa",
-                lineHeight: "1.4",
-              }}
-            >
-              {error}
-            </div>
-          )}
-
-         {!loading && !error && (
-  <div
-    style={{
-      width: "100%",
-      minHeight: "90px",
-      display: "flex",
-      alignItems: "center",
-      justifyContent: "center",
-      flexWrap: "nowrap",
-      boxSizing: "border-box",
-      padding: "0 8px",
-      fontSize: "30px",
-      fontWeight: "700",
-      letterSpacing: "1px",
-      textAlign: "center",
-      whiteSpace: "nowrap",
-      wordBreak: "normal",
-      overflowWrap: "normal",
-    }}
-  >
-    {String(pin).replace(/\D/g, "")}
-  </div>
-)}
         </div>
-
-        {!loading && !error && (
-          <>
-            <button
-              type="button"
-              onClick={handleCopyPin}
-              disabled={!pin}
-              style={{
-                width: "100%",
-                marginTop: "14px",
-                padding: "15px",
-                border: "1px solid #666666",
-                borderRadius: "12px",
-                background: "#0b0b0b",
-                color: "#ffffff",
-                fontSize: "16px",
-                fontWeight: "700",
-                cursor: pin ? "pointer" : "default",
-                textAlign: "center",
-                boxSizing: "border-box",
-              }}
-            >
-              {copied ? "Code copié ✓" : "Copier le code"}
-            </button>
-
-            <p
-              style={{
-                width: "100%",
-                margin: "20px 0 0",
-                color: "#aaaaaa",
-                fontSize: "15px",
-                lineHeight: "1.5",
-                textAlign: "center",
-              }}
-            >
-              Votre code restera valide jusqu’à 30 minutes après
-              l’heure prévue de votre retour.
-              <br />
-              Veuillez nous aviser à l’avance de tout retard potentiel.
-            </p>
-
-            <div
-              style={{
-                marginTop: "28px",
-                fontSize: "28px",
-                fontWeight: "700",
-                textAlign: "center",
-              }}
-            >
-              Bonne route!
-            </div>
-
-            <p
-              style={{
-                margin: "8px 0 0",
-                color: "#aaaaaa",
-                fontSize: "15px",
-                textAlign: "center",
-              }}
-            >
-              MT Location Remorques
-            </p>
-          </>
-        )}
-      </div>
-    </main>
+      </main>
+    </>
   );
 }
