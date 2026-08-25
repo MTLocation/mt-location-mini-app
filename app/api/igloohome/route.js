@@ -74,51 +74,81 @@ async function generateIgloohomePin(request) {
       bloquer le client.
     */
 
-    const start = new Date(reservationStart);
-    start.setMinutes(start.getMinutes() - 30);
+   // Booqable nous donne les heures de réservation comme heures "locales"
+// même si la chaîne contient un indicateur UTC.
+// On conserve donc l'heure affichée dans Booqable.
 
-    const end = new Date(reservationEnd);
-    end.setMinutes(end.getMinutes() + 30);
+const parseBooqableLocalDate = (dateString) => {
+  const clean = dateString.replace("Z", "");
 
-    // Début : arrondir vers l'heure précédente
-    start.setMinutes(0, 0, 0);
+  const [datePart, timePart] = clean.split("T");
+  const [year, month, day] = datePart.split("-").map(Number);
+  const [hour, minute, second = "0"] = timePart
+    .split(/[+-]/)[0]
+    .split(":")
+    .map(Number);
 
-    // Fin : arrondir vers l'heure suivante
-    if (
-      end.getMinutes() !== 0 ||
-      end.getSeconds() !== 0 ||
-      end.getMilliseconds() !== 0
-    ) {
-      end.setHours(end.getHours() + 1);
-    }
+  return new Date(
+    year,
+    month - 1,
+    day,
+    hour,
+    minute,
+    second
+  );
+};
 
-    end.setMinutes(0, 0, 0);
+const start = parseBooqableLocalDate(reservationStart);
+const end = parseBooqableLocalDate(reservationEnd);
 
-    // Format Québec pour Igloohome
-    const formatIgloohomeDate = (date) => {
-      const parts = new Intl.DateTimeFormat("en-CA", {
-        timeZone: "America/Toronto",
-        year: "numeric",
-        month: "2-digit",
-        day: "2-digit",
-        hour: "2-digit",
-        minute: "2-digit",
-        second: "2-digit",
-        hourCycle: "h23",
-      }).formatToParts(date);
+// Marge MT Location
+start.setMinutes(start.getMinutes() - 30);
+end.setMinutes(end.getMinutes() + 30);
 
-      const values = {};
+// Igloohome Hourly exige des heures pleines.
 
-      parts.forEach((part) => {
-        values[part.type] = part.value;
-      });
+// Début : heure pleine précédente
+start.setMinutes(0, 0, 0);
 
-      return `${values.year}-${values.month}-${values.day}T${values.hour}:00:00-04:00`;
-    };
+// Fin : heure pleine suivante
+if (
+  end.getMinutes() !== 0 ||
+  end.getSeconds() !== 0 ||
+  end.getMilliseconds() !== 0
+) {
+  end.setHours(end.getHours() + 1);
+}
 
-    const startDate = formatIgloohomeDate(start);
-    const endDate = formatIgloohomeDate(end);
+end.setMinutes(0, 0, 0);
 
+// Trouver automatiquement le bon décalage Toronto
+// (-04:00 l'été, -05:00 l'hiver)
+const getTorontoOffset = (date) => {
+  const parts = new Intl.DateTimeFormat("en-CA", {
+    timeZone: "America/Toronto",
+    timeZoneName: "longOffset",
+  }).formatToParts(date);
+
+  const offset =
+    parts.find((part) => part.type === "timeZoneName")?.value ||
+    "GMT-04:00";
+
+  return offset.replace("GMT", "");
+};
+
+const formatIgloohomeDate = (date) => {
+  const year = date.getFullYear();
+  const month = String(date.getMonth() + 1).padStart(2, "0");
+  const day = String(date.getDate()).padStart(2, "0");
+  const hour = String(date.getHours()).padStart(2, "0");
+
+  const offset = getTorontoOffset(date);
+
+  return `${year}-${month}-${day}T${hour}:00:00${offset}`;
+};
+
+const startDate = formatIgloohomeDate(start);
+const endDate = formatIgloohomeDate(end);
     // 3. Création du PIN
     const pinResponse = await fetch(
       `https://api.igloodeveloper.co/igloohome/devices/${deviceId}/algopin/hourly`,
