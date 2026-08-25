@@ -1,4 +1,4 @@
-async function generateIgloohomePin() {
+async function generateIgloohomePin(request) {
   try {
     const clientId = process.env.IGLOOHOME_CLIENT_ID;
     const clientSecret = process.env.IGLOOHOME_CLIENT_SECRET;
@@ -7,6 +7,21 @@ async function generateIgloohomePin() {
       return Response.json(
         { error: "Identifiants Igloohome manquants." },
         { status: 500 }
+      );
+    }
+
+    // Récupération des dates de la réservation
+    const body = await request.json();
+
+    const reservationStart = body.startDate;
+    const reservationEnd = body.endDate;
+
+    if (!reservationStart || !reservationEnd) {
+      return Response.json(
+        {
+          error: "Dates de réservation manquantes.",
+        },
+        { status: 400 }
       );
     }
 
@@ -46,16 +61,40 @@ async function generateIgloohomePin() {
     // 2. Cadenas MT2026-01
     const deviceId = "IGK346001349";
 
-    // Prochaine heure pleine
-    const start = new Date();
+    /*
+      RÈGLE MT LOCATION
+
+      Réservation :
+      - début : réservation - 30 minutes
+      - fin : réservation + 30 minutes
+
+      Igloohome Hourly exige cependant des heures pleines.
+
+      On arrondit donc vers l'extérieur afin de ne jamais
+      bloquer le client.
+    */
+
+    const start = new Date(reservationStart);
+    start.setMinutes(start.getMinutes() - 30);
+
+    const end = new Date(reservationEnd);
+    end.setMinutes(end.getMinutes() + 30);
+
+    // Début : arrondir vers l'heure précédente
     start.setMinutes(0, 0, 0);
-    start.setHours(start.getHours() + 1);
 
-    // Test de 2 heures
-    const end = new Date(start);
-    end.setHours(end.getHours() + 2);
+    // Fin : arrondir vers l'heure suivante
+    if (
+      end.getMinutes() !== 0 ||
+      end.getSeconds() !== 0 ||
+      end.getMilliseconds() !== 0
+    ) {
+      end.setHours(end.getHours() + 1);
+    }
 
-    // Format avec l'heure du Québec
+    end.setMinutes(0, 0, 0);
+
+    // Format Québec pour Igloohome
     const formatIgloohomeDate = (date) => {
       const parts = new Intl.DateTimeFormat("en-CA", {
         timeZone: "America/Toronto",
@@ -69,6 +108,7 @@ async function generateIgloohomePin() {
       }).formatToParts(date);
 
       const values = {};
+
       parts.forEach((part) => {
         values[part.type] = part.value;
       });
@@ -93,7 +133,7 @@ async function generateIgloohomePin() {
           variance: 1,
           startDate,
           endDate,
-          accessName: "MT Location Remorques - Test",
+          accessName: "MT Location Remorques",
         }),
       }
     );
@@ -118,6 +158,8 @@ async function generateIgloohomePin() {
       pinId: pinData.pinId,
       startDate,
       endDate,
+      reservationStart,
+      reservationEnd,
     });
   } catch (error) {
     return Response.json(
@@ -130,10 +172,6 @@ async function generateIgloohomePin() {
   }
 }
 
-export async function POST() {
-  return generateIgloohomePin();
-}
-
-export async function GET() {
-  return generateIgloohomePin();
+export async function POST(request) {
+  return generateIgloohomePin(request);
 }
