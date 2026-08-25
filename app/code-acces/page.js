@@ -156,7 +156,7 @@ export default function CodeAccesPage() {
       overflowWrap: "normal",
     }}
   >
-    {pin}
+    {String(pin).replace(/\D/g, "")}
   </div>
 )}
         </div>
