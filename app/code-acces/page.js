@@ -11,7 +11,31 @@ export default function CodeAccesPage() {
   useEffect(() => {
     async function getPin() {
       try {
-        const response = await fetch("/api/igloohome");
+        const stored = sessionStorage.getItem("mtReservation");
+
+if (!stored) {
+  throw new Error("Réservation introuvable.");
+}
+
+const reservationData = JSON.parse(stored);
+
+const startDate = reservationData?.reservation?.startsAt;
+const endDate = reservationData?.reservation?.stopsAt;
+
+if (!startDate || !endDate) {
+  throw new Error("Dates de réservation introuvables.");
+}
+
+const response = await fetch("/api/igloohome", {
+  method: "POST",
+  headers: {
+    "Content-Type": "application/json",
+  },
+  body: JSON.stringify({
+    startDate,
+    endDate,
+  }),
+});
         const data = await response.json();
 
         if (!response.ok || !data.pin) {
