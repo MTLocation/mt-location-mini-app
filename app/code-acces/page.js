@@ -52,9 +52,9 @@ export default function CodeAccesPage() {
         background: "#080808",
         color: "#ffffff",
         display: "flex",
-        justifyContent: "center",
+        justifyContent: "flex-start",
         alignItems: "center",
-        padding: "24px 20px",
+        padding: "5px 20px 20px",
         boxSizing: "border-box",
         fontFamily: "Arial, sans-serif",
       }}
