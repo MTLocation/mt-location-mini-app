@@ -37,6 +37,7 @@ const response = await fetch("/api/igloohome", {
   }),
 });
         const data = await response.json();
+        alert(JSON.stringify(data, null, 2));
 
        if (!response.ok || !data.pin) {
   const details =
