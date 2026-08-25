@@ -38,11 +38,16 @@ const response = await fetch("/api/igloohome", {
 });
         const data = await response.json();
 
-        if (!response.ok || !data.pin) {
-          throw new Error(
-            data.error || "Impossible d'obtenir le code."
-          );
-        }
+       if (!response.ok || !data.pin) {
+  const details =
+    data.details
+      ? JSON.stringify(data.details)
+      : "";
+
+  throw new Error(
+    `${data.error || "Impossible d'obtenir le code."} ${details}`
+  );
+}
 
         setPin(String(data.pin).replace(/\D/g, ""));
       } catch (err) {
