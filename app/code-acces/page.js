@@ -136,24 +136,29 @@ export default function CodeAccesPage() {
             </div>
           )}
 
-          {!loading && !error && (
-            <div
-  style={{
-    width: "100%",
-    minHeight: "90px",
-    display: "flex",
-    alignItems: "center",
-    justifyContent: "center",
-    fontSize: "clamp(26px, 8vw, 38px)",
-    fontWeight: "700",
-    letterSpacing: "3px",
-    textAlign: "center",
-    whiteSpace: "nowrap",
-  }}
->
-  {pin}
-</div>
-          )}
+         {!loading && !error && (
+  <div
+    style={{
+      width: "100%",
+      minHeight: "90px",
+      display: "flex",
+      alignItems: "center",
+      justifyContent: "center",
+      flexWrap: "nowrap",
+      boxSizing: "border-box",
+      padding: "0 8px",
+      fontSize: "clamp(24px, 6vw, 38px)",
+      fontWeight: "700",
+      letterSpacing: "2px",
+      textAlign: "center",
+      whiteSpace: "nowrap",
+      wordBreak: "normal",
+      overflowWrap: "normal",
+    }}
+  >
+    {pin}
+  </div>
+)}
         </div>
 
         {!loading && !error && (
