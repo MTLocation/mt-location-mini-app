@@ -52,6 +52,7 @@ export default function CodeAccesPage() {
         background: "#080808",
         color: "#ffffff",
         display: "flex",
+        flexDirection: "column",
         justifyContent: "flex-start",
         alignItems: "center",
         padding: "5px 20px 20px",
