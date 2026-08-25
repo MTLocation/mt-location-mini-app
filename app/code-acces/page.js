@@ -20,6 +20,7 @@ export default function CodeAccesPage() {
           );
         }
 
+        // On garde seulement les chiffres du code Igloohome
         setPin(String(data.pin).replace(/\D/g, ""));
       } catch (err) {
         setError(err.message);
@@ -47,215 +48,266 @@ export default function CodeAccesPage() {
   return (
     <>
       <style>{`
+        * {
+          box-sizing: border-box;
+        }
+
+        html,
+        body {
+          margin: 0;
+          padding: 0;
+          background: #080808;
+        }
+
         .code-page {
           min-height: 100vh;
           width: 100%;
           background: #080808;
           color: #ffffff;
-          display: flex;
-          flex-direction: column;
-          align-items: center;
-          justify-content: flex-start;
-          box-sizing: border-box;
-          padding: 8px 18px 24px;
           font-family: Arial, sans-serif;
+
+          display: flex;
+          justify-content: flex-start;
+          align-items: center;
+
+          padding: 8px 18px 24px;
         }
 
         .code-wrapper {
           width: 100%;
           max-width: 430px;
+          margin: 0 auto;
           text-align: center;
         }
 
-        .code-logo {
-          width: 180px;
-          max-width: 62vw;
-          height: auto;
+        .logo {
           display: block;
-          margin: 0 auto 12px;
+          width: 190px;
+          max-width: 65%;
+          height: auto;
+          object-fit: contain;
+          margin: 0 auto 18px;
         }
 
-        .code-title {
-          margin: 0 0 6px;
-          font-size: 28px;
+        .title {
+          margin: 0 0 10px;
+          font-size: 30px;
           line-height: 1.1;
+          font-weight: 800;
         }
 
-        .code-subtitle {
-          margin: 0 0 16px;
-          color: #aaaaaa;
-          font-size: 15px;
+        .subtitle {
+          margin: 0 0 20px;
+          color: #bcbcbc;
+          font-size: 16px;
           line-height: 1.35;
         }
 
         .pin-box {
           width: 100%;
-          min-height: 120px;
-          background: #151515;
-          border: 1px solid #444444;
-          border-radius: 18px;
-          box-sizing: border-box;
-          padding: 18px 10px;
+          min-height: 125px;
+
           display: flex;
           align-items: center;
           justify-content: center;
-          overflow: hidden;
+
+          background: #151515;
+          border: 1px solid #555555;
+          border-radius: 18px;
+
+          padding: 20px 12px;
         }
 
-        .pin-value {
+        .loading {
+          font-size: 16px;
+          color: #aaaaaa;
+        }
+
+        .error {
+          font-size: 15px;
+          line-height: 1.4;
+          color: #aaaaaa;
+        }
+
+        .pin {
           width: 100%;
-          font-size: 30px;
-          line-height: 1;
-          font-weight: 700;
-          letter-spacing: 1px;
           text-align: center;
           white-space: nowrap;
-          word-break: normal;
-          overflow-wrap: normal;
+
+          font-size: clamp(27px, 8vw, 38px);
+          line-height: 1;
+          font-weight: 800;
+          letter-spacing: 2px;
         }
 
         .copy-button {
           width: 100%;
-          margin-top: 10px;
-          padding: 13px;
+          margin-top: 12px;
+
+          padding: 14px 12px;
+
+          background: #0b0b0b;
           border: 1px solid #666666;
           border-radius: 12px;
-          background: #0b0b0b;
+
           color: #ffffff;
-          font-size: 15px;
+          font-size: 16px;
           font-weight: 700;
-          box-sizing: border-box;
+
+          cursor: pointer;
         }
 
-        .delay-text {
-          width: 100%;
-          margin: 14px 0 0;
-          color: #aaaaaa;
-          font-size: 13px;
+        .copy-button:disabled {
+          opacity: 0.5;
+          cursor: default;
+        }
+
+        .notice {
+          margin: 18px auto 0;
+          max-width: 390px;
+
+          color: #bcbcbc;
+          font-size: 14px;
           line-height: 1.4;
-          text-align: center;
         }
 
         .good-road {
-          margin-top: 18px;
-          font-size: 25px;
+          margin: 22px 0 0;
+          font-size: 26px;
           line-height: 1.1;
-          font-weight: 700;
+          font-weight: 800;
         }
 
-        .brand {
-          margin: 6px 0 0;
-          color: #aaaaaa;
+        .company {
+          margin: 8px 0 0;
+          color: #bcbcbc;
           font-size: 13px;
+          font-weight: 600;
         }
 
-        .status-text {
-          font-size: 15px;
-          color: #aaaaaa;
-          line-height: 1.4;
-        }
-
-        @media (min-width: 700px) {
+        @media (max-width: 480px) {
           .code-page {
-            padding-top: 18px;
+            min-height: 100svh;
+            padding: 6px 16px 18px;
           }
 
-          .code-logo {
-            width: 220px;
-            margin-bottom: 20px;
+          .code-wrapper {
+            max-width: 390px;
           }
 
-          .code-title {
-            font-size: 32px;
-            margin-bottom: 10px;
+          .logo {
+            width: 165px;
+            margin-bottom: 14px;
           }
 
-          .code-subtitle {
-            font-size: 16px;
-            margin-bottom: 20px;
+          .title {
+            font-size: 26px;
+            margin-bottom: 8px;
+          }
+
+          .subtitle {
+            font-size: 14px;
+            margin-bottom: 16px;
           }
 
           .pin-box {
-            min-height: 150px;
+            min-height: 105px;
+            padding: 16px 10px;
+            border-radius: 16px;
           }
 
-          .pin-value {
-            font-size: 34px;
+          .pin {
+            font-size: 30px;
+            letter-spacing: 1px;
           }
 
-          .delay-text {
-            font-size: 14px;
+          .copy-button {
+            margin-top: 10px;
+            padding: 12px 10px;
+            font-size: 15px;
+          }
+
+          .notice {
+            margin-top: 15px;
+            font-size: 13px;
+            line-height: 1.35;
           }
 
           .good-road {
-            font-size: 28px;
-            margin-top: 24px;
+            margin-top: 18px;
+            font-size: 24px;
+          }
+
+          .company {
+            margin-top: 6px;
+            font-size: 12px;
           }
         }
       `}</style>
 
       <main className="code-page">
         <div className="code-wrapper">
+
           <img
             src="/logo-mt.PNG"
             alt="MT Location Remorques"
-            className="code-logo"
+            className="logo"
           />
 
-          <h1 className="code-title">
+          <h1 className="title">
             Votre code d’accès
           </h1>
 
-          <p className="code-subtitle">
+          <p className="subtitle">
             Utilisez ce code pour déverrouiller la remorque.
           </p>
 
           <div className="pin-box">
             {loading && (
-              <div className="status-text">
+              <div className="loading">
                 Génération du code...
               </div>
             )}
 
             {!loading && error && (
-              <div className="status-text">
+              <div className="error">
                 {error}
               </div>
             )}
 
             {!loading && !error && (
-              <div className="pin-value">
+              <div className="pin">
                 {pin}
               </div>
             )}
           </div>
 
           {!loading && !error && (
-            <>
-              <button
-                type="button"
-                onClick={handleCopyPin}
-                className="copy-button"
-              >
-                {copied ? "Code copié ✓" : "Copier le code"}
-              </button>
-
-              <p className="delay-text">
-                Votre code restera valide jusqu’à 30 minutes après
-                l’heure prévue de votre retour.
-                <br />
-                Veuillez nous aviser à l’avance de tout retard potentiel.
-              </p>
-
-              <div className="good-road">
-                Bonne route!
-              </div>
-
-              <p className="brand">
-                MT Location Remorques
-              </p>
-            </>
+            <button
+              type="button"
+              onClick={handleCopyPin}
+              disabled={!pin}
+              className="copy-button"
+            >
+              {copied ? "Code copié ✓" : "Copier le code"}
+            </button>
           )}
+
+          <p className="notice">
+            Votre code restera valide jusqu’à 30 minutes après
+            l’heure prévue de votre retour.
+            <br />
+            Veuillez nous aviser à l’avance de tout retard potentiel.
+          </p>
+
+          <h2 className="good-road">
+            Bonne route!
+          </h2>
+
+          <p className="company">
+            MT Location Remorques
+          </p>
+
         </div>
       </main>
     </>
