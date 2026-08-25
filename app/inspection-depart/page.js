@@ -173,6 +173,9 @@ export default function InspectionDepart() {
 
         <button
           type="button"
+onClick={() => {
+  window.location.href = "/code-acces";
+}}
           disabled={!allPhotosTaken}
           style={{
             width: "100%",
