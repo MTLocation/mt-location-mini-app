@@ -98,76 +98,153 @@ const parseBooqableLocalDate = (dateString) => {
   );
 };
 
-const start = parseBooqableLocalDate(reservationStart);
-const end = parseBooqableLocalDate(reservationEnd);
+// ----------------------------------------------------
+// HEURES DE RÉSERVATION - HEURE LOCALE DU QUÉBEC
+// ----------------------------------------------------
 
-// Marge MT Location
-start.setMinutes(start.getMinutes() - 30);
-end.setMinutes(end.getMinutes() + 30);
+// Booqable renvoie par exemple :
+// 2026-08-24T22:00:00.000000+00:00
+//
+// Pour MT Location, le 22:00 doit rester 22:00 au Québec.
+// On extrait donc les chiffres sans laisser JavaScript
+// convertir automatiquement le fuseau horaire.
+
+const parseWallClock = (dateString) => {
+  const match = dateString.match(
+    /(\d{4})-(\d{2})-(\d{2})T(\d{2}):(\d{2}):(\d{2})/
+  );
+
+  if (!match) {
+    throw new Error("Format de date Booqable invalide.");
+  }
+
+  return new Date(
+    Date.UTC(
+      Number(match[1]),
+      Number(match[2]) - 1,
+      Number(match[3]),
+      Number(match[4]),
+      Number(match[5]),
+      Number(match[6])
+    )
+  );
+};
+
+const start = parseWallClock(reservationStart);
+const end = parseWallClock(reservationEnd);
+
+// ----------------------------------------------------
+// MARGE MT LOCATION
+// ----------------------------------------------------
+
+// 30 minutes avant
+start.setUTCMinutes(start.getUTCMinutes() - 30);
+
+// 30 minutes après
+end.setUTCMinutes(end.getUTCMinutes() + 30);
 
 // Igloohome Hourly exige des heures pleines.
 
 // Début : heure pleine précédente
-start.setMinutes(0, 0, 0);
-    // Début : heure pleine précédente
-start.setMinutes(0, 0, 0);
-
-// Si cette heure est déjà passée,
-// utiliser la prochaine heure pleine
-const now = new Date();
-
-if (start < now) {
-  start.setTime(now.getTime());
-  start.setMinutes(0, 0, 0);
-  start.setHours(start.getHours() + 1);
-}
+start.setUTCMinutes(0, 0, 0);
 
 // Fin : heure pleine suivante
 if (
-  end.getMinutes() !== 0 ||
-  end.getSeconds() !== 0 ||
-  end.getMilliseconds() !== 0
+  end.getUTCMinutes() !== 0 ||
+  end.getUTCSeconds() !== 0 ||
+  end.getUTCMilliseconds() !== 0
 ) {
-  end.setHours(end.getHours() + 1);
+  end.setUTCHours(end.getUTCHours() + 1);
 }
-end.setMinutes(0, 0, 0);
 
-// Sécurité : la fin doit toujours être après le début
+end.setUTCMinutes(0, 0, 0);
+
+// ----------------------------------------------------
+// HEURE ACTUELLE AU QUÉBEC
+// ----------------------------------------------------
+
+const nowTorontoParts = new Intl.DateTimeFormat("en-CA", {
+  timeZone: "America/Toronto",
+  year: "numeric",
+  month: "2-digit",
+  day: "2-digit",
+  hour: "2-digit",
+  minute: "2-digit",
+  second: "2-digit",
+  hourCycle: "h23",
+}).formatToParts(new Date());
+
+const nowValues = {};
+
+nowTorontoParts.forEach((part) => {
+  nowValues[part.type] = part.value;
+});
+
+// On construit une "horloge Québec" sans conversion UTC.
+const nowToronto = new Date(
+  Date.UTC(
+    Number(nowValues.year),
+    Number(nowValues.month) - 1,
+    Number(nowValues.day),
+    Number(nowValues.hour),
+    Number(nowValues.minute),
+    Number(nowValues.second)
+  )
+);
+
+// Si la période théorique du PIN a déjà commencé,
+// Igloohome refuse de créer un PIN rétroactivement.
+//
+// On utilise donc la prochaine heure pleine.
+if (start < nowToronto) {
+  start.setTime(nowToronto.getTime());
+  start.setUTCMinutes(0, 0, 0);
+  start.setUTCHours(start.getUTCHours() + 1);
+}
+
+// Sécurité : la fin doit toujours être après le début.
 if (end <= start) {
   end.setTime(start.getTime());
-  end.setHours(end.getHours() + 1);
-}
-// Fin : heure pleine suivante
-if (
-  end.getMinutes() !== 0 ||
-  end.getSeconds() !== 0 ||
-  end.getMilliseconds() !== 0
-) {
-  end.setHours(end.getHours() + 1);
+  end.setUTCHours(end.getUTCHours() + 1);
 }
 
-end.setMinutes(0, 0, 0);
+// ----------------------------------------------------
+// DÉCALAGE QUÉBEC : -04:00 été / -05:00 hiver
+// ----------------------------------------------------
 
-// Trouver automatiquement le bon décalage Toronto
-// (-04:00 l'été, -05:00 l'hiver)
-const getTorontoOffset = (date) => {
+const getTorontoOffset = (wallClockDate) => {
+  const testDate = new Date(
+    Date.UTC(
+      wallClockDate.getUTCFullYear(),
+      wallClockDate.getUTCMonth(),
+      wallClockDate.getUTCDate(),
+      12,
+      0,
+      0
+    )
+  );
+
   const parts = new Intl.DateTimeFormat("en-CA", {
     timeZone: "America/Toronto",
     timeZoneName: "longOffset",
-  }).formatToParts(date);
+  }).formatToParts(testDate);
 
-  const offset =
-    parts.find((part) => part.type === "timeZoneName")?.value ||
-    "GMT-04:00";
+  const zone = parts.find(
+    (part) => part.type === "timeZoneName"
+  )?.value;
 
-  return offset.replace("GMT", "");
+  return zone?.replace("GMT", "") || "-04:00";
 };
 
+// ----------------------------------------------------
+// FORMAT IGLOOHOME
+// ----------------------------------------------------
+
 const formatIgloohomeDate = (date) => {
-  const year = date.getFullYear();
-  const month = String(date.getMonth() + 1).padStart(2, "0");
-  const day = String(date.getDate()).padStart(2, "0");
-  const hour = String(date.getHours()).padStart(2, "0");
+  const year = date.getUTCFullYear();
+  const month = String(date.getUTCMonth() + 1).padStart(2, "0");
+  const day = String(date.getUTCDate()).padStart(2, "0");
+  const hour = String(date.getUTCHours()).padStart(2, "0");
 
   const offset = getTorontoOffset(date);
 
