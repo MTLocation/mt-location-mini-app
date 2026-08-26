@@ -28,56 +28,70 @@ async function savePin(request) {
       );
     }
 
-    const url =
-      `https://mt-location-remorques.booqable.com/api/4/orders/${orderId}`;
-
-    const booqableResponse = await fetch(url, {
-      method: "PUT",
-      headers: {
-        Authorization: `Bearer ${apiKey}`,
-        "Content-Type": "application/json",
-        Accept: "application/json",
-      },
-      body: JSON.stringify({
-        data: {
-          id: orderId,
-          type: "orders",
-          attributes: {
-            properties_attributes: [
-              {
-                identifier: "igloohome_pin",
-                value: String(pin),
-              },
-              {
-                identifier: "igloohome_pin_id",
-                value: String(pinId),
-              },
-            ],
+    const createProperty = async ({
+      name,
+      identifier,
+      value,
+    }) => {
+      const response = await fetch(
+        "https://mt-location-remorques.booqable.com/api/4/properties",
+        {
+          method: "POST",
+          headers: {
+            Authorization: `Bearer ${apiKey}`,
+            "Content-Type": "application/json",
+            Accept: "application/json",
           },
-        },
-      }),
+          body: JSON.stringify({
+            data: {
+              type: "properties",
+              attributes: {
+                name,
+                identifier,
+                property_type: "text_field",
+                value: String(value),
+                owner_id: orderId,
+                owner_type: "orders",
+              },
+            },
+          }),
+        }
+      );
+
+      const text = await response.text();
+
+      let data;
+
+      try {
+        data = JSON.parse(text);
+      } catch {
+        data = text;
+      }
+
+      if (!response.ok) {
+        throw new Error(
+          `${name}: ${
+            typeof data === "string"
+              ? data
+              : JSON.stringify(data)
+          }`
+        );
+      }
+
+      return data;
+    };
+
+    const pinProperty = await createProperty({
+      name: "Igloohome PIN",
+      identifier: "igloohome_pin",
+      value: pin,
     });
 
-    const responseText = await booqableResponse.text();
-
-    let responseData;
-
-    try {
-      responseData = JSON.parse(responseText);
-    } catch {
-      responseData = responseText;
-    }
-
-    if (!booqableResponse.ok) {
-      return Response.json(
-        {
-          success: false,
-          error: "Impossible d'enregistrer le PIN dans Booqable.",
-          details: responseData,
-        },
-        { status: booqableResponse.status }
-      );
-    }
+    const pinIdProperty = await createProperty({
+      name: "Igloohome PIN ID",
+      identifier: "igloohome_pin_id",
+      value: pinId,
+    });
 
     return Response.json({
       success: true,
@@ -85,12 +99,14 @@ async function savePin(request) {
       pin,
       pinId,
       message: "PIN enregistré dans Booqable.",
+      pinPropertyId: pinProperty?.data?.id,
+      pinIdPropertyId: pinIdProperty?.data?.id,
     });
   } catch (error) {
     return Response.json(
       {
         success: false,
-        error: "Erreur serveur.",
+        error: "Erreur lors de l'enregistrement du PIN.",
         details: error.message,
       },
       { status: 500 }
