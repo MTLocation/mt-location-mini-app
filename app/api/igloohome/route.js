@@ -137,8 +137,8 @@ const end = parseWallClock(reservationEnd);
 // MARGE MT LOCATION
 // ----------------------------------------------------
 
-// 30 minutes avant
-start.setUTCMinutes(start.getUTCMinutes() - 30);
+// 1 heure avant
+start.setUTCHours(start.getUTCHours() - 1);
 
 // 30 minutes après
 end.setUTCMinutes(end.getUTCMinutes() + 30);
