@@ -1,6 +1,6 @@
 "use client";
 
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import { useRouter } from "next/navigation";
 export default function PriseDePossession() {
   const [email, setEmail] = useState("");
@@ -9,7 +9,14 @@ export default function PriseDePossession() {
   const [erreur, setErreur] = useState("");
 
   const router = useRouter();
+useEffect(() => {
+  const params = new URLSearchParams(window.location.search);
+  const remorque = params.get("remorque");
 
+  if (remorque) {
+    sessionStorage.setItem("mtRemorque", remorque);
+  }
+}, []);
   async function rechercherReservation() {
     setErreur("");
 
