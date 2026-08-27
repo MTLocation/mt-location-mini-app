@@ -65,11 +65,12 @@ export async function POST(request) {
 
     // 2. Chercher les commandes de ce client
     const ordersUrl =
-  `${baseUrl}/orders.json` +
-  `?filter[customer_id][eq]=${encodeURIComponent(customer.id)}` +
-  `&include=customer,lines.item` +
-  `&sort=-starts_at` +
-  `&page[size]=100`;
+      `${baseUrl}/orders.json` +
+      `?filter[customer_id][eq]=${encodeURIComponent(customer.id)}` +
+      `&include=customer,lines.item` +
+      `&sort=-starts_at` +
+      `&page[size]=100`;
+
     const ordersResponse = await fetch(ordersUrl, {
       headers: {
         Authorization: `Bearer ${apiKey}`,
@@ -81,7 +82,6 @@ export async function POST(request) {
     if (!ordersResponse.ok) {
       const errorText = await ordersResponse.text();
 
-  
       return Response.json(
         {
           success: false,
@@ -92,65 +92,58 @@ export async function POST(request) {
       );
     }
 
-   
-
     const ordersData = await ordersResponse.json();
-const orders = ordersData.data || [];
-  
-const nowLocal = new Date();
+    const orders = ordersData.data || [];
 
-const formatter = new Intl.DateTimeFormat("en-CA", {
-  timeZone: "America/Toronto",
-  year: "numeric",
-  month: "2-digit",
-  day: "2-digit",
-  hour: "2-digit",
-  minute: "2-digit",
-  second: "2-digit",
-  hour12: false,
-});
+    const nowLocal = new Date();
 
-const parts = Object.fromEntries(
-  formatter
-    .formatToParts(nowLocal)
-    .filter((part) => part.type !== "literal")
-    .map((part) => [part.type, part.value])
-);
+    const formatter = new Intl.DateTimeFormat("en-CA", {
+      timeZone: "America/Toronto",
+      year: "numeric",
+      month: "2-digit",
+      day: "2-digit",
+      hour: "2-digit",
+      minute: "2-digit",
+      second: "2-digit",
+      hour12: false,
+    });
 
-const now = new Date(
-  Date.UTC(
-    Number(parts.year),
-    Number(parts.month) - 1,
-    Number(parts.day),
-    Number(parts.hour),
-    Number(parts.minute),
-    Number(parts.second)
-  )
-);
+    const parts = Object.fromEntries(
+      formatter
+        .formatToParts(nowLocal)
+        .filter((part) => part.type !== "literal")
+        .map((part) => [part.type, part.value])
+    );
 
-const order = orders.find((item) => {
-  if (
-    item.status !== "reserved" &&
-    item.status !== "started"
-  ) {
-    return false;
-  }
+    const now = new Date(
+      Date.UTC(
+        Number(parts.year),
+        Number(parts.month) - 1,
+        Number(parts.day),
+        Number(parts.hour),
+        Number(parts.minute),
+        Number(parts.second)
+      )
+    );
 
-  const startsAt = new Date(item.starts_at);
-  const stopsAt = new Date(item.stops_at);
+    const order = orders.find((item) => {
+      if (
+        item.status !== "reserved" &&
+        item.status !== "started"
+      ) {
+        return false;
+      }
 
-  // Accès permis 30 minutes avant la prise de possession
-  const accessStartsAt = new Date(
-    startsAt.getTime() - 30 * 60 * 1000
-  );
+      const startsAt = new Date(item.starts_at);
+      const stopsAt = new Date(item.stops_at);
 
-  return now >= accessStartsAt && now <= stopsAt;
-});
-console.log(
-  "COMMANDE ACTIVE TROUVEE:",
-  JSON.stringify(order, null, 2)
-);    
-        
+      // Accès permis 30 minutes avant la prise de possession
+      const accessStartsAt = new Date(
+        startsAt.getTime() - 30 * 60 * 1000
+      );
+
+      return now >= accessStartsAt && now <= stopsAt;
+    });
 
     if (!order) {
       return Response.json(
@@ -162,13 +155,18 @@ console.log(
         { status: 404 }
       );
     }
-    console.log(
-  
-  JSON.stringify(order, null, 2)
-);
-  order.lines?.[0]?.item?.name ||
-  order.lines?.[0]?.title ||
-  "Remorque";
+
+    // Temporaire : voir exactement ce que Booqable retourne
+    console.log(
+      "COMMANDE ACTIVE TROUVEE:",
+      JSON.stringify(order, null, 2)
+    );
+
+    const trailerName =
+      order.lines?.[0]?.item?.name ||
+      order.lines?.[0]?.title ||
+      "Remorque";
+
     return Response.json({
       success: true,
       found: true,
@@ -183,7 +181,7 @@ console.log(
         status: order.status,
         startsAt: order.starts_at,
         stopsAt: order.stops_at,
-          trailerName
+        trailerName,
       },
     });
   } catch (error) {
