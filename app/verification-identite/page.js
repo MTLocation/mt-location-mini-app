@@ -69,7 +69,7 @@ export default function VerificationIdentite() {
             margin: "0 0 8px",
           }}
         >
-          Vérification d’identité
+          Identité
         </h1>
 
         <p
