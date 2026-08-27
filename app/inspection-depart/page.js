@@ -12,11 +12,11 @@ export default function InspectionDepart() {
   });
 
   const photoLabels = {
-    avant: "Avant",
-    arriere: "Arrière",
-    conducteur: "Côté conducteur",
-    passager: "Côté passager",
-    interieur: "Intérieur",
+    avant: "AVANT",
+    arriere: "ARRIÈRE",
+    conducteur: "CÔTÉ CONDUCTEUR",
+    passager: "CÔTÉ PASSAGER",
+    interieur: "INTÉRIEUR",
   };
 
   function handlePhotoChange(key, file) {
@@ -71,7 +71,7 @@ export default function InspectionDepart() {
             margin: "0 0 8px",
           }}
         >
-          Photos de la remorque
+          Photos
         </h1>
 
         <p
