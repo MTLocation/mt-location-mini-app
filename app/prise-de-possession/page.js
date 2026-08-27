@@ -1,10 +1,18 @@
 "use client";
 
-import { useSearchParams } from "next/navigation";
+import { useEffect, useState } from "react";
 
 export default function PriseDePossession() {
-  const searchParams = useSearchParams();
-  const remorque = searchParams.get("remorque") || "7x14";
+  const [remorque, setRemorque] = useState("7x14");
+
+  useEffect(() => {
+    const params = new URLSearchParams(window.location.search);
+    const valeur = params.get("remorque");
+
+    if (valeur) {
+      setRemorque(valeur);
+    }
+  }, []);
 
   const remorqueLabel =
     remorque === "7x14"
@@ -93,7 +101,6 @@ export default function PriseDePossession() {
         >
           <div
             style={{
-              width: "100%",
               fontSize: "23px",
               fontWeight: "700",
             }}
@@ -103,10 +110,8 @@ export default function PriseDePossession() {
 
           <div
             style={{
-              width: "100%",
               color: "#aaaaaa",
               fontSize: "16px",
-              fontWeight: "400",
               marginTop: "12px",
             }}
           >
@@ -126,7 +131,6 @@ export default function PriseDePossession() {
         >
           <div
             style={{
-              width: "100%",
               fontSize: "23px",
               fontWeight: "700",
             }}
@@ -136,10 +140,8 @@ export default function PriseDePossession() {
 
           <div
             style={{
-              width: "100%",
               color: "#aaaaaa",
               fontSize: "16px",
-              fontWeight: "400",
               marginTop: "12px",
             }}
           >
