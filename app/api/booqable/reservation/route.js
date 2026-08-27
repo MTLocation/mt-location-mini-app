@@ -80,10 +80,8 @@ export async function POST(request) {
 
     if (!ordersResponse.ok) {
       const errorText = await ordersResponse.text();
-const trailerName =
-  order.lines?.[0]?.item?.name ||
-  order.lines?.[0]?.title ||
-  "Remorque";
+
+  
       return Response.json(
         {
           success: false,
@@ -162,7 +160,10 @@ const order = orders.find((item) => {
         { status: 404 }
       );
     }
-
+const trailerName =
+  order.lines?.[0]?.item?.name ||
+  order.lines?.[0]?.title ||
+  "Remorque";
     return Response.json({
       success: true,
       found: true,
