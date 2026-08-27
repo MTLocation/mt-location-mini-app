@@ -108,7 +108,7 @@ setPin(String(data.pin).replace(/\D/g, ""));
             textAlign: "center",
           }}
         >
-          Votre code d’accès
+          Code accès
         </h1>
 
         <p
@@ -121,7 +121,7 @@ setPin(String(data.pin).replace(/\D/g, ""));
             textAlign: "center",
           }}
         >
-          Utilisez ce code pour déverrouiller la remorque.
+          Code de déverrouillage.
         </p>
 
         <div
@@ -210,10 +210,7 @@ setPin(String(data.pin).replace(/\D/g, ""));
                 textAlign: "center",
               }}
             >
-              Votre code restera valide jusqu’à 30 minutes après
-              l’heure prévue de votre retour.
-              <br />
-              Veuillez nous aviser à l’avance de tout retard potentiel.
+              En cas de retard, veuillez nous aviser à l'avance.
             </p>
 
             <div
