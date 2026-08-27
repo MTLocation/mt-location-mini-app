@@ -19,38 +19,29 @@ if (!stored) {
 
 const reservationData = JSON.parse(stored);
 
-const startDate = reservationData?.reservation?.startsAt;
-const endDate = reservationData?.reservation?.stopsAt;
+const orderId = reservationData?.reservation?.id;
 
-if (!startDate || !endDate) {
-  throw new Error("Dates de réservation introuvables.");
+if (!orderId) {
+  throw new Error("Réservation introuvable.");
 }
 
-const response = await fetch("/api/igloohome", {
-  method: "POST",
-  headers: {
-    "Content-Type": "application/json",
-  },
-  body: JSON.stringify({
-    startDate,
-    endDate,
-  }),
-});
-        const data = await response.json();
-        alert(JSON.stringify(data, null, 2));
+const response = await fetch(
+  `/api/booqable/pin?orderId=${encodeURIComponent(orderId)}`,
+  {
+    method: "GET",
+    cache: "no-store",
+  }
+);
 
-       if (!response.ok || !data.pin) {
-  const details =
-    data.details
-      ? JSON.stringify(data.details)
-      : "";
+const data = await response.json();
 
+if (!response.ok || !data.pin) {
   throw new Error(
-    `${data.error || "Impossible d'obtenir le code."} ${details}`
+    data.error || "Impossible d'obtenir le code d'accès."
   );
 }
 
-        setPin(String(data.pin).replace(/\D/g, ""));
+setPin(String(data.pin).replace(/\D/g, ""));
       } catch (err) {
         setError(err.message);
       } finally {
