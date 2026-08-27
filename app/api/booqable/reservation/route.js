@@ -65,12 +65,11 @@ export async function POST(request) {
 
     // 2. Chercher les commandes de ce client
     const ordersUrl =
-      `${baseUrl}/orders.json` +
-      `?filter[customer_id][eq]=${encodeURIComponent(customer.id)}` +
-      `&include=customer` +
-      `&sort=-starts_at` +
-      `&page[size]=100`;
-
+  `${baseUrl}/orders.json` +
+  `?filter[customer_id][eq]=${encodeURIComponent(customer.id)}` +
+  `&include=customer,lines.item` +
+  `&sort=-starts_at` +
+  `&page[size]=100`;
     const ordersResponse = await fetch(ordersUrl, {
       headers: {
         Authorization: `Bearer ${apiKey}`,
@@ -81,7 +80,10 @@ export async function POST(request) {
 
     if (!ordersResponse.ok) {
       const errorText = await ordersResponse.text();
-
+const trailerName =
+  order.lines?.[0]?.item?.name ||
+  order.lines?.[0]?.title ||
+  "Remorque";
       return Response.json(
         {
           success: false,
@@ -175,6 +177,7 @@ const order = orders.find((item) => {
         status: order.status,
         startsAt: order.starts_at,
         stopsAt: order.stops_at,
+          trailerName
       },
     });
   } catch (error) {
