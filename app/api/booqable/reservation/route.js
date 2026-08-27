@@ -159,8 +159,10 @@ const order = orders.find((item) => {
         { status: 404 }
       );
     }
-    console.log("COMMANDE TROUVEE:", JSON.stringify(orders[0], null, 2));
-const trailerName =
+    console.log(
+  "COMMANDE ACTIVE TROUVEE:",
+  JSON.stringify(order, null, 2)
+);
   order.lines?.[0]?.item?.name ||
   order.lines?.[0]?.title ||
   "Remorque";
