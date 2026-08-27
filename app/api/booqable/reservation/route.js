@@ -159,7 +159,7 @@ const order = orders.find((item) => {
         { status: 404 }
       );
     }
-    console.log("BOOQABLE ORDER SAMPLE:", JSON.stringify(orders[0], null, 2));
+    console.log("COMMANDE TROUVEE:", JSON.stringify(orders[0], null, 2));
 const trailerName =
   order.lines?.[0]?.item?.name ||
   order.lines?.[0]?.title ||
