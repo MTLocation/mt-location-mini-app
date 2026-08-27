@@ -11,6 +11,9 @@ export default function InspectionDepart() {
     interieur: null,
   });
 
+  const [uploading, setUploading] = useState(false);
+  const [error, setError] = useState("");
+
   const photoLabels = {
     avant: "AVANT",
     arriere: "ARRIÈRE",
@@ -29,9 +32,60 @@ export default function InspectionDepart() {
         preview: URL.createObjectURL(file),
       },
     }));
+
+    setError("");
   }
 
   const allPhotosTaken = Object.values(photos).every(Boolean);
+
+  async function handleContinue() {
+    if (!allPhotosTaken || uploading) return;
+
+    try {
+      setUploading(true);
+      setError("");
+
+      const stored = sessionStorage.getItem("mtReservation");
+
+      if (!stored) {
+        throw new Error("Réservation introuvable.");
+      }
+
+      const reservationData = JSON.parse(stored);
+      const orderId = reservationData?.reservation?.id;
+
+      if (!orderId) {
+        throw new Error("Numéro de réservation introuvable.");
+      }
+
+      for (const [photoType, photoData] of Object.entries(photos)) {
+        const formData = new FormData();
+
+        formData.append("file", photoData.file);
+        formData.append("orderId", orderId);
+        formData.append("category", "inspection-depart");
+        formData.append("photoType", photoType);
+
+        const response = await fetch("/api/photos/upload", {
+          method: "POST",
+          body: formData,
+        });
+
+        const data = await response.json();
+
+        if (!response.ok || !data.success) {
+          throw new Error(
+            data.error || `Erreur lors de l'envoi de la photo ${photoType}.`
+          );
+        }
+      }
+
+      window.location.href = "/code-acces";
+    } catch (err) {
+      setError(err.message || "Impossible d'enregistrer les photos.");
+      setUploading(false);
+    }
+  }
 
   return (
     <main
@@ -128,37 +182,36 @@ export default function InspectionDepart() {
               <label
                 style={{
                   display: "block",
-                  position: "relative",
-                
+                  position: "relative",
                   width: "100%",
-                  minHeight: "52px",
+                  minHeight: "52px",
                   padding: "14px",
                   boxSizing: "border-box",
                   border: "1px solid #666666",
                   borderRadius: "10px",
                   background: "#0b0b0b",
-                  cursor: "pointer",
+                  cursor: uploading ? "default" : "pointer",
                   fontWeight: "700",
-                  
-
+                  opacity: uploading ? 0.6 : 1,
                 }}
               >
                 <span
-  style={{
-  position: "absolute",
-  left: "50%",
-  top: "50%",
-  transform: "translate(-50%, -50%)",
-  whiteSpace: "nowrap",
-}}
->
-  {photos[key] ? "Reprendre" : "Photo"}
-</span>
+                  style={{
+                    position: "absolute",
+                    left: "50%",
+                    top: "50%",
+                    transform: "translate(-50%, -50%)",
+                    whiteSpace: "nowrap",
+                  }}
+                >
+                  {photos[key] ? "Reprendre" : "Photo"}
+                </span>
 
                 <input
                   type="file"
                   accept="image/*"
                   capture="environment"
+                  disabled={uploading}
                   onChange={(e) =>
                     handlePhotoChange(key, e.target.files?.[0])
                   }
@@ -171,26 +224,40 @@ export default function InspectionDepart() {
           ))}
         </div>
 
+        {error && (
+          <p
+            style={{
+              color: "#ff6b6b",
+              fontSize: "14px",
+              lineHeight: "1.4",
+              margin: "18px 0 0",
+            }}
+          >
+            {error}
+          </p>
+        )}
+
         <button
           type="button"
-onClick={() => {
-  window.location.href = "/code-acces";
-}}
-          disabled={!allPhotosTaken}
+          onClick={handleContinue}
+          disabled={!allPhotosTaken || uploading}
           style={{
             width: "100%",
             marginTop: "20px",
             padding: "16px",
             border: "1px solid #666666",
             borderRadius: "12px",
-            background: allPhotosTaken ? "#0b0b0b" : "#222222",
-            color: allPhotosTaken ? "#ffffff" : "#777777",
+            background:
+              allPhotosTaken && !uploading ? "#0b0b0b" : "#222222",
+            color:
+              allPhotosTaken && !uploading ? "#ffffff" : "#777777",
             fontSize: "17px",
             fontWeight: "700",
-            cursor: allPhotosTaken ? "pointer" : "default",
+            cursor:
+              allPhotosTaken && !uploading ? "pointer" : "default",
           }}
         >
-          Continuer
+          {uploading ? "Enregistrement..." : "Continuer"}
         </button>
       </div>
     </main>
