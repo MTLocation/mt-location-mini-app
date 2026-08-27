@@ -1,6 +1,7 @@
 "use client";
 
 import { useEffect, useState } from "react";
+
 export default function Reservation() {
   const [data, setData] = useState(null);
 
@@ -32,7 +33,7 @@ export default function Reservation() {
     return (
       <main
         style={{
-          Height: "100vh",
+          height: "100vh",
           background: "#0b0b0b",
           color: "#ffffff",
           display: "flex",
@@ -40,12 +41,13 @@ export default function Reservation() {
           justifyContent: "center",
           fontFamily: "Arial, sans-serif",
           padding: "4px 20px 12px",
-          boxSizing: "border-box",
-overflow: "hidden",
+          boxSizing: "border-box",
+          overflow: "hidden",
         }}
       >
         <div style={{ textAlign: "center" }}>
           <h1>Réservation introuvable</h1>
+
           <p style={{ color: "#aaaaaa" }}>
             Veuillez recommencer la recherche.
           </p>
@@ -61,7 +63,7 @@ overflow: "hidden",
     <main
       style={{
         height: "100vh",
-overflow: "hidden",
+        overflow: "hidden",
         background: "#0b0b0b",
         color: "#ffffff",
         display: "flex",
@@ -69,8 +71,7 @@ overflow: "hidden",
         justifyContent: "center",
         fontFamily: "Arial, sans-serif",
         padding: "8px 20px",
-        boxSizing: "border-box",
-overflow: "hidden",
+        boxSizing: "border-box",
       }}
     >
       <div style={{ width: "100%", maxWidth: "430px" }}>
@@ -81,39 +82,40 @@ overflow: "hidden",
               fontWeight: "700",
               marginBottom: "4px",
             }}
->
-        <img
-  src="/logo-mt.PNG"
-  alt="MT Location Remorques"
-  style={{
-    width: "200px",
-    maxWidth: "90%",
-    height: "auto",
-    display: "block",
-    margin: "0 auto",
-  }}
-/>
-  </div>
+          >
+            <img
+              src="/logo-mt.PNG"
+              alt="MT Location Remorques"
+              style={{
+                width: "200px",
+                maxWidth: "90%",
+                height: "auto",
+                display: "block",
+                margin: "0 auto",
+              }}
+            />
+          </div>
+
           <h1
-  style={{
-    fontSize: "28px",
-    margin: "2px 0",
-    width: "100%",
-    textAlign: "center",
-  }}
->
-  Réservation trouvée ✓
-</h1>
+            style={{
+              fontSize: "28px",
+              margin: "2px 0",
+              width: "100%",
+              textAlign: "center",
+            }}
+          >
+            Réservation trouvée ✓
+          </h1>
 
           <p
-  style={{
-    color: "#aaaaaa",
-    textAlign: "center",
-    margin: "0px 0 2px 0",
-  }}
->
-  Vérifiez votre réservation.
-</p>
+            style={{
+              color: "#aaaaaa",
+              textAlign: "center",
+              margin: "0px 0 2px 0",
+            }}
+          >
+            Vérifiez votre réservation.
+          </p>
         </div>
 
         <div
@@ -122,7 +124,7 @@ overflow: "hidden",
             border: "1px solid #333333",
             borderRadius: "18px",
             padding: "8px 14px",
-                    marginTop: "-40px",
+            marginTop: "-40px",
           }}
         >
           <div style={{ marginBottom: "0px" }}>
@@ -144,15 +146,7 @@ overflow: "hidden",
               {reservation.number || "Numéro non disponible"}
             </div>
           </div>
-<div style={{ marginBottom: "0px" }}>
-  <div style={{ color: "#aaaaaa", fontSize: "14px" }}>
-    Remorque
-  </div>
 
-  <div style={{ fontSize: "18px", fontWeight: "700" }}>
-    {reservation.trailerName || "Remorque non disponible"}
-  </div>
-</div>
           <div style={{ marginBottom: "0px" }}>
             <div style={{ color: "#aaaaaa", fontSize: "14px" }}>
               Prise de possession
@@ -175,7 +169,9 @@ overflow: "hidden",
 
           <button
             type="button"
-onClick={() => (window.location.href = "/verification-identite")}
+            onClick={() =>
+              (window.location.href = "/verification-identite")
+            }
             style={{
               width: "100%",
               padding: "17px",
