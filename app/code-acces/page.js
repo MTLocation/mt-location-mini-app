@@ -200,18 +200,7 @@ setPin(String(data.pin).replace(/\D/g, ""));
               {copied ? "Code copié ✓" : "Copier le code"}
             </button>
 
-            <p
-              style={{
-                width: "100%",
-                margin: "20px 0 0",
-                color: "#aaaaaa",
-                fontSize: "15px",
-                lineHeight: "1.5",
-                textAlign: "center",
-              }}
-            >
-              En cas de retard, veuillez nous aviser à l'avance.
-            </p>
+           
 
             <div
               style={{
