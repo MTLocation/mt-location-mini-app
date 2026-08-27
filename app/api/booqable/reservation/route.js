@@ -96,7 +96,7 @@ export async function POST(request) {
 
     const ordersData = await ordersResponse.json();
 const orders = ordersData.data || [];
-    
+   console.log("BOOQABLE ORDER SAMPLE:", JSON.stringify(orders[0], null, 2)); 
 
 const nowLocal = new Date();
 
