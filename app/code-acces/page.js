@@ -213,16 +213,7 @@ setPin(String(data.pin).replace(/\D/g, ""));
               Bonne route!
             </div>
 
-            <p
-              style={{
-                margin: "8px 0 0",
-                color: "#aaaaaa",
-                fontSize: "15px",
-                textAlign: "center",
-              }}
-            >
-              MT Location Remorques
-            </p>
+          
           </>
         )}
       </div>
