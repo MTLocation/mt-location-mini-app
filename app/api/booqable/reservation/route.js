@@ -146,7 +146,10 @@ const order = orders.find((item) => {
 
   return now >= accessStartsAt && now <= stopsAt;
 });
-    
+console.log(
+  "COMMANDE ACTIVE TROUVEE:",
+  JSON.stringify(order, null, 2)
+);    
         
 
     if (!order) {
@@ -160,7 +163,7 @@ const order = orders.find((item) => {
       );
     }
     console.log(
-  "COMMANDE ACTIVE TROUVEE:",
+  
   JSON.stringify(order, null, 2)
 );
   order.lines?.[0]?.item?.name ||
