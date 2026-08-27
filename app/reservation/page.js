@@ -144,7 +144,15 @@ overflow: "hidden",
               {reservation.number || "Numéro non disponible"}
             </div>
           </div>
+<div style={{ marginBottom: "0px" }}>
+  <div style={{ color: "#aaaaaa", fontSize: "14px" }}>
+    Remorque
+  </div>
 
+  <div style={{ fontSize: "18px", fontWeight: "700" }}>
+    {reservation.trailerName || "Remorque non disponible"}
+  </div>
+</div>
           <div style={{ marginBottom: "0px" }}>
             <div style={{ color: "#aaaaaa", fontSize: "14px" }}>
               Prise de possession
