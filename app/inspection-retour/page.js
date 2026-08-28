@@ -1,7 +1,7 @@
 "use client";
 
 import { useRouter } from "next/navigation";
-import ProgressionEtapes from "../components/ProgressionEtapes";
+import ProgressionRetour from "../components/ProgressionRetour";
 
 export default function InspectionRetour() {
   const router = useRouter();
@@ -34,7 +34,7 @@ export default function InspectionRetour() {
           textAlign: "center",
         }}
       >
-        <ProgressionEtapes etape={2} />
+        <ProgressionRetour etape={2} />
         <img
           src="/logo-mt.PNG"
           alt="MT Location Remorques"
