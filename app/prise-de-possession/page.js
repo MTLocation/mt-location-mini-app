@@ -115,7 +115,7 @@ export default function PriseDePossession() {
               marginTop: "12px",
             }}
           >
-            Prendre possession de votre remorque
+            Prise de possession
           </div>
         </button>
 
