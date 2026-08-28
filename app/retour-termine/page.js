@@ -101,9 +101,9 @@ export default function RetourTermine() {
           >
             Verrouiller la remorque
             <br />
-            Remettre les clés dans le cadenas
+            Remettre les clés
             <br />
-            Reprendre vos effets personnels
+            Verrouiller le cadenas 
           </div>
         </div>
       </div>
