@@ -1,5 +1,5 @@
 "use client";
-
+import ProgressionRetour from "../components/ProgressionRetour";
 export default function RetourTermine() {
   return (
     <main
@@ -23,6 +23,7 @@ export default function RetourTermine() {
           margin: "0 auto",
           textAlign: "center",
         }}
+<ProgressionRetour etape={4} />
       >
         <img
           src="/logo-mt.PNG"
