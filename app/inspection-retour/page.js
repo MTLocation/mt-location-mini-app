@@ -51,7 +51,7 @@ export default function InspectionRetour() {
             margin: "0 0 8px",
           }}
         >
-          État de la remorque
+          Déclaration
         </h1>
 
         <p
@@ -62,7 +62,7 @@ export default function InspectionRetour() {
             margin: "0 0 24px",
           }}
         >
-          Avez-vous constaté un dommage sur la remorque?
+          Avez-vous un dommage à déclaré?
         </p>
 
         <button
