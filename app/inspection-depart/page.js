@@ -1,6 +1,7 @@
 "use client";
 
 import { useState } from "react";
+import ProgressionEtapes from "../components/ProgressionEtapes";
 
 export default function InspectionDepart() {
   const [photos, setPhotos] = useState({
@@ -107,6 +108,7 @@ export default function InspectionDepart() {
           textAlign: "center",
         }}
       >
+        <ProgressionEtapes etape={4} />
         <img
           src="/logo-mt.PNG"
           alt="MT Location Remorques"
