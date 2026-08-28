@@ -2,6 +2,7 @@
 
 import { useEffect, useState } from "react";
 import { useRouter } from "next/navigation";
+import ProgressionEtapes from "../components/ProgressionEtapes";
 
 export default function Contrat() {
   const router = useRouter();
@@ -130,6 +131,7 @@ const [contractSigned, setContractSigned] = useState(false);
                   boxSizing: "border-box",
         }}
       >
+        <ProgressionEtapes etape={3} />
         <img
           src="/logo-mt.PNG"
           alt="MT Location Remorques"
