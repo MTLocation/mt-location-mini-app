@@ -60,7 +60,7 @@ export default function RetourTermine() {
             margin: "0 0 10px",
           }}
         >
-          Retour terminé
+          
         </h1>
 
         <p
@@ -71,7 +71,9 @@ export default function RetourTermine() {
             margin: "0 0 20px",
           }}
         >
-          Merci! Votre retour a bien été enregistré.
+          Merci! 
+            <br />
+Votre retour est complété.
         </p>
 
         <div
@@ -89,12 +91,12 @@ export default function RetourTermine() {
               lineHeight: "24px",
             }}
           >
-            Avant de quitter, assurez-vous que :
+           assurez-vous que :
           </div>
 
           <div
             style={{
-              marginTop: "12px",
+              marginTop: "6px",
               fontSize: "16px",
               lineHeight: "26px",
             }}
