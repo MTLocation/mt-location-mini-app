@@ -71,9 +71,7 @@ export default function RetourTermine() {
             margin: "0 0 20px",
           }}
         >
-          Merci! 
-            <br />
-Votre retour est complété.
+          Merci! Retour est complété.
         </p>
 
         <div
@@ -82,7 +80,7 @@ Votre retour est complété.
             border: "1px solid #444444",
             borderRadius: "18px",
             padding: "20px",
-            textAlign: "left",
+            textAlign: "center",
           }}
         >
           <div
