@@ -83,7 +83,7 @@ export default function RetourReservation() {
             margin: "0 0 8px",
           }}
         >
-          Réservation trouvée
+          Réservation 
         </h1>
 
         <p
@@ -93,7 +93,7 @@ export default function RetourReservation() {
             margin: "0 0 22px",
           }}
         >
-          Confirmez votre réservation pour débuter le retour.
+          Confirmez votre réservation.
         </p>
 
         <div
