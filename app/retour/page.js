@@ -3,7 +3,7 @@
 
 import { useEffect, useState } from "react";
 import { useRouter } from "next/navigation";
-import ProgressionEtapes from "../components/ProgressionEtapes";
+import ProgressionRetour from "../components/ProgressionRetour";
 export default function PriseDePossession() {
   const [email, setEmail] = useState("");
   const [telephone, setTelephone] = useState("");
@@ -131,7 +131,7 @@ textAlign: "center",
 marginBottom: "4px",
 }}
 >
-  <ProgressionEtapes etape={2} />
+  <ProgressionRetour etape={1} />
 <img
 src="/logo-mt.PNG"
 alt="MT Location Remorques"
