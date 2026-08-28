@@ -104,7 +104,7 @@ export default function Reservation() {
               textAlign: "center",
             }}
           >
-            Réservation trouvée ✓
+            Réservation 
           </h1>
 
           <p
