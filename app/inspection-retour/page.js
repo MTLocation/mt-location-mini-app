@@ -1,6 +1,7 @@
 "use client";
 
 import { useRouter } from "next/navigation";
+import ProgressionEtapes from "../components/ProgressionEtapes";
 
 export default function InspectionRetour() {
   const router = useRouter();
