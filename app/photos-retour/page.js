@@ -2,7 +2,7 @@
 
 import { useEffect, useState } from "react";
 import { useRouter } from "next/navigation";
-import ProgressionEtapes from "../components/ProgressionEtapes";
+import ProgressionRetour from "../components/ProgressionRetour";
 
 export default function PhotosRetour() {
   const router = useRouter();
@@ -102,6 +102,7 @@ export default function PhotosRetour() {
           textAlign: "center",
         }}
       >
+        <ProgressionRetour etape={3} />
         <img
           src="/logo-mt.PNG"
           alt="MT Location Remorques"
