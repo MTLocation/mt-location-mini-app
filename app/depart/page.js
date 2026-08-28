@@ -127,6 +127,7 @@ alignItems: "center",
 style={{
 width: "100%",
 textAlign: "center",
+  marginTop: "-45px",
 marginBottom: "4px",
 }}
 >
