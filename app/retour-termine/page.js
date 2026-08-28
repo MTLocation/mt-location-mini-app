@@ -23,8 +23,9 @@ export default function RetourTermine() {
           margin: "0 auto",
           textAlign: "center",
         }}
+>
 <ProgressionRetour etape={4} />
-      >
+      
         <img
           src="/logo-mt.PNG"
           alt="MT Location Remorques"
