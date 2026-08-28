@@ -105,7 +105,7 @@ export default function PriseDePossession() {
               fontWeight: "700",
             }}
           >
-            Débuter la location
+            Débuter 
           </div>
 
           <div
@@ -135,7 +135,7 @@ export default function PriseDePossession() {
               fontWeight: "700",
             }}
           >
-            Retourner la remorque
+            Retour 
           </div>
 
           <div
