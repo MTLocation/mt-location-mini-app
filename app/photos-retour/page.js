@@ -2,6 +2,7 @@
 
 import { useEffect, useState } from "react";
 import { useRouter } from "next/navigation";
+import ProgressionEtapes from "../components/ProgressionEtapes";
 
 export default function PhotosRetour() {
   const router = useRouter();
