@@ -1,6 +1,7 @@
 "use client";
 
 import { useEffect, useState } from "react";
+import ProgressionEtapes from "../components/ProgressionEtapes";
 
 export default function Reservation() {
   const [data, setData] = useState(null);
@@ -83,6 +84,7 @@ export default function Reservation() {
               marginBottom: "4px",
             }}
           >
+            <ProgressionEtapes etape={1} />
             <img
               src="/logo-mt.PNG"
               alt="MT Location Remorques"
