@@ -1,56 +1,96 @@
 "use client";
 
-import { useState } from "react";
 
-export default function Depart() {
+import { useEffect, useState } from "react";
+import { useRouter } from "next/navigation";
+export default function PriseDePossession() {
   const [email, setEmail] = useState("");
   const [telephone, setTelephone] = useState("");
-  const [message, setMessage] = useState("");
   const [loading, setLoading] = useState(false);
+  const [erreur, setErreur] = useState("");
 
-  async function continuer() {
-    setMessage("");
+  const router = useRouter();
+useEffect(() => {
+  const params = new URLSearchParams(window.location.search);
+  const remorque = params.get("remorque");
 
-    if (!email || !telephone) {
-      setMessage("Veuillez entrer votre courriel et votre téléphone.");
+  if (remorque) {
+    sessionStorage.setItem("mtRemorque", remorque);
+  }
+}, []);
+  async function rechercherReservation() {
+    setErreur("");
+
+    if (!email.trim()) {
+      setErreur("Veuillez entrer votre courriel.");
       return;
     }
 
-    setLoading(true);
+    if (!telephone.trim()) {
+      setErreur("Veuillez entrer votre numéro de téléphone.");
+      return;
+    }
 
     try {
+      setLoading(true);
+
       const response = await fetch("/api/booqable/reservation", {
         method: "POST",
         headers: {
           "Content-Type": "application/json",
         },
         body: JSON.stringify({
-          email,
-          telephone,
+          email: email.trim(),
+          telephone: telephone.trim(),
         }),
       });
 
       const data = await response.json();
+if (data.debug && data.orders) {
+setErreur(
+data.orders
+.map(
+(item) =>
+`#${item.number} | statut: ${item.status} | début: ${item.starts_at} | fin: ${item.stops_at}`
+)
+.join(" || ")
+);
+return;
+}
 
       if (!response.ok || !data.success) {
-        setMessage(
-          data.message || "Aucune réservation trouvée."
+        setErreur(
+          data.message || "Aucune réservation correspondante trouvée."
         );
         return;
       }
 
-      localStorage.setItem(
+      sessionStorage.setItem(
         "mtReservation",
         JSON.stringify(data)
       );
 
-      window.location.href = "/reservation";
+      router.push("/reservation");
     } catch (error) {
-      setMessage("Erreur lors de la recherche de la réservation.");
+      setErreur(
+        "Impossible de rechercher la réservation pour le moment."
+      );
     } finally {
       setLoading(false);
     }
   }
+
+  const inputStyle = {
+    width: "100%",
+    boxSizing: "border-box",
+    marginTop: "8px",
+    padding: "12px",
+    borderRadius: "10px",
+    border: "1px solid #444444",
+    background: "#0b0b0b",
+    color: "#ffffff",
+    fontSize: "16px",
+  };
 
   return (
     <main
@@ -60,7 +100,10 @@ export default function Depart() {
         background: "#0b0b0b",
         color: "#ffffff",
         fontFamily: "Arial, sans-serif",
-        padding: "30px 20px",
+display: "flex",
+justifyContent: "center",
+alignItems: "center",
+        padding: "18px 20px",
         boxSizing: "border-box",
       }}
     >
@@ -69,143 +112,169 @@ export default function Depart() {
           width: "100%",
           maxWidth: "430px",
           margin: "0 auto",
-          textAlign: "center",
         }}
       >
-        <img
-          src="/logo-mt.PNG"
-          alt="MT Location Remorques"
-          style={{
-            width: "280px",
-            maxWidth: "90%",
-            height: "auto",
-            display: "block",
-            margin: "0 auto 35px",
-          }}
-        />
-
-        <h1
-          style={{
-            fontSize: "32px",
-            marginBottom: "12px",
-          }}
-        >
-          Départ
-        </h1>
-
         <div
           style={{
-            color: "#aaaaaa",
-            fontSize: "18px",
-            marginBottom: "32px",
+            width: "100%",
+            textAlign: "center",
+            marginBottom: "18px",
           }}
         >
-          Identifiez votre réservation.
+        <div
+style={{
+width: "100%",
+textAlign: "center",
+marginBottom: "4px",
+}}
+>
+<img
+src="/logo-mt.PNG"
+alt="MT Location Remorques"
+style={{
+width: "240px",
+maxWidth: "85%",
+height: "auto",
+display: "block",
+margin: "0 auto",
+}}
+/>
+</div>
+
+          <h1
+           style={{
+margin: 0,
+width: "100%",
+textAlign: "center",
+boxSizing: "border-box",
+fontSize: "30px",
+}}
+          >
+            Départ
+          </h1>
+
+          <p
+            style={{
+width: "100%",
+              color: "#aaaaaa",
+              marginTop: "2px",
+              marginBottom: "8px",
+              textAlign: "center",
+boxSizing: "border-box",         
+              fontSize: "16px",
+            }}
+          >
+            Identifiez votre réservation.
+          </p>
         </div>
 
-        <div
-          style={{
-            background: "#151515",
-            border: "1px solid #444444",
-            borderRadius: "18px",
-            padding: "28px 20px",
-            boxSizing: "border-box",
-          }}
-        >
-          <h2
-            style={{
-              fontSize: "26px",
-              margin: "0 0 35px",
-            }}
-          >
-            Ma réservation
-          </h2>
+    <div   
+  style={{
+    width: "100%",
+    background: "#151515",
+    border: "1px solid #444444",
+    borderRadius: "18px",
+    padding: "10px",
+marginTop: "-35px",
+    boxSizing: "border-box",
+  }}
+>
+  <h2
+    style={{
+      margin: 0,
+      marginBottom: "6px",
+      width: "100%",
+      display: "flex",
+      alignItems: "center",
+      justifyContent: "center",
+      textAlign: "center",
+      fontSize: "24px",
+    }}
+  >
+    Ma réservation
+  </h2>
 
+<label
+  style={{
+    display: "block",
+    marginBottom: "14px",
+  }}
+>
+  <div
+    style={{
+      width: "100%",
+      textAlign: "center",
+      fontWeight: "700",
+      marginBottom: "8px",
+    }}
+  >
+    Courriel
+  </div>
+
+  <input
+    type="email"
+    value={email}
+    onChange={(e) => setEmail(e.target.value)}
+    placeholder="votre@email.com"
+    style={inputStyle}
+  />
+</label>
           <label
             style={{
               display: "block",
-              fontSize: "18px",
-              fontWeight: "700",
-              marginBottom: "15px",
+              marginBottom: "14px",
             }}
           >
-            Courriel
-          </label>
-
-          <input
-            type="email"
-            value={email}
-            placeholder="votre@email.com"
-            onChange={(e) => setEmail(e.target.value)}
-            style={{
-              width: "100%",
-              height: "58px",
-              background: "#0b0b0b",
-              border: "1px solid #555555",
-              borderRadius: "12px",
-              color: "#ffffff",
-              fontSize: "18px",
-              padding: "0 15px",
-              boxSizing: "border-box",
-              marginBottom: "35px",
-            }}
-          />
-
-          <label
-            style={{
-              display: "block",
-              fontSize: "18px",
-              fontWeight: "700",
-              marginBottom: "15px",
-            }}
-          >
-            Téléphone
-          </label>
-
-          <input
-            type="tel"
-            value={telephone}
-            placeholder="514 555-1234"
-            onChange={(e) => setTelephone(e.target.value)}
-            style={{
-              width: "100%",
-              height: "58px",
-              background: "#0b0b0b",
-              border: "1px solid #555555",
-              borderRadius: "12px",
-              color: "#ffffff",
-              fontSize: "18px",
-              padding: "0 15px",
-              boxSizing: "border-box",
-              marginBottom: "30px",
-            }}
-          />
-
-          {message && (
             <div
               style={{
-                color: "#ff6666",
-                marginBottom: "20px",
+                width: "100%",
+                textAlign: "center",
+                fontWeight: "700",
+                marginBottom: "8px",
               }}
             >
-              {message}
+              Téléphone
+            </div>
+
+            <input
+              type="tel"
+              value={telephone}
+              onChange={(e) => setTelephone(e.target.value)}
+              placeholder="514 555-1234"
+              style={inputStyle}
+            />
+          </label>
+
+          {erreur && (
+            <div
+              style={{
+                marginBottom: "16px",
+                color: "#ff6b6b",
+                fontSize: "14px",
+                textAlign: "center",
+              }}
+            >
+              {erreur}
             </div>
           )}
 
           <button
             type="button"
-            onClick={continuer}
+            onClick={rechercherReservation}
             disabled={loading}
             style={{
               width: "100%",
-              minHeight: "65px",
-              background: "#0b0b0b",
+              marginTop: "0px",
+              padding: "17px",
               border: "1px solid #666666",
-              borderRadius: "14px",
+              borderRadius: "12px",
+              background: "#0b0b0b",
               color: "#ffffff",
-              fontSize: "21px",
+              fontSize: "18px",
               fontWeight: "700",
-              cursor: "pointer",
+              cursor: loading ? "default" : "pointer",
+              opacity: loading ? 0.7 : 1,
+              textAlign: "center",
             }}
           >
             {loading ? "Recherche..." : "Continuer"}
