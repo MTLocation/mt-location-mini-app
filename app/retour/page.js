@@ -131,6 +131,7 @@ textAlign: "center",
 marginBottom: "4px",
 }}
 >
+  <ProgressionEtapes etape={2} />
 <img
 src="/logo-mt.PNG"
 alt="MT Location Remorques"
