@@ -3,6 +3,7 @@
 
 import { useEffect, useState } from "react";
 import { useRouter } from "next/navigation";
+import ProgressionEtapes from "../components/ProgressionEtapes";
 export default function PriseDePossession() {
   const [email, setEmail] = useState("");
   const [telephone, setTelephone] = useState("");
@@ -114,7 +115,8 @@ alignItems: "center",
           margin: "0 auto",
         }}
       >
-        <div
+        <ProgressionEtapes etape={1} />
+       <div
           style={{
             width: "100%",
             textAlign: "center",
