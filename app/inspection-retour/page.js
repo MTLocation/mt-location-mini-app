@@ -33,6 +33,7 @@ export default function InspectionRetour() {
           textAlign: "center",
         }}
       >
+        <ProgressionEtapes etape={2} />
         <img
           src="/logo-mt.PNG"
           alt="MT Location Remorques"
