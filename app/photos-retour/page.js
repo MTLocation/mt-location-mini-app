@@ -7,9 +7,15 @@ export default function PhotosRetour() {
   const router = useRouter();
 
   const [etatRetour, setEtatRetour] = useState("");
-  const [gauche, setGauche] = useState(null);
-  const [droite, setDroite] = useState(null);
-  const [interieur, setInterieur] = useState(null);
+
+  const [photos, setPhotos] = useState({
+    avant: null,
+    arriere: null,
+    conducteur: null,
+    passager: null,
+    interieur: null,
+  });
+
   const [dommage, setDommage] = useState(null);
   const [erreur, setErreur] = useState("");
 
@@ -18,11 +24,27 @@ export default function PhotosRetour() {
     setEtatRetour(etat || "");
   }, []);
 
+  function handlePhotoChange(key, file) {
+    if (!file) return;
+
+    setPhotos((prev) => ({
+      ...prev,
+      [key]: file,
+    }));
+  }
+
   function continuer() {
     setErreur("");
 
-    if (!gauche || !droite || !interieur) {
-      setErreur("Veuillez ajouter les 3 photos de la remorque.");
+    const photosCompletes =
+      photos.avant &&
+      photos.arriere &&
+      photos.conducteur &&
+      photos.passager &&
+      photos.interieur;
+
+    if (!photosCompletes) {
+      setErreur("Veuillez ajouter les 5 photos de la remorque.");
       return;
     }
 
@@ -33,6 +55,14 @@ export default function PhotosRetour() {
 
     router.push("/retour-termine");
   }
+
+  const photoLabels = {
+    avant: "AVANT",
+    arriere: "ARRIÈRE",
+    conducteur: "CÔTÉ CONDUCTEUR",
+    passager: "CÔTÉ PASSAGER",
+    interieur: "INTÉRIEUR",
+  };
 
   const blocPhoto = {
     width: "100%",
@@ -99,44 +129,27 @@ export default function PhotosRetour() {
             fontSize: "15px",
           }}
         >
-          Prenez les photos suivantes avant de quitter.
+          Prenez les 5 photos suivantes avant de quitter.
         </p>
 
-        <div style={blocPhoto}>
-          <strong>Côté gauche</strong>
+        {Object.entries(photoLabels).map(([key, label]) => (
+          <div key={key} style={blocPhoto}>
+            <strong>{label}</strong>
 
-          <input
-            type="file"
-            accept="image/*"
-            capture="environment"
-            onChange={(e) => setGauche(e.target.files?.[0] || null)}
-            style={inputStyle}
-          />
-        </div>
-
-        <div style={blocPhoto}>
-          <strong>Côté droit</strong>
-
-          <input
-            type="file"
-            accept="image/*"
-            capture="environment"
-            onChange={(e) => setDroite(e.target.files?.[0] || null)}
-            style={inputStyle}
-          />
-        </div>
-
-        <div style={blocPhoto}>
-          <strong>Intérieur</strong>
-
-          <input
-            type="file"
-            accept="image/*"
-            capture="environment"
-            onChange={(e) => setInterieur(e.target.files?.[0] || null)}
-            style={inputStyle}
-          />
-        </div>
+            <input
+              type="file"
+              accept="image/*"
+              capture="environment"
+              onChange={(e) =>
+                handlePhotoChange(
+                  key,
+                  e.target.files?.[0] || null
+                )
+              }
+              style={inputStyle}
+            />
+          </div>
+        ))}
 
         {etatRetour === "dommage" && (
           <div
@@ -145,13 +158,15 @@ export default function PhotosRetour() {
               border: "1px solid #aa5555",
             }}
           >
-            <strong>Photo du dommage</strong>
+            <strong>PHOTO DU DOMMAGE</strong>
 
             <input
               type="file"
               accept="image/*"
               capture="environment"
-              onChange={(e) => setDommage(e.target.files?.[0] || null)}
+              onChange={(e) =>
+                setDommage(e.target.files?.[0] || null)
+              }
               style={inputStyle}
             />
           </div>
