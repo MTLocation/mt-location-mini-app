@@ -1,6 +1,7 @@
 "use client";
 
 import { useState } from "react";
+import ProgressionEtapes from "../components/ProgressionEtapes";
 
 export default function VerificationIdentite() {
   const [photos, setPhotos] = useState({
@@ -105,6 +106,7 @@ export default function VerificationIdentite() {
           textAlign: "center",
         }}
       >
+        <ProgressionEtapes etape={2} />
         <img
           src="/logo-mt.PNG"
           alt="MT Location Remorques"
