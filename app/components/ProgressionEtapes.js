@@ -5,10 +5,11 @@ export default function ProgressionEtapes({ etape }) {
     <div
       style={{
         width: "100%",
-        maxWidth: "390px",
-        margin: "0 auto 12px",
+        maxWidth: "360px",
+        margin: "0 auto 6px",
         display: "flex",
         alignItems: "flex-start",
+        justifyContent: "space-between",
       }}
     >
       {etapes.map((nom, index) => {
@@ -23,13 +24,14 @@ export default function ProgressionEtapes({ etape }) {
               flex: 1,
               position: "relative",
               textAlign: "center",
+              minWidth: 0,
             }}
           >
             {index > 0 && (
               <div
                 style={{
                   position: "absolute",
-                  top: "13px",
+                  top: "11px",
                   right: "50%",
                   width: "100%",
                   height: "2px",
@@ -44,8 +46,8 @@ export default function ProgressionEtapes({ etape }) {
               style={{
                 position: "relative",
                 zIndex: 1,
-                width: "28px",
-                height: "28px",
+                width: "24px",
+                height: "24px",
                 margin: "0 auto",
                 borderRadius: "50%",
                 border: active
@@ -58,7 +60,7 @@ export default function ProgressionEtapes({ etape }) {
                 display: "flex",
                 alignItems: "center",
                 justifyContent: "center",
-                fontSize: "13px",
+                fontSize: "12px",
                 fontWeight: "700",
                 boxSizing: "border-box",
               }}
@@ -68,8 +70,10 @@ export default function ProgressionEtapes({ etape }) {
 
             <div
               style={{
-                marginTop: "5px",
-                fontSize: "11px",
+                marginTop: "3px",
+                fontSize: "10px",
+                lineHeight: "12px",
+                whiteSpace: "nowrap",
                 color:
                   active || terminee ? "#ffffff" : "#777777",
                 fontWeight: active ? "700" : "400",
