@@ -71,7 +71,7 @@ export default function RetourTermine() {
             margin: "0 0 20px",
           }}
         >
-          Merci! Retour est complété.
+          Merci! Retour complété.
         </p>
 
         <div
@@ -89,7 +89,7 @@ export default function RetourTermine() {
               lineHeight: "24px",
             }}
           >
-           assurez-vous que :
+           assurez-vous de :
           </div>
 
           <div
@@ -99,11 +99,11 @@ export default function RetourTermine() {
               lineHeight: "26px",
             }}
           >
-            ✓ La remorque est bien verrouillée
+            Verrouiller la remorque
             <br />
-            ✓ Tout l’équipement est remis en place
+            Remettre les clés dans le cadenas
             <br />
-            ✓ Vous n’avez rien oublié dans la remorque
+            Reprendre vos effets personnels
           </div>
         </div>
       </div>
