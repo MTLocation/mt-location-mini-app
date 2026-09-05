@@ -63,17 +63,19 @@ export default function Reservation() {
   return (
     <main
       style={{
-        height: "100vh",
-        overflow: "hidden",
-        background: "#0b0b0b",
-        color: "#ffffff",
-        display: "flex",
-        alignItems: "center",
-        justifyContent: "center",
-        fontFamily: "Arial, sans-serif",
-        padding: "8px 20px",
-        boxSizing: "border-box",
-      }}
+  minHeight: "100dvh",
+  width: "100%",
+  overflowY: "auto",
+  WebkitOverflowScrolling: "touch",
+  background: "#0b0b0b",
+  color: "#ffffff",
+  display: "flex",
+  alignItems: "center",
+  justifyContent: "flex-start",
+  fontFamily: "Arial, sans-serif",
+  padding: "20px 20px calc(120px + env(safe-area-inset-bottom))",
+  boxSizing: "border-box",
+}}
     >
       <div style={{ width: "100%", maxWidth: "430px" }}>
         <div style={{ textAlign: "center", marginBottom: "6px" }}>
