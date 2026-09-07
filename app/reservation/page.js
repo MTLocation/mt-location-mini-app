@@ -216,7 +216,7 @@ function continuer() {
             type="button"
             onClick={continuer}
               
-            }
+            
             style={{
               width: "100%",
               padding: "17px",
