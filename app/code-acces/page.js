@@ -242,7 +242,7 @@ setPin(String(data.pin).replace(/\D/g, ""));
       textAlign: "left",
     }}
   >
-    Il se reverrouille automatiquement après quelques secondes s’il n’est pas ouvert.
+    Il se reverrouille après quelques secondes s’il n’est pas ouvert.
   </div>
 </div>
 
