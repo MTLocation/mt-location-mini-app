@@ -183,7 +183,7 @@ export async function POST(request) {
   depositPaidInCents: order.deposit_paid_in_cents || 0,
   depositInCents: order.deposit_in_cents || 0,
   grandTotalInCents: order.grand_total_in_cents || 0,
-
+totalToBePaidInCents: order.total_to_be_paid_in_cents || 0,
   properties: order.properties || [],
 },
     });
