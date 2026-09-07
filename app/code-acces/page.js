@@ -251,7 +251,7 @@ setPin(String(data.pin).replace(/\D/g, ""));
                 marginTop: "28px",
                 fontSize: "28px",
                 fontWeight: "700",
-                textAlign: "center",
+                textAlign: "left",
               }}
             >
               Bonne route!
