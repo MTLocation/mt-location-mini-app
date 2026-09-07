@@ -229,12 +229,11 @@ setPin(String(data.pin).replace(/\D/g, ""));
     <div>2. Appuyez sur le bouton cadenas/verrouillage.</div>
 
     <div>
-      3. Dès que vous entendez le déverrouillage, ouvrez immédiatement le
-      cadenas.
+      3. Dès qu'il se déverrouille, ouvrez-le.
     </div>
 
     <div>
-      4. S’il se reverrouille, entrez simplement le code de nouveau.
+      4. S’il se reverrouille, entrez le code de à nouveau.
     </div>
   </div>
 
@@ -247,8 +246,7 @@ setPin(String(data.pin).replace(/\D/g, ""));
       textAlign: "left",
     }}
   >
-    Le cadenas se reverrouille automatiquement après quelques secondes s’il
-    n’est pas ouvert.
+    Il se reverrouille automatiquement après quelques secondes s’il n’est pas ouvert.
   </div>
 </div>
 
