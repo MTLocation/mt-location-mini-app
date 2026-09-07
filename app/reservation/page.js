@@ -59,7 +59,48 @@ export default function Reservation() {
 
   const customer = data.customer || {};
   const reservation = data.reservation || {};
+function getPropertyValue(properties, identifier) {
+  if (!properties) return null;
 
+  if (Array.isArray(properties)) {
+    const property = properties.find((item) => {
+      const id =
+        item?.identifier ||
+        item?.attributes?.identifier;
+
+      return id === identifier;
+    });
+
+    return (
+      property?.value ||
+      property?.attributes?.value ||
+      null
+    );
+  }
+
+  return properties?.[identifier]?.value ||
+    properties?.[identifier] ||
+    null;
+}
+
+function continuer() {
+  const interacPaid =
+    getPropertyValue(
+      reservation.properties,
+      "interac_payment_status"
+    ) === "paid";
+
+  const cardPaid =
+    Number(reservation.grandTotalInCents) > 0 &&
+    Number(reservation.paidInCents) >=
+      Number(reservation.grandTotalInCents);
+
+  if (cardPaid || interacPaid) {
+    window.location.href = "/verification-identite";
+  } else {
+    window.location.href = "/paiement-interac";
+  }
+}
   return (
     <main
       style={{
@@ -173,8 +214,8 @@ export default function Reservation() {
 
           <button
             type="button"
-            onClick={() =>
-              (window.location.href = "/verification-identite")
+            onClick={continuer}
+              
             }
             style={{
               width: "100%",
