@@ -172,13 +172,20 @@ export async function POST(request) {
         email: customer.email,
       },
 
-      reservation: {
-        id: order.id,
-        number: order.number,
-        status: order.status,
-        startsAt: order.starts_at,
-        stopsAt: order.stops_at,
-      },
+    reservation: {
+  id: order.id,
+  number: order.number,
+  status: order.status,
+  startsAt: order.starts_at,
+  stopsAt: order.stops_at,
+
+  paidInCents: order.paid_in_cents || 0,
+  depositPaidInCents: order.deposit_paid_in_cents || 0,
+  depositInCents: order.deposit_in_cents || 0,
+  grandTotalInCents: order.grand_total_in_cents || 0,
+
+  properties: order.properties || [],
+},
     });
   } catch (error) {
     return Response.json(
