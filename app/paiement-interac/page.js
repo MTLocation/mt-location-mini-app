@@ -264,7 +264,19 @@ export default function PaiementInterac() {
               {amount} $
             </div>
           </div>
-
+<div
+  style={{
+    marginTop: "10px",
+    color: "#aaaaaa",
+    fontSize: "14px",
+    lineHeight: "1.45",
+  }}
+>
+  Ce montant comprend un dépôt de sécurité de 250,00 $.
+  Ce dépôt vous sera remboursé après le retour de la remorque,
+  sous réserve qu’aucun dommage, frais ou montant additionnel
+  ne soit applicable.
+</div>
           <div style={{ marginBottom: "20px" }}>
             <div
               style={{
