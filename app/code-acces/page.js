@@ -199,7 +199,48 @@ setPin(String(data.pin).replace(/\D/g, ""));
             >
               {copied ? "Code copié ✓" : "Copier le code"}
             </button>
+<div
+  style={{
+    marginTop: "18px",
+    padding: "16px",
+    background: "#1f1f1f",
+    border: "1px solid #444444",
+    borderRadius: "14px",
+    textAlign: "left",
+    fontSize: "15px",
+    lineHeight: "1.6",
+  }}
+>
+  <div
+    style={{
+      fontSize: "17px",
+      fontWeight: "700",
+      marginBottom: "10px",
+    }}
+  >
+    Comment ouvrir le cadenas
+  </div>
 
+  <div>1. Entrez le code complet.</div>
+  <div>2. Appuyez sur le bouton cadenas.</div>
+  <div>
+    3. Dès que vous entendez le déverrouillage, ouvrez immédiatement le cadenas.
+  </div>
+  <div>
+    4. S’il se reverrouille, entrez simplement le code de nouveau.
+  </div>
+
+  <div
+    style={{
+      marginTop: "12px",
+      color: "#bdbdbd",
+      fontSize: "14px",
+    }}
+  >
+    Le cadenas se reverrouille automatiquement après quelques secondes s’il
+    n’est pas ouvert.
+  </div>
+</div>
            
 
             <div
