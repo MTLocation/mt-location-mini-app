@@ -228,13 +228,9 @@ setPin(String(data.pin).replace(/\D/g, ""));
 
     <div>2. Appuyez sur le bouton cadenas/verrouillage.</div>
 
-    <div>
-      3. Dès qu'il se déverrouille, ouvrez-le.
-    </div>
+    <div>3. Dès qu'il se déverrouille, ouvrez-le.</div>
 
-    <div>
-      4. S’il se reverrouille, entrez le code de à nouveau.
-    </div>
+    <div>4. S’il se reverrouille, entrez le code de à nouveau.</div>
   </div>
 
   <div
