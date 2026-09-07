@@ -223,7 +223,14 @@ setPin(String(data.pin).replace(/\D/g, ""));
     Comment ouvrir le cadenas
   </div>
 
-  <div style={{ display: "grid", gap: "14px" }}>
+  <div
+  style={{
+    display: "grid",
+    gap: "14px",
+    width: "100%",
+    textAlign: "left",
+  }}
+>
     <div>1. Entrez le code complet.</div>
 
     <div>2. Appuyez sur le bouton cadenas/verrouillage.</div>
@@ -239,7 +246,7 @@ setPin(String(data.pin).replace(/\D/g, ""));
       color: "#bdbdbd",
       fontSize: "14px",
       lineHeight: "1.5",
-      textAlign: "left",
+      textAlign: "center",
     }}
   >
     Il se reverrouille après quelques secondes s’il n’est pas ouvert.
