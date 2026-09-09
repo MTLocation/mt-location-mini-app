@@ -173,18 +173,16 @@ export default function PaiementInterac() {
 
   const reference = `MT-${reservation.number}`;
 
-  return (
+ eturn (
     <main
       style={{
         minHeight: "100dvh",
         width: "100%",
-        overflowY: "auto",
-        WebkitOverflowScrolling: "touch",
+        overflowX: "hidden",
         background: "#0b0b0b",
         color: "#ffffff",
         fontFamily: "Arial, sans-serif",
-        padding:
-          "20px 20px calc(120px + env(safe-area-inset-bottom))",
+        padding: "12px 16px calc(50px + env(safe-area-inset-bottom))",
         boxSizing: "border-box",
       }}
     >
@@ -201,17 +199,18 @@ export default function PaiementInterac() {
           src="/logo-mt.PNG"
           alt="MT Location Remorques"
           style={{
-            width: "200px",
-            maxWidth: "90%",
+            width: "175px",
+            maxWidth: "80%",
             height: "auto",
             display: "block",
-            margin: "10px auto 20px",
+            margin: "8px auto 14px",
           }}
         />
 
         <h1
           style={{
             fontSize: "28px",
+            lineHeight: "1.15",
             textAlign: "center",
             margin: "0 0 8px",
           }}
@@ -221,34 +220,36 @@ export default function PaiementInterac() {
 
         <p
           style={{
+            maxWidth: "360px",
             color: "#aaaaaa",
+            fontSize: "16px",
+            lineHeight: "1.4",
             textAlign: "center",
-            margin: "0 0 20px",
+            margin: "0 auto 16px",
           }}
         >
-          Effectuez votre virement pour poursuivre
-          la prise de possession.
+          Effectuez votre virement pour poursuivre la prise de possession.
         </p>
 
         <div
           style={{
+            width: "100%",
             background: "#151515",
             border: "1px solid #333333",
             borderRadius: "18px",
-            padding: "20px",
+            padding: "20px 18px",
+            boxSizing: "border-box",
+            textAlign: "center",
+            display: "grid",
+            gap: "20px",
           }}
         >
-          <div
-            style={{
-              marginBottom: "22px",
-              textAlign: "center",
-            }}
-          >
+          <section>
             <div
               style={{
                 color: "#aaaaaa",
                 fontSize: "14px",
-                marginBottom: "4px",
+                marginBottom: "5px",
               }}
             >
               Montant à envoyer
@@ -256,33 +257,37 @@ export default function PaiementInterac() {
 
             <div
               style={{
-                fontSize: "36px",
-                fontWeight: "700",
                 color: "#ff6b00",
+                fontSize: "36px",
+                lineHeight: "1.15",
+                fontWeight: "700",
               }}
             >
               {amount} $
             </div>
-          </div>
-<div
-  style={{
-    marginTop: "10px",
-    color: "#aaaaaa",
-    fontSize: "14px",
-    lineHeight: "1.45",
-  }}
->
-  Ce montant comprend un dépôt de sécurité de 250,00 $.
-  Ce dépôt vous sera remboursé après le retour de la remorque,
-  sous réserve qu’aucun dommage, frais ou montant additionnel
-  ne soit applicable.
-</div>
-          <div style={{ marginBottom: "20px" }}>
+          </section>
+
+          <p
+            style={{
+              maxWidth: "370px",
+              color: "#aaaaaa",
+              fontSize: "14px",
+              lineHeight: "1.45",
+              textAlign: "center",
+              margin: "0 auto",
+            }}
+          >
+            Ce montant comprend un dépôt de sécurité de 250,00 $. Il vous sera
+            remboursé après le retour de la remorque, sous réserve qu’aucun
+            dommage ou montant additionnel ne soit applicable.
+          </p>
+
+          <section>
             <div
               style={{
                 color: "#aaaaaa",
                 fontSize: "14px",
-                marginBottom: "4px",
+                marginBottom: "5px",
               }}
             >
               Envoyer le virement à
@@ -290,21 +295,22 @@ export default function PaiementInterac() {
 
             <div
               style={{
-                fontSize: "18px",
+                fontSize: "17px",
+                lineHeight: "1.35",
                 fontWeight: "700",
-                wordBreak: "break-word",
+                overflowWrap: "anywhere",
               }}
             >
               info@mtlocationremorques.ca
             </div>
-          </div>
+          </section>
 
-          <div style={{ marginBottom: "20px" }}>
+          <section>
             <div
               style={{
                 color: "#aaaaaa",
                 fontSize: "14px",
-                marginBottom: "4px",
+                marginBottom: "5px",
               }}
             >
               Message du virement
@@ -313,32 +319,31 @@ export default function PaiementInterac() {
             <div
               style={{
                 fontSize: "28px",
+                lineHeight: "1.2",
                 fontWeight: "700",
               }}
             >
               {reference}
             </div>
 
-            <div
+            <p
               style={{
+                maxWidth: "360px",
                 color: "#aaaaaa",
                 fontSize: "14px",
-                marginTop: "8px",
                 lineHeight: "1.4",
+                margin: "8px auto 0",
               }}
             >
-              Inscrivez exactement cette référence
-              dans le message du virement Interac.
-              Elle permet d’associer automatiquement
-              votre paiement à votre réservation.
-            </div>
-          </div>
+              Inscrivez exactement cette référence dans le message du virement
+              afin d’associer automatiquement le paiement à votre réservation.
+            </p>
+          </section>
 
-          <div
+          <section
             style={{
               borderTop: "1px solid #333333",
               paddingTop: "18px",
-              textAlign: "center",
             }}
           >
             {paymentReceived ? (
@@ -347,7 +352,7 @@ export default function PaiementInterac() {
                   style={{
                     fontSize: "22px",
                     fontWeight: "700",
-                    marginBottom: "8px",
+                    marginBottom: "6px",
                   }}
                 >
                   ✓ Paiement reçu
@@ -357,7 +362,7 @@ export default function PaiementInterac() {
                   style={{
                     color: "#aaaaaa",
                     fontSize: "14px",
-                    marginBottom: "16px",
+                    marginBottom: "14px",
                   }}
                 >
                   Votre paiement a été confirmé.
@@ -365,13 +370,12 @@ export default function PaiementInterac() {
 
                 <button
                   type="button"
-                  onClick={() =>
-                    (window.location.href =
-                      "/verification-identite")
-                  }
+                  onClick={() => {
+                    window.location.href = "/verification-identite";
+                  }}
                   style={{
                     width: "100%",
-                    padding: "17px",
+                    padding: "16px",
                     border: "1px solid #666666",
                     borderRadius: "12px",
                     background: "#000000",
@@ -409,7 +413,7 @@ export default function PaiementInterac() {
                 </div>
               </>
             )}
-          </div>
+          </section>
         </div>
       </div>
     </main>
