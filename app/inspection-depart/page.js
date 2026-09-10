@@ -12,6 +12,14 @@ export default function InspectionDepart() {
     interieur: null,
   });
 
+  const [processing, setProcessing] = useState({
+    avant: false,
+    arriere: false,
+    conducteur: false,
+    passager: false,
+    interieur: false,
+  });
+
   const [uploading, setUploading] = useState(false);
   const [error, setError] = useState("");
 
@@ -23,24 +31,177 @@ export default function InspectionDepart() {
     interieur: "INTÉRIEUR",
   };
 
-  function handlePhotoChange(key, file) {
+  /*
+   * Compresse automatiquement une photo avant son envoi.
+   *
+   * - Maximum 1600 px
+   * - JPEG qualité 0.78
+   * - Suffisant pour documenter l'état de la remorque
+   * - Beaucoup plus rapide à téléverser
+   */
+  async function compressImage(file) {
+    return new Promise((resolve, reject) => {
+      const imageUrl = URL.createObjectURL(file);
+      const img = new Image();
+
+      img.onload = () => {
+        try {
+          const MAX_SIZE = 1600;
+
+          let width = img.width;
+          let height = img.height;
+
+          if (width > height && width > MAX_SIZE) {
+            height = Math.round((height * MAX_SIZE) / width);
+            width = MAX_SIZE;
+          } else if (height >= width && height > MAX_SIZE) {
+            width = Math.round((width * MAX_SIZE) / height);
+            height = MAX_SIZE;
+          }
+
+          const canvas = document.createElement("canvas");
+
+          canvas.width = width;
+          canvas.height = height;
+
+          const ctx = canvas.getContext("2d");
+
+          if (!ctx) {
+            URL.revokeObjectURL(imageUrl);
+            reject(new Error("Impossible de traiter la photo."));
+            return;
+          }
+
+          ctx.drawImage(img, 0, 0, width, height);
+
+          canvas.toBlob(
+            (blob) => {
+              URL.revokeObjectURL(imageUrl);
+
+              if (!blob) {
+                reject(new Error("Impossible de compresser la photo."));
+                return;
+              }
+
+              const compressedFile = new File(
+                [blob],
+                `${Date.now()}.jpg`,
+                {
+                  type: "image/jpeg",
+                  lastModified: Date.now(),
+                }
+              );
+
+              resolve(compressedFile);
+            },
+            "image/jpeg",
+            0.78
+          );
+        } catch (err) {
+          URL.revokeObjectURL(imageUrl);
+          reject(err);
+        }
+      };
+
+      img.onerror = () => {
+        URL.revokeObjectURL(imageUrl);
+        reject(new Error("Impossible de lire cette photo."));
+      };
+
+      img.src = imageUrl;
+    });
+  }
+
+  async function handlePhotoChange(key, file) {
     if (!file) return;
 
-    setPhotos((prev) => ({
-      ...prev,
-      [key]: {
-        file,
-        preview: URL.createObjectURL(file),
-      },
-    }));
+    try {
+      setError("");
 
-    setError("");
+      setProcessing((prev) => ({
+        ...prev,
+        [key]: true,
+      }));
+
+      /*
+       * La compression commence immédiatement
+       * pendant que le client passe à la photo suivante.
+       */
+      const compressedFile = await compressImage(file);
+
+      setPhotos((prev) => {
+        if (prev[key]?.preview) {
+          URL.revokeObjectURL(prev[key].preview);
+        }
+
+        return {
+          ...prev,
+          [key]: {
+            file: compressedFile,
+            preview: URL.createObjectURL(compressedFile),
+          },
+        };
+      });
+    } catch (err) {
+      console.error("Erreur compression :", err);
+
+      setError(
+        err?.message ||
+          "Impossible de préparer cette photo. Veuillez la reprendre."
+      );
+    } finally {
+      setProcessing((prev) => ({
+        ...prev,
+        [key]: false,
+      }));
+    }
   }
 
   const allPhotosTaken = Object.values(photos).every(Boolean);
 
+  const photoBeingProcessed = Object.values(processing).some(Boolean);
+
+  async function uploadPhoto(photoType, photoData, orderId) {
+    const formData = new FormData();
+
+    formData.append("file", photoData.file);
+    formData.append("orderId", orderId);
+    formData.append("category", "inspection-depart");
+    formData.append("photoType", photoType);
+
+    const response = await fetch("/api/photos/upload", {
+      method: "POST",
+      body: formData,
+    });
+
+    let data;
+
+    try {
+      data = await response.json();
+    } catch {
+      throw new Error(
+        `Erreur lors de l'enregistrement de la photo ${photoLabels[photoType]}.`
+      );
+    }
+
+    if (!response.ok || !data.success) {
+      throw new Error(
+        data.error ||
+          `Erreur lors de l'enregistrement de la photo ${photoLabels[photoType]}.`
+      );
+    }
+
+    return data;
+  }
+
   async function handleContinue() {
-    if (!allPhotosTaken || uploading) return;
+    if (
+      !allPhotosTaken ||
+      uploading ||
+      photoBeingProcessed
+    ) {
+      return;
+    }
 
     try {
       setUploading(true);
@@ -59,31 +220,29 @@ export default function InspectionDepart() {
         throw new Error("Numéro de réservation introuvable.");
       }
 
-      for (const [photoType, photoData] of Object.entries(photos)) {
-        const formData = new FormData();
+      /*
+       * Les 5 photos compressées sont envoyées
+       * SIMULTANÉMENT.
+       */
+      await Promise.all(
+        Object.entries(photos).map(([photoType, photoData]) =>
+          uploadPhoto(photoType, photoData, orderId)
+        )
+      );
 
-        formData.append("file", photoData.file);
-        formData.append("orderId", orderId);
-        formData.append("category", "inspection-depart");
-        formData.append("photoType", photoType);
-
-        const response = await fetch("/api/photos/upload", {
-          method: "POST",
-          body: formData,
-        });
-
-        const data = await response.json();
-
-        if (!response.ok || !data.success) {
-          throw new Error(
-            data.error || `Erreur lors de l'envoi de la photo ${photoType}.`
-          );
-        }
-      }
-
+      /*
+       * On ne montre le code d'accès que lorsque
+       * les 5 photos sont réellement enregistrées.
+       */
       window.location.href = "/code-acces";
     } catch (err) {
-      setError(err.message || "Impossible d'enregistrer les photos.");
+      console.error("Erreur inspection départ :", err);
+
+      setError(
+        err?.message ||
+          "Impossible d'enregistrer les photos. Veuillez réessayer."
+      );
+
       setUploading(false);
     }
   }
@@ -108,7 +267,8 @@ export default function InspectionDepart() {
           textAlign: "center",
         }}
       >
-        <ProgressionEtapes etape={4} />
+        <ProgressionEtapes etape={4} />
+
         <img
           src="/logo-mt.PNG"
           alt="MT Location Remorques"
@@ -192,9 +352,15 @@ export default function InspectionDepart() {
                   border: "1px solid #666666",
                   borderRadius: "10px",
                   background: "#0b0b0b",
-                  cursor: uploading ? "default" : "pointer",
+                  cursor:
+                    uploading || processing[key]
+                      ? "default"
+                      : "pointer",
                   fontWeight: "700",
-                  opacity: uploading ? 0.6 : 1,
+                  opacity:
+                    uploading || processing[key]
+                      ? 0.6
+                      : 1,
                 }}
               >
                 <span
@@ -206,17 +372,29 @@ export default function InspectionDepart() {
                     whiteSpace: "nowrap",
                   }}
                 >
-                  {photos[key] ? "Reprendre" : "Photo"}
+                  {processing[key]
+                    ? "Préparation..."
+                    : photos[key]
+                    ? "Reprendre"
+                    : "Photo"}
                 </span>
 
                 <input
                   type="file"
                   accept="image/*"
                   capture="environment"
-                  disabled={uploading}
-                  onChange={(e) =>
-                    handlePhotoChange(key, e.target.files?.[0])
+                  disabled={
+                    uploading || processing[key]
                   }
+                  onChange={(e) => {
+                    const file = e.target.files?.[0];
+
+                    if (file) {
+                      handlePhotoChange(key, file);
+                    }
+
+                    e.target.value = "";
+                  }}
                   style={{
                     display: "none",
                   }}
@@ -242,7 +420,11 @@ export default function InspectionDepart() {
         <button
           type="button"
           onClick={handleContinue}
-          disabled={!allPhotosTaken || uploading}
+          disabled={
+            !allPhotosTaken ||
+            uploading ||
+            photoBeingProcessed
+          }
           style={{
             width: "100%",
             marginTop: "20px",
@@ -250,17 +432,45 @@ export default function InspectionDepart() {
             border: "1px solid #666666",
             borderRadius: "12px",
             background:
-              allPhotosTaken && !uploading ? "#0b0b0b" : "#222222",
+              allPhotosTaken &&
+              !uploading &&
+              !photoBeingProcessed
+                ? "#0b0b0b"
+                : "#222222",
             color:
-              allPhotosTaken && !uploading ? "#ffffff" : "#777777",
+              allPhotosTaken &&
+              !uploading &&
+              !photoBeingProcessed
+                ? "#ffffff"
+                : "#777777",
             fontSize: "17px",
             fontWeight: "700",
             cursor:
-              allPhotosTaken && !uploading ? "pointer" : "default",
+              allPhotosTaken &&
+              !uploading &&
+              !photoBeingProcessed
+                ? "pointer"
+                : "default",
           }}
         >
-          {uploading ? "Enregistrement..." : "Continuer"}
+          {uploading
+            ? "Enregistrement..."
+            : photoBeingProcessed
+            ? "Préparation..."
+            : "Continuer"}
         </button>
+
+        {uploading && (
+          <p
+            style={{
+              color: "#aaaaaa",
+              fontSize: "13px",
+              margin: "10px 0 0",
+            }}
+          >
+            Finalisation des photos...
+          </p>
+        )}
       </div>
     </main>
   );
