@@ -64,7 +64,7 @@ export default function InspectionRetour() {
             margin: "0 0 24px",
           }}
         >
-          Avez-vous un dommage à déclaré?
+          Avez-vous un dommage à déclarer?
         </p>
 
         <button
