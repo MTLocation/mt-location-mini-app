@@ -4,247 +4,19 @@ import { useState } from "react";
 import ProgressionEtapes from "../components/ProgressionEtapes";
 
 export default function InspectionDepart() {
-  const [photos, setPhotos] = useState({
-    avant: null,
-    arriere: null,
-    conducteur: null,
-    passager: null,
-    interieur: null,
-  });
-
-  const [processing, setProcessing] = useState({
-    avant: false,
-    arriere: false,
-    conducteur: false,
-    passager: false,
-    interieur: false,
-  });
-
-  const [uploading, setUploading] = useState(false);
+  const [confirmation, setConfirmation] = useState(false);
   const [error, setError] = useState("");
 
-  const photoLabels = {
-    avant: "AVANT",
-    arriere: "ARRIÈRE",
-    conducteur: "CÔTÉ CONDUCTEUR",
-    passager: "CÔTÉ PASSAGER",
-    interieur: "INTÉRIEUR",
-  };
-
-  /*
-   * Compresse automatiquement une photo avant son envoi.
-   *
-   * - Maximum 1600 px
-   * - JPEG qualité 0.78
-   * - Suffisant pour documenter l'état de la remorque
-   * - Beaucoup plus rapide à téléverser
-   */
-  async function compressImage(file) {
-    return new Promise((resolve, reject) => {
-      const imageUrl = URL.createObjectURL(file);
-      const img = new Image();
-
-      img.onload = () => {
-        try {
-          const MAX_SIZE = 1600;
-
-          let width = img.width;
-          let height = img.height;
-
-          if (width > height && width > MAX_SIZE) {
-            height = Math.round((height * MAX_SIZE) / width);
-            width = MAX_SIZE;
-          } else if (height >= width && height > MAX_SIZE) {
-            width = Math.round((width * MAX_SIZE) / height);
-            height = MAX_SIZE;
-          }
-
-          const canvas = document.createElement("canvas");
-
-          canvas.width = width;
-          canvas.height = height;
-
-          const ctx = canvas.getContext("2d");
-
-          if (!ctx) {
-            URL.revokeObjectURL(imageUrl);
-            reject(new Error("Impossible de traiter la photo."));
-            return;
-          }
-
-          ctx.drawImage(img, 0, 0, width, height);
-
-          canvas.toBlob(
-            (blob) => {
-              URL.revokeObjectURL(imageUrl);
-
-              if (!blob) {
-                reject(new Error("Impossible de compresser la photo."));
-                return;
-              }
-
-              const compressedFile = new File(
-                [blob],
-                `${Date.now()}.jpg`,
-                {
-                  type: "image/jpeg",
-                  lastModified: Date.now(),
-                }
-              );
-
-              resolve(compressedFile);
-            },
-            "image/jpeg",
-            0.78
-          );
-        } catch (err) {
-          URL.revokeObjectURL(imageUrl);
-          reject(err);
-        }
-      };
-
-      img.onerror = () => {
-        URL.revokeObjectURL(imageUrl);
-        reject(new Error("Impossible de lire cette photo."));
-      };
-
-      img.src = imageUrl;
-    });
-  }
-
-  async function handlePhotoChange(key, file) {
-    if (!file) return;
-
-    try {
-      setError("");
-
-      setProcessing((prev) => ({
-        ...prev,
-        [key]: true,
-      }));
-
-      /*
-       * La compression commence immédiatement
-       * pendant que le client passe à la photo suivante.
-       */
-      const compressedFile = await compressImage(file);
-
-      setPhotos((prev) => {
-        if (prev[key]?.preview) {
-          URL.revokeObjectURL(prev[key].preview);
-        }
-
-        return {
-          ...prev,
-          [key]: {
-            file: compressedFile,
-            preview: URL.createObjectURL(compressedFile),
-          },
-        };
-      });
-    } catch (err) {
-      console.error("Erreur compression :", err);
-
+  function handleContinue() {
+    if (!confirmation) {
       setError(
-        err?.message ||
-          "Impossible de préparer cette photo. Veuillez la reprendre."
+        "Veuillez confirmer que vous avez pris et conservé les 5 photos demandées."
       );
-    } finally {
-      setProcessing((prev) => ({
-        ...prev,
-        [key]: false,
-      }));
-    }
-  }
-
-  const allPhotosTaken = Object.values(photos).every(Boolean);
-
-  const photoBeingProcessed = Object.values(processing).some(Boolean);
-
-  async function uploadPhoto(photoType, photoData, orderId) {
-    const formData = new FormData();
-
-    formData.append("file", photoData.file);
-    formData.append("orderId", orderId);
-    formData.append("category", "inspection-depart");
-    formData.append("photoType", photoType);
-
-    const response = await fetch("/api/photos/upload", {
-      method: "POST",
-      body: formData,
-    });
-
-    let data;
-
-    try {
-      data = await response.json();
-    } catch {
-      throw new Error(
-        `Erreur lors de l'enregistrement de la photo ${photoLabels[photoType]}.`
-      );
-    }
-
-    if (!response.ok || !data.success) {
-      throw new Error(
-        data.error ||
-          `Erreur lors de l'enregistrement de la photo ${photoLabels[photoType]}.`
-      );
-    }
-
-    return data;
-  }
-
-  async function handleContinue() {
-    if (
-      !allPhotosTaken ||
-      uploading ||
-      photoBeingProcessed
-    ) {
       return;
     }
 
-    try {
-      setUploading(true);
-      setError("");
-
-      const stored = sessionStorage.getItem("mtReservation");
-
-      if (!stored) {
-        throw new Error("Réservation introuvable.");
-      }
-
-      const reservationData = JSON.parse(stored);
-      const orderId = reservationData?.reservation?.id;
-
-      if (!orderId) {
-        throw new Error("Numéro de réservation introuvable.");
-      }
-
-      /*
-       * Les 5 photos compressées sont envoyées
-       * SIMULTANÉMENT.
-       */
-      await Promise.all(
-        Object.entries(photos).map(([photoType, photoData]) =>
-          uploadPhoto(photoType, photoData, orderId)
-        )
-      );
-
-      /*
-       * On ne montre le code d'accès que lorsque
-       * les 5 photos sont réellement enregistrées.
-       */
-      window.location.href = "/code-acces";
-    } catch (err) {
-      console.error("Erreur inspection départ :", err);
-
-      setError(
-        err?.message ||
-          "Impossible d'enregistrer les photos. Veuillez réessayer."
-      );
-
-      setUploading(false);
-    }
+    setError("");
+    window.location.href = "/code-acces";
   }
 
   return (
@@ -287,122 +59,115 @@ export default function InspectionDepart() {
             margin: "0 0 8px",
           }}
         >
-          Photos
+          Photos de départ
         </h1>
 
         <p
           style={{
             color: "#aaaaaa",
             fontSize: "15px",
-            lineHeight: "1.4",
-            margin: "0 0 22px",
+            lineHeight: "1.5",
+            margin: "0 0 20px",
           }}
         >
-          Prenez les photos demandées.
+          Avant de partir, prenez les 5 photos suivantes avec l’appareil photo
+          de votre téléphone.
         </p>
 
         <div
           style={{
-            display: "flex",
-            flexDirection: "column",
-            gap: "12px",
+            background: "#151515",
+            border: "1px solid #444444",
+            borderRadius: "14px",
+            padding: "18px",
+            textAlign: "left",
+            marginBottom: "16px",
           }}
         >
-          {Object.keys(photoLabels).map((key) => (
-            <div
-              key={key}
-              style={{
-                background: "#151515",
-                border: "1px solid #444444",
-                borderRadius: "14px",
-                padding: "14px",
-              }}
-            >
-              <div
-                style={{
-                  fontWeight: "700",
-                  marginBottom: "10px",
-                }}
-              >
-                {photoLabels[key]}
-              </div>
+          <div style={{ marginBottom: "12px", fontWeight: "700" }}>
+            Photos à prendre :
+          </div>
 
-              {photos[key]?.preview && (
-                <img
-                  src={photos[key].preview}
-                  alt={photoLabels[key]}
-                  style={{
-                    width: "100%",
-                    maxHeight: "180px",
-                    objectFit: "cover",
-                    borderRadius: "10px",
-                    marginBottom: "10px",
-                  }}
-                />
-              )}
-
-              <label
-                style={{
-                  display: "block",
-                  position: "relative",
-                  width: "100%",
-                  minHeight: "52px",
-                  padding: "14px",
-                  boxSizing: "border-box",
-                  border: "1px solid #666666",
-                  borderRadius: "10px",
-                  background: "#0b0b0b",
-                  cursor:
-                    uploading || processing[key]
-                      ? "default"
-                      : "pointer",
-                  fontWeight: "700",
-                  opacity:
-                    uploading || processing[key]
-                      ? 0.6
-                      : 1,
-                }}
-              >
-                <span
-                  style={{
-                    position: "absolute",
-                    left: "50%",
-                    top: "50%",
-                    transform: "translate(-50%, -50%)",
-                    whiteSpace: "nowrap",
-                  }}
-                >
-                  {processing[key]
-                    ? "Préparation..."
-                    : photos[key]
-                    ? "Reprendre"
-                    : "Photo"}
-                </span>
-
-                <input
-                  type="file"
-                  accept="image/*"
-                  capture="environment"
-                  disabled={
-                    uploading || processing[key]
-                  }
-                  onChange={(e) => {
-                    const file = e.target.files?.[0];
-
-                    if (file) {
-                      handlePhotoChange(key, file);
-                    }
-
-                    e.target.value = "";
-                  }}
-                  style={{
-                    display: "none",
-                  }}
-                />
-              </label>
-            </div>
-          ))}
+          <div style={{ lineHeight: "1.9", color: "#dddddd" }}>
+            1. Avant de la remorque
+            <br />
+            2. Arrière de la remorque
+            <br />
+            3. Côté conducteur
+            <br />
+            4. Côté passager
+            <br />
+            5. Intérieur
+          </div>
         </div>
+
+        <div
+          style={{
+            background: "#151515",
+            border: "1px solid #555555",
+            borderRadius: "14px",
+            padding: "16px",
+            marginBottom: "16px",
+            textAlign: "left",
+          }}
+        >
+          <strong style={{ display: "block", marginBottom: "8px" }}>
+            Important
+          </strong>
+
+          <div
+            style={{
+              color: "#bbbbbb",
+              fontSize: "14px",
+              lineHeight: "1.5",
+            }}
+          >
+            Conservez ces photos sur votre téléphone jusqu’à la fermeture
+            complète de la location. Elles pourront servir à confirmer l’état
+            de la remorque au moment de la prise de possession.
+          </div>
+        </div>
+
+        <label
+          style={{
+            display: "flex",
+            alignItems: "flex-start",
+            gap: "12px",
+            textAlign: "left",
+            background: "#151515",
+            border: confirmation
+              ? "1px solid #777777"
+              : "1px solid #444444",
+            borderRadius: "14px",
+            padding: "16px",
+            cursor: "pointer",
+          }}
+        >
+          <input
+            type="checkbox"
+            checked={confirmation}
+            onChange={(e) => {
+              setConfirmation(e.target.checked);
+              setError("");
+            }}
+            style={{
+              width: "22px",
+              height: "22px",
+              marginTop: "1px",
+              flexShrink: 0,
+            }}
+          />
+
+          <span
+            style={{
+              fontSize: "15px",
+              lineHeight: "1.45",
+            }}
+          >
+            Je confirme avoir pris les 5 photos demandées et les avoir
+            conservées sur mon téléphone.
+          </span>
+        </label>
 
         {error && (
           <p
@@ -410,7 +175,7 @@ export default function InspectionDepart() {
               color: "#ff6b6b",
               fontSize: "14px",
               lineHeight: "1.4",
-              margin: "18px 0 0",
+              margin: "16px 0 0",
             }}
           >
             {error}
@@ -420,57 +185,22 @@ export default function InspectionDepart() {
         <button
           type="button"
           onClick={handleContinue}
-          disabled={
-            !allPhotosTaken ||
-            uploading ||
-            photoBeingProcessed
-          }
+          disabled={!confirmation}
           style={{
             width: "100%",
             marginTop: "20px",
             padding: "16px",
             border: "1px solid #666666",
             borderRadius: "12px",
-            background:
-              allPhotosTaken &&
-              !uploading &&
-              !photoBeingProcessed
-                ? "#0b0b0b"
-                : "#222222",
-            color:
-              allPhotosTaken &&
-              !uploading &&
-              !photoBeingProcessed
-                ? "#ffffff"
-                : "#777777",
+            background: confirmation ? "#0b0b0b" : "#222222",
+            color: confirmation ? "#ffffff" : "#777777",
             fontSize: "17px",
             fontWeight: "700",
-            cursor:
-              allPhotosTaken &&
-              !uploading &&
-              !photoBeingProcessed
-                ? "pointer"
-                : "default",
+            cursor: confirmation ? "pointer" : "default",
           }}
         >
-          {uploading
-            ? "Enregistrement..."
-            : photoBeingProcessed
-            ? "Préparation..."
-            : "Continuer"}
+          Continuer
         </button>
-
-        {uploading && (
-          <p
-            style={{
-              color: "#aaaaaa",
-              fontSize: "13px",
-              margin: "10px 0 0",
-            }}
-          >
-            Finalisation des photos...
-          </p>
-        )}
       </div>
     </main>
   );
