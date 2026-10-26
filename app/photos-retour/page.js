@@ -8,26 +8,10 @@ export default function PhotosRetour() {
   const router = useRouter();
 
   const [etatRetour, setEtatRetour] = useState("");
-
-  const [photos, setPhotos] = useState({
-    avant: null,
-    arriere: null,
-    conducteur: null,
-    passager: null,
-    interieur: null,
-  });
-
-  const [processing, setProcessing] = useState({
-    avant: false,
-    arriere: false,
-    conducteur: false,
-    passager: false,
-    interieur: false,
-    dommage: false,
-  });
+  const [confirmation, setConfirmation] = useState(false);
 
   const [dommage, setDommage] = useState(null);
-
+  const [processing, setProcessing] = useState(false);
   const [uploading, setUploading] = useState(false);
   const [erreur, setErreur] = useState("");
 
@@ -36,14 +20,6 @@ export default function PhotosRetour() {
     setEtatRetour(etat || "");
   }, []);
 
-  const photoLabels = {
-    avant: "AVANT",
-    arriere: "ARRIÈRE",
-    conducteur: "CÔTÉ CONDUCTEUR",
-    passager: "CÔTÉ PASSAGER",
-    interieur: "INTÉRIEUR",
-  };
-
   async function compressImage(file) {
     return new Promise((resolve, reject) => {
       const imageUrl = URL.createObjectURL(file);
@@ -51,7 +27,7 @@ export default function PhotosRetour() {
 
       img.onload = () => {
         try {
-          const MAX_SIZE = 1600;
+          const MAX_SIZE = 1800;
 
           let width = img.width;
           let height = img.height;
@@ -65,7 +41,6 @@ export default function PhotosRetour() {
           }
 
           const canvas = document.createElement("canvas");
-
           canvas.width = width;
           canvas.height = height;
 
@@ -84,23 +59,19 @@ export default function PhotosRetour() {
               URL.revokeObjectURL(imageUrl);
 
               if (!blob) {
-                reject(new Error("Impossible de compresser la photo."));
+                reject(new Error("Impossible de préparer la photo."));
                 return;
               }
 
-              const compressedFile = new File(
-                [blob],
-                `${Date.now()}.jpg`,
-                {
+              resolve(
+                new File([blob], `dommage-${Date.now()}.jpg`, {
                   type: "image/jpeg",
                   lastModified: Date.now(),
-                }
+                })
               );
-
-              resolve(compressedFile);
             },
             "image/jpeg",
-            0.78
+            0.82
           );
         } catch (err) {
           URL.revokeObjectURL(imageUrl);
@@ -117,57 +88,12 @@ export default function PhotosRetour() {
     });
   }
 
-  async function handlePhotoChange(key, file) {
-    if (!file) return;
-
-    try {
-      setErreur("");
-
-      setProcessing((prev) => ({
-        ...prev,
-        [key]: true,
-      }));
-
-      const compressedFile = await compressImage(file);
-
-      setPhotos((prev) => {
-        if (prev[key]?.preview) {
-          URL.revokeObjectURL(prev[key].preview);
-        }
-
-        return {
-          ...prev,
-          [key]: {
-            file: compressedFile,
-            preview: URL.createObjectURL(compressedFile),
-          },
-        };
-      });
-    } catch (err) {
-      console.error("Erreur compression :", err);
-
-      setErreur(
-        err?.message ||
-          "Impossible de préparer cette photo. Veuillez la reprendre."
-      );
-    } finally {
-      setProcessing((prev) => ({
-        ...prev,
-        [key]: false,
-      }));
-    }
-  }
-
   async function handleDommageChange(file) {
     if (!file) return;
 
     try {
       setErreur("");
-
-      setProcessing((prev) => ({
-        ...prev,
-        dommage: true,
-      }));
+      setProcessing(true);
 
       const compressedFile = await compressImage(file);
 
@@ -182,68 +108,42 @@ export default function PhotosRetour() {
         };
       });
     } catch (err) {
-      console.error("Erreur compression dommage :", err);
-
       setErreur(
         err?.message ||
-          "Impossible de préparer la photo du dommage."
+          "Impossible de préparer la photo du dommage. Veuillez la reprendre."
       );
     } finally {
-      setProcessing((prev) => ({
-        ...prev,
-        dommage: false,
-      }));
+      setProcessing(false);
     }
   }
 
-  async function uploadPhoto(photoType, photoData, orderId) {
+  async function uploadDommage(orderId) {
     const formData = new FormData();
 
-    formData.append("file", photoData.file);
+    formData.append("file", dommage.file);
     formData.append("orderId", orderId);
     formData.append("category", "inspection-retour");
-    formData.append("photoType", photoType);
+    formData.append("photoType", "dommage");
 
     const response = await fetch("/api/photos/upload", {
       method: "POST",
       body: formData,
     });
 
-    let data;
-
-    try {
-      data = await response.json();
-    } catch {
-      throw new Error(
-        `Erreur lors de l'enregistrement de la photo ${photoType}.`
-      );
-    }
+    const data = await response.json();
 
     if (!response.ok || !data.success) {
       throw new Error(
-        data.error ||
-          `Erreur lors de l'enregistrement de la photo ${photoType}.`
+        data.error || "Impossible d'enregistrer la photo du dommage."
       );
     }
-
-    return data;
   }
 
-  const photosCompletes = Object.values(photos).every(Boolean);
-
-  const photoBeingProcessed =
-    Object.values(processing).some(Boolean);
-
   async function continuer() {
-    if (
-      !photosCompletes ||
-      uploading ||
-      photoBeingProcessed
-    ) {
-      if (!photosCompletes) {
-        setErreur("Veuillez ajouter les 5 photos de la remorque.");
-      }
-
+    if (!confirmation) {
+      setErreur(
+        "Veuillez confirmer que vous avez pris et conservé les 5 photos de retour."
+      );
       return;
     }
 
@@ -253,61 +153,42 @@ export default function PhotosRetour() {
     }
 
     try {
-      setUploading(true);
       setErreur("");
 
-      const stored = sessionStorage.getItem("mtReservation");
+      if (etatRetour === "dommage") {
+        setUploading(true);
 
-      if (!stored) {
-        throw new Error("Réservation introuvable.");
+        const stored = sessionStorage.getItem("mtReservation");
+
+        if (!stored) {
+          throw new Error("Réservation introuvable.");
+        }
+
+        const reservationData = JSON.parse(stored);
+        const orderId = reservationData?.reservation?.id;
+
+        if (!orderId) {
+          throw new Error("Numéro de réservation introuvable.");
+        }
+
+        await uploadDommage(orderId);
       }
-
-      const reservationData = JSON.parse(stored);
-      const orderId = reservationData?.reservation?.id;
-
-      if (!orderId) {
-        throw new Error("Numéro de réservation introuvable.");
-      }
-
-      const uploads = Object.entries(photos).map(
-        ([photoType, photoData]) =>
-          uploadPhoto(photoType, photoData, orderId)
-      );
-
-      if (etatRetour === "dommage" && dommage) {
-        uploads.push(
-          uploadPhoto("dommage", dommage, orderId)
-        );
-      }
-
-      /*
-       * Toutes les photos sont envoyées simultanément.
-       */
-      await Promise.all(uploads);
 
       router.push("/retour-termine");
     } catch (err) {
-      console.error("Erreur photos retour :", err);
-
       setErreur(
         err?.message ||
-          "Impossible d'enregistrer les photos. Veuillez réessayer."
+          "Impossible de finaliser le retour. Veuillez réessayer."
       );
-
       setUploading(false);
     }
   }
 
-  const blocPhoto = {
-    width: "100%",
-    background: "#151515",
-    border: "1px solid #444444",
-    borderRadius: "14px",
-    padding: "14px",
-    marginBottom: "10px",
-    boxSizing: "border-box",
-    textAlign: "center",
-  };
+  const peutContinuer =
+    confirmation &&
+    !processing &&
+    !uploading &&
+    (etatRetour !== "dommage" || dommage);
 
   return (
     <main
@@ -357,99 +238,133 @@ export default function PhotosRetour() {
             color: "#aaaaaa",
             margin: "0 0 14px",
             fontSize: "15px",
+            lineHeight: "1.5",
           }}
         >
-          Prenez les 5 photos suivantes avant de quitter.
+          Avant de quitter, prenez les 5 photos suivantes avec votre téléphone.
         </p>
 
-        {Object.entries(photoLabels).map(([key, label]) => (
-          <div key={key} style={blocPhoto}>
-            <strong>{label}</strong>
-
-            {photos[key]?.preview && (
-              <img
-                src={photos[key].preview}
-                alt={label}
-                style={{
-                  width: "100%",
-                  maxHeight: "180px",
-                  objectFit: "cover",
-                  borderRadius: "10px",
-                  marginTop: "10px",
-                  marginBottom: "10px",
-                }}
-              />
-            )}
-
-            <label
-              style={{
-                display: "block",
-                position: "relative",
-                width: "100%",
-                minHeight: "52px",
-                marginTop: "10px",
-                border: "1px solid #666666",
-                borderRadius: "10px",
-                background: "#0b0b0b",
-                cursor:
-                  uploading || processing[key]
-                    ? "default"
-                    : "pointer",
-                opacity:
-                  uploading || processing[key]
-                    ? 0.6
-                    : 1,
-              }}
-            >
-              <span
-                style={{
-                  position: "absolute",
-                  left: "50%",
-                  top: "50%",
-                  transform: "translate(-50%, -50%)",
-                  fontWeight: "700",
-                  whiteSpace: "nowrap",
-                }}
-              >
-                {processing[key]
-                  ? "Préparation..."
-                  : photos[key]
-                  ? "Reprendre"
-                  : "Photo"}
-              </span>
-
-              <input
-                type="file"
-                accept="image/*"
-                capture="environment"
-                disabled={
-                  uploading || processing[key]
-                }
-                onChange={(e) => {
-                  const file = e.target.files?.[0];
-
-                  if (file) {
-                    handlePhotoChange(key, file);
-                  }
-
-                  e.target.value = "";
-                }}
-                style={{
-                  display: "none",
-                }}
-              />
-            </label>
+        <div
+          style={{
+            width: "100%",
+            background: "#151515",
+            border: "1px solid #444444",
+            borderRadius: "14px",
+            padding: "18px",
+            marginBottom: "12px",
+            boxSizing: "border-box",
+            textAlign: "left",
+          }}
+        >
+          <div style={{ marginBottom: "12px", fontWeight: "700" }}>
+            Photos à prendre :
           </div>
-        ))}
+
+          <div style={{ lineHeight: "1.9", color: "#dddddd" }}>
+            1. Avant de la remorque
+            <br />
+            2. Arrière de la remorque
+            <br />
+            3. Côté conducteur
+            <br />
+            4. Côté passager
+            <br />
+            5. Intérieur
+          </div>
+        </div>
+
+        <div
+          style={{
+            background: "#151515",
+            border: "1px solid #555555",
+            borderRadius: "14px",
+            padding: "16px",
+            marginBottom: "14px",
+            textAlign: "left",
+          }}
+        >
+          <strong style={{ display: "block", marginBottom: "8px" }}>
+            Conservez vos photos
+          </strong>
+
+          <div
+            style={{
+              color: "#bbbbbb",
+              fontSize: "14px",
+              lineHeight: "1.5",
+            }}
+          >
+            Gardez-les sur votre téléphone jusqu’à la fermeture complète de la
+            location. Elles pourront servir à confirmer l’état de la remorque
+            lors du retour.
+          </div>
+        </div>
+
+        <label
+          style={{
+            display: "flex",
+            alignItems: "flex-start",
+            gap: "12px",
+            textAlign: "left",
+            background: "#151515",
+            border: "1px solid #444444",
+            borderRadius: "14px",
+            padding: "16px",
+            cursor: "pointer",
+            marginBottom: "14px",
+          }}
+        >
+          <input
+            type="checkbox"
+            checked={confirmation}
+            onChange={(e) => {
+              setConfirmation(e.target.checked);
+              setErreur("");
+            }}
+            style={{
+              width: "22px",
+              height: "22px",
+              marginTop: "1px",
+              flexShrink: 0,
+            }}
+          />
+
+          <span
+            style={{
+              fontSize: "15px",
+              lineHeight: "1.45",
+            }}
+          >
+            Je confirme avoir pris les 5 photos demandées et les avoir
+            conservées sur mon téléphone.
+          </span>
+        </label>
 
         {etatRetour === "dommage" && (
           <div
             style={{
-              ...blocPhoto,
+              width: "100%",
+              background: "#151515",
               border: "1px solid #aa5555",
+              borderRadius: "14px",
+              padding: "14px",
+              marginBottom: "14px",
+              boxSizing: "border-box",
+              textAlign: "center",
             }}
           >
             <strong>PHOTO DU DOMMAGE</strong>
+
+            <p
+              style={{
+                color: "#bbbbbb",
+                fontSize: "14px",
+                lineHeight: "1.4",
+                margin: "8px 0 12px",
+              }}
+            >
+              Cette photo sera transmise à MT Location Remorques.
+            </p>
 
             {dommage?.preview && (
               <img
@@ -460,7 +375,6 @@ export default function PhotosRetour() {
                   maxHeight: "180px",
                   objectFit: "cover",
                   borderRadius: "10px",
-                  marginTop: "10px",
                   marginBottom: "10px",
                 }}
               />
@@ -472,18 +386,11 @@ export default function PhotosRetour() {
                 position: "relative",
                 width: "100%",
                 minHeight: "52px",
-                marginTop: "10px",
                 border: "1px solid #aa5555",
                 borderRadius: "10px",
                 background: "#0b0b0b",
-                cursor:
-                  uploading || processing.dommage
-                    ? "default"
-                    : "pointer",
-                opacity:
-                  uploading || processing.dommage
-                    ? 0.6
-                    : 1,
+                cursor: processing || uploading ? "default" : "pointer",
+                opacity: processing || uploading ? 0.6 : 1,
               }}
             >
               <span
@@ -496,20 +403,18 @@ export default function PhotosRetour() {
                   whiteSpace: "nowrap",
                 }}
               >
-                {processing.dommage
+                {processing
                   ? "Préparation..."
                   : dommage
                   ? "Reprendre"
-                  : "Photo"}
+                  : "Photo du dommage"}
               </span>
 
               <input
                 type="file"
                 accept="image/*"
                 capture="environment"
-                disabled={
-                  uploading || processing.dommage
-                }
+                disabled={processing || uploading}
                 onChange={(e) => {
                   const file = e.target.files?.[0];
 
@@ -519,9 +424,7 @@ export default function PhotosRetour() {
 
                   e.target.value = "";
                 }}
-                style={{
-                  display: "none",
-                }}
+                style={{ display: "none" }}
               />
             </label>
           </div>
@@ -542,60 +445,21 @@ export default function PhotosRetour() {
         <button
           type="button"
           onClick={continuer}
-          disabled={
-            !photosCompletes ||
-            uploading ||
-            photoBeingProcessed ||
-            (etatRetour === "dommage" && !dommage)
-          }
+          disabled={!peutContinuer}
           style={{
             width: "100%",
             minHeight: "58px",
-            background:
-              photosCompletes &&
-              !uploading &&
-              !photoBeingProcessed &&
-              (etatRetour !== "dommage" || dommage)
-                ? "#f2c94c"
-                : "#444444",
-            color:
-              photosCompletes &&
-              !uploading &&
-              !photoBeingProcessed &&
-              (etatRetour !== "dommage" || dommage)
-                ? "#111111"
-                : "#888888",
+            background: peutContinuer ? "#f2c94c" : "#444444",
+            color: peutContinuer ? "#111111" : "#888888",
             border: "none",
             borderRadius: "16px",
             fontSize: "18px",
             fontWeight: "700",
-            cursor:
-              photosCompletes &&
-              !uploading &&
-              !photoBeingProcessed &&
-              (etatRetour !== "dommage" || dommage)
-                ? "pointer"
-                : "default",
+            cursor: peutContinuer ? "pointer" : "default",
           }}
         >
-          {uploading
-            ? "Enregistrement..."
-            : photoBeingProcessed
-            ? "Préparation..."
-            : "Finaliser le retour"}
+          {uploading ? "Enregistrement du dommage..." : "Finaliser le retour"}
         </button>
-
-        {uploading && (
-          <p
-            style={{
-              color: "#aaaaaa",
-              fontSize: "13px",
-              margin: "10px 0 0",
-            }}
-          >
-            Finalisation des photos...
-          </p>
-        )}
       </div>
     </main>
   );
