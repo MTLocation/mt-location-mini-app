@@ -4,196 +4,14 @@ import { useState } from "react";
 import ProgressionEtapes from "../components/ProgressionEtapes";
 
 export default function VerificationIdentite() {
-  const [photos, setPhotos] = useState({
-    permisRecto: null,
-    permisVerso: null,
-    assurance: null,
-    visage: null,
-  });
-
-  const [processing, setProcessing] = useState({
-    permisRecto: false,
-    permisVerso: false,
-    assurance: false,
-    visage: false,
-  });
-
-  const [uploading, setUploading] = useState(false);
+  const [loading, setLoading] = useState(false);
   const [error, setError] = useState("");
 
-  const photoLabels = {
-    permisRecto: "PERMIS — RECTO",
-    permisVerso: "PERMIS — VERSO",
-    assurance: "PREUVE D’ASSURANCE",
-    visage: "PHOTO DU VISAGE",
-  };
-
-  async function compressImage(file, key) {
-    return new Promise((resolve, reject) => {
-      const imageUrl = URL.createObjectURL(file);
-      const img = new Image();
-
-      img.onload = () => {
-        try {
-          /*
-           * Plus de résolution pour les documents
-           * afin de garder le texte lisible.
-           */
-          const MAX_SIZE = key === "visage" ? 1800 : 2200;
-          const QUALITY = key === "visage" ? 0.82 : 0.86;
-
-          let width = img.width;
-          let height = img.height;
-
-          if (width > height && width > MAX_SIZE) {
-            height = Math.round((height * MAX_SIZE) / width);
-            width = MAX_SIZE;
-          } else if (height >= width && height > MAX_SIZE) {
-            width = Math.round((width * MAX_SIZE) / height);
-            height = MAX_SIZE;
-          }
-
-          const canvas = document.createElement("canvas");
-
-          canvas.width = width;
-          canvas.height = height;
-
-          const ctx = canvas.getContext("2d");
-
-          if (!ctx) {
-            URL.revokeObjectURL(imageUrl);
-            reject(new Error("Impossible de traiter la photo."));
-            return;
-          }
-
-          ctx.drawImage(img, 0, 0, width, height);
-
-          canvas.toBlob(
-            (blob) => {
-              URL.revokeObjectURL(imageUrl);
-
-              if (!blob) {
-                reject(new Error("Impossible de compresser la photo."));
-                return;
-              }
-
-              const compressedFile = new File(
-                [blob],
-                `${key}-${Date.now()}.jpg`,
-                {
-                  type: "image/jpeg",
-                  lastModified: Date.now(),
-                }
-              );
-
-              resolve(compressedFile);
-            },
-            "image/jpeg",
-            QUALITY
-          );
-        } catch (err) {
-          URL.revokeObjectURL(imageUrl);
-          reject(err);
-        }
-      };
-
-      img.onerror = () => {
-        URL.revokeObjectURL(imageUrl);
-        reject(new Error("Impossible de lire cette photo."));
-      };
-
-      img.src = imageUrl;
-    });
-  }
-
-  async function handlePhotoChange(key, file) {
-    if (!file) return;
+  async function demarrerVerification() {
+    if (loading) return;
 
     try {
-      setError("");
-
-      setProcessing((prev) => ({
-        ...prev,
-        [key]: true,
-      }));
-
-      const compressedFile = await compressImage(file, key);
-
-      setPhotos((prev) => {
-        if (prev[key]?.preview) {
-          URL.revokeObjectURL(prev[key].preview);
-        }
-
-        return {
-          ...prev,
-          [key]: {
-            file: compressedFile,
-            preview: URL.createObjectURL(compressedFile),
-          },
-        };
-      });
-    } catch (err) {
-      console.error("Erreur préparation identité :", err);
-
-      setError(
-        err?.message ||
-          "Impossible de préparer cette photo. Veuillez la reprendre."
-      );
-    } finally {
-      setProcessing((prev) => ({
-        ...prev,
-        [key]: false,
-      }));
-    }
-  }
-
-  const allPhotosTaken = Object.values(photos).every(Boolean);
-  const photoBeingProcessed = Object.values(processing).some(Boolean);
-
-  async function uploadPhoto(photoType, photoData, orderId) {
-    const formData = new FormData();
-
-    formData.append("file", photoData.file);
-    formData.append("orderId", orderId);
-    formData.append("category", "verification-identite");
-    formData.append("photoType", photoType);
-
-    const response = await fetch("/api/photos/upload", {
-      method: "POST",
-      body: formData,
-    });
-
-    let data;
-
-    try {
-      data = await response.json();
-    } catch {
-      throw new Error(
-        `Erreur lors de l'enregistrement de ${photoLabels[photoType]}.`
-      );
-    }
-
-    if (!response.ok || !data.success) {
-      throw new Error(
-        data.error ||
-          `Erreur lors de l'enregistrement de ${photoLabels[photoType]}.`
-      );
-    }
-
-    return data;
-  }
-
-  async function handleContinue() {
-    if (
-      !allPhotosTaken ||
-      uploading ||
-      photoBeingProcessed
-    ) {
-      return;
-    }
-
-    try {
-      setUploading(true);
+      setLoading(true);
       setError("");
 
       const stored = sessionStorage.getItem("mtReservation");
@@ -206,29 +24,38 @@ export default function VerificationIdentite() {
       const orderId = reservationData?.reservation?.id;
 
       if (!orderId) {
-        throw new Error("Identifiant de réservation introuvable.");
+        throw new Error("Numéro de réservation introuvable.");
       }
 
-      /*
-       * Les 4 fichiers compressés sont envoyés
-       * en même temps.
-       */
-      await Promise.all(
-        Object.entries(photos).map(([photoType, photoData]) =>
-          uploadPhoto(photoType, photoData, orderId)
-        )
-      );
+      const response = await fetch("/api/identity/create-session", {
+        method: "POST",
+        headers: {
+          "Content-Type": "application/json",
+        },
+        body: JSON.stringify({
+          orderId,
+        }),
+      });
 
-      window.location.href = "/contrat";
+      const data = await response.json();
+
+      if (!response.ok || !data.success || !data.url) {
+        throw new Error(
+          data.error ||
+            "Impossible de démarrer la vérification d'identité."
+        );
+      }
+
+      window.location.href = data.url;
     } catch (err) {
-      console.error("Erreur vérification identité :", err);
+      console.error("Erreur Identity :", err);
 
       setError(
         err?.message ||
-          "Impossible d'enregistrer les photos. Veuillez réessayer."
+          "Impossible de démarrer la vérification d'identité."
       );
 
-      setUploading(false);
+      setLoading(false);
     }
   }
 
@@ -272,122 +99,65 @@ export default function VerificationIdentite() {
             margin: "0 0 8px",
           }}
         >
-          Identité
+          Vérification d’identité
         </h1>
 
         <p
           style={{
             color: "#aaaaaa",
             fontSize: "15px",
-            lineHeight: "1.4",
-            margin: "0 0 22px",
+            lineHeight: "1.5",
+            margin: "0 0 24px",
           }}
         >
-          Prenez les 4 photos demandées.
+          Pour votre sécurité et celle de MT Location Remorques, Stripe
+          vérifiera votre permis de conduire et votre identité.
         </p>
 
         <div
           style={{
-            display: "flex",
-            flexDirection: "column",
-            gap: "12px",
+            background: "#151515",
+            border: "1px solid #444444",
+            borderRadius: "14px",
+            padding: "18px",
+            marginBottom: "20px",
+            textAlign: "left",
           }}
         >
-          {Object.keys(photoLabels).map((key) => (
-            <div
-              key={key}
-              style={{
-                background: "#151515",
-                border: "1px solid #444444",
-                borderRadius: "14px",
-                padding: "14px",
-              }}
-            >
-              <div
-                style={{
-                  fontWeight: "700",
-                  marginBottom: "10px",
-                }}
-              >
-                {photoLabels[key]}
-              </div>
+          <div
+            style={{
+              fontWeight: "700",
+              marginBottom: "12px",
+            }}
+          >
+            Vous aurez besoin de :
+          </div>
 
-              {photos[key]?.preview && (
-                <img
-                  src={photos[key].preview}
-                  alt={photoLabels[key]}
-                  style={{
-                    width: "100%",
-                    maxHeight: "180px",
-                    objectFit: "cover",
-                    borderRadius: "10px",
-                    marginBottom: "10px",
-                  }}
-                />
-              )}
-
-              <label
-                style={{
-                  display: "block",
-                  position: "relative",
-                  width: "100%",
-                  minHeight: "52px",
-                  padding: "14px",
-                  boxSizing: "border-box",
-                  border: "1px solid #666666",
-                  borderRadius: "10px",
-                  background: "#0b0b0b",
-                  cursor:
-                    uploading || processing[key]
-                      ? "default"
-                      : "pointer",
-                  fontWeight: "700",
-                  opacity:
-                    uploading || processing[key]
-                      ? 0.6
-                      : 1,
-                }}
-              >
-                <span
-                  style={{
-                    position: "absolute",
-                    left: "50%",
-                    top: "50%",
-                    transform: "translate(-50%, -50%)",
-                    whiteSpace: "nowrap",
-                  }}
-                >
-                  {processing[key]
-                    ? "Préparation..."
-                    : photos[key]
-                    ? "Reprendre"
-                    : "Photo"}
-                </span>
-
-                <input
-                  type="file"
-                  accept="image/*"
-                  capture={key === "visage" ? "user" : "environment"}
-                  disabled={
-                    uploading || processing[key]
-                  }
-                  onChange={(e) => {
-                    const file = e.target.files?.[0];
-
-                    if (file) {
-                      handlePhotoChange(key, file);
-                    }
-
-                    e.target.value = "";
-                  }}
-                  style={{
-                    display: "none",
-                  }}
-                />
-              </label>
-            </div>
-          ))}
+          <div
+            style={{
+              color: "#dddddd",
+              fontSize: "15px",
+              lineHeight: "1.8",
+            }}
+          >
+            • Votre permis de conduire
+            <br />
+            • La caméra de votre téléphone
+            <br />
+            • Quelques instants pour prendre un selfie
+          </div>
         </div>
+
+        <p
+          style={{
+            color: "#888888",
+            fontSize: "13px",
+            lineHeight: "1.5",
+            margin: "0 0 18px",
+          }}
+        >
+          La vérification est effectuée de façon sécurisée par Stripe.
+        </p>
 
         {error && (
           <p
@@ -395,7 +165,7 @@ export default function VerificationIdentite() {
               color: "#ff6b6b",
               fontSize: "14px",
               lineHeight: "1.4",
-              margin: "18px 0 0",
+              margin: "0 0 16px",
             }}
           >
             {error}
@@ -404,58 +174,22 @@ export default function VerificationIdentite() {
 
         <button
           type="button"
-          onClick={handleContinue}
-          disabled={
-            !allPhotosTaken ||
-            uploading ||
-            photoBeingProcessed
-          }
+          onClick={demarrerVerification}
+          disabled={loading}
           style={{
             width: "100%",
-            marginTop: "20px",
             padding: "16px",
-            border: "1px solid #666666",
-            borderRadius: "12px",
-            background:
-              allPhotosTaken &&
-              !uploading &&
-              !photoBeingProcessed
-                ? "#0b0b0b"
-                : "#222222",
-            color:
-              allPhotosTaken &&
-              !uploading &&
-              !photoBeingProcessed
-                ? "#ffffff"
-                : "#777777",
-            fontSize: "17px",
+            border: "none",
+            borderRadius: "14px",
+            background: loading ? "#444444" : "#f2c94c",
+            color: loading ? "#888888" : "#111111",
+            fontSize: "18px",
             fontWeight: "700",
-            cursor:
-              allPhotosTaken &&
-              !uploading &&
-              !photoBeingProcessed
-                ? "pointer"
-                : "default",
+            cursor: loading ? "default" : "pointer",
           }}
         >
-          {uploading
-            ? "Enregistrement..."
-            : photoBeingProcessed
-            ? "Préparation..."
-            : "Continuer"}
+          {loading ? "Ouverture de la vérification..." : "Vérifier mon identité"}
         </button>
-
-        {uploading && (
-          <p
-            style={{
-              color: "#aaaaaa",
-              fontSize: "13px",
-              margin: "10px 0 0",
-            }}
-          >
-            Finalisation des documents...
-          </p>
-        )}
       </div>
     </main>
   );
