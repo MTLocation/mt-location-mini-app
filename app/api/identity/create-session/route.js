@@ -32,9 +32,9 @@ export async function POST(request) {
     params.append("verification_flow", flowId);
     params.append("client_reference_id", String(orderId));
     params.append(
-      "return_url",
-      "https://mt-location-mini-app.vercel.app/contrat"
-    );
+  "return_url",
+  "https://mt-location-mini-app.vercel.app/verification-identite/retour"
+);
 
     const stripeResponse = await fetch(
       "https://api.stripe.com/v1/identity/verification_sessions",
