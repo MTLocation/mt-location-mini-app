@@ -46,7 +46,12 @@ export default function VerificationIdentite() {
         );
       }
 
-      window.location.href = data.url;
+     sessionStorage.setItem(
+  "mtStripeIdentitySessionId",
+  data.sessionId
+);
+
+window.location.href = data.url;
     } catch (err) {
       console.error("Erreur Identity :", err);
 
