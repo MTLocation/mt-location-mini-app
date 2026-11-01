@@ -46,12 +46,12 @@ export default function VerificationIdentite() {
         );
       }
 
-     sessionStorage.setItem(
-  "mtStripeIdentitySessionId",
-  data.sessionId
-);
+      sessionStorage.setItem(
+        "mtStripeIdentitySessionId",
+        data.sessionId
+      );
 
-window.location.href = data.url;
+      window.location.href = data.url;
     } catch (err) {
       console.error("Erreur Identity :", err);
 
@@ -94,14 +94,17 @@ window.location.href = data.url;
             maxWidth: "80%",
             height: "auto",
             display: "block",
-            margin: "0 auto 18px",
+            margin: "0 auto 26px",
           }}
         />
 
         <h1
           style={{
             fontSize: "28px",
-            margin: "0 0 8px",
+            lineHeight: "1.2",
+            margin: "0 auto 18px",
+            textAlign: "center",
+            width: "100%",
           }}
         >
           Vérification d’identité
@@ -111,8 +114,10 @@ window.location.href = data.url;
           style={{
             color: "#aaaaaa",
             fontSize: "15px",
-            lineHeight: "1.5",
-            margin: "0 0 24px",
+            lineHeight: "1.6",
+            margin: "0 auto 26px",
+            textAlign: "center",
+            maxWidth: "380px",
           }}
         >
           Pour votre sécurité et celle de MT Location Remorques, Stripe
@@ -121,18 +126,23 @@ window.location.href = data.url;
 
         <div
           style={{
+            width: "100%",
             background: "#151515",
             border: "1px solid #444444",
             borderRadius: "14px",
-            padding: "18px",
-            marginBottom: "20px",
-            textAlign: "left",
+            padding: "24px 18px",
+            margin: "0 auto 22px",
+            boxSizing: "border-box",
+            textAlign: "center",
           }}
         >
           <div
             style={{
               fontWeight: "700",
-              marginBottom: "12px",
+              fontSize: "18px",
+              lineHeight: "1.4",
+              margin: "0 auto 18px",
+              textAlign: "center",
             }}
           >
             Vous aurez besoin de :
@@ -142,14 +152,16 @@ window.location.href = data.url;
             style={{
               color: "#dddddd",
               fontSize: "15px",
-              lineHeight: "1.8",
+              lineHeight: "1.9",
+              textAlign: "center",
+              margin: "0 auto",
             }}
           >
-            • Votre permis de conduire
+            Votre permis de conduire
             <br />
-            • La caméra de votre téléphone
+            La caméra de votre téléphone
             <br />
-            • Quelques instants pour prendre un selfie
+            Quelques instants pour prendre un selfie
           </div>
         </div>
 
@@ -158,7 +170,9 @@ window.location.href = data.url;
             color: "#888888",
             fontSize: "13px",
             lineHeight: "1.5",
-            margin: "0 0 18px",
+            margin: "0 auto 20px",
+            textAlign: "center",
+            maxWidth: "360px",
           }}
         >
           La vérification est effectuée de façon sécurisée par Stripe.
@@ -169,8 +183,10 @@ window.location.href = data.url;
             style={{
               color: "#ff6b6b",
               fontSize: "14px",
-              lineHeight: "1.4",
-              margin: "0 0 16px",
+              lineHeight: "1.5",
+              margin: "0 auto 18px",
+              textAlign: "center",
+              maxWidth: "360px",
             }}
           >
             {error}
@@ -190,10 +206,16 @@ window.location.href = data.url;
             color: loading ? "#888888" : "#111111",
             fontSize: "18px",
             fontWeight: "700",
+            lineHeight: "1.3",
+            textAlign: "center",
             cursor: loading ? "default" : "pointer",
+            display: "block",
+            margin: "0 auto",
           }}
         >
-          {loading ? "Ouverture de la vérification..." : "Vérifier mon identité"}
+          {loading
+            ? "Ouverture de la vérification..."
+            : "Vérifier mon identité"}
         </button>
       </div>
     </main>
