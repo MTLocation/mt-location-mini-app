@@ -387,27 +387,31 @@ export default function PhotosRetour() {
               textAlign: "center",
             }}
           >
-            <strong
-              style={{
-                display: "block",
-                textAlign: "center",
-              }}
-            >
-              PHOTO DU DOMMAGE
-            </strong>
+           <strong
+  style={{
+    display: "block",
+    textAlign: "center",
+    width: "100%",
+    fontSize: "17px",
+    marginBottom: "10px",
+  }}
+>
+  PHOTO DU DOMMAGE
+</strong>
 
-            <p
-              style={{
-                color: "#bbbbbb",
-                fontSize: "14px",
-                lineHeight: "1.5",
-                margin: "10px auto 14px",
-                textAlign: "center",
-                maxWidth: "340px",
-              }}
-            >
-               Sera transmise à MT Location Remorques.
-            </p>
+<p
+  style={{
+    color: "#bbbbbb",
+    fontSize: "14px",
+    lineHeight: "1.5",
+    margin: "0 auto 14px",
+    textAlign: "center",
+    width: "100%",
+    maxWidth: "320px",
+  }}
+>
+  Cette photo sera transmise à MT Location Remorques.
+</p>
 
             {dommage?.preview && (
               <img
