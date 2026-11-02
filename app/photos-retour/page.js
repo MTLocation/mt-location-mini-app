@@ -245,7 +245,7 @@ export default function PhotosRetour() {
             maxWidth: "380px",
           }}
         >
-          Avant de quitter, prenez les 5 photos suivantes.
+Prenez les 5 photos suivantes.
         </p>
 
         <div
@@ -322,8 +322,7 @@ export default function PhotosRetour() {
               margin: "0 auto",
             }}
           >
-            Gardez-les sur votre téléphone jusqu’à la fermeture complète de la
-            location pour votre sécurité.
+            Gardez-les sur votre téléphone pour votre sécurité.
           </div>
         </div>
 
@@ -365,7 +364,7 @@ export default function PhotosRetour() {
               maxWidth: "300px",
             }}
           >
-            Je confirme avoir pris les 5 photos demandées.
+            Je confirme avoir pris les 5 photos.
           </span>
         </label>
 
