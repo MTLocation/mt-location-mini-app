@@ -291,82 +291,88 @@ export default function PhotosRetour() {
           </div>
         </div>
 
-        <div
-          style={{
-            background: "#151515",
-            border: "1px solid #555555",
-            borderRadius: "14px",
-            padding: "22px 18px",
-            margin: "0 auto 16px",
-            textAlign: "center",
-          }}
-        >
-          <strong
-            style={{
-              display: "block",
-              marginBottom: "12px",
-              fontSize: "17px",
-              textAlign: "center",
-            }}
-          >
-            Conservez vos photos
-          </strong>
+<div
+  style={{
+    background: "#151515",
+    border: "1px solid #555555",
+    borderRadius: "14px",
+    padding: "22px 18px",
+    margin: "0 auto 16px",
+    textAlign: "center",
+  }}
+>
+  <strong
+    style={{
+      display: "block",
+      marginBottom: "12px",
+      fontSize: "17px",
+      textAlign: "center",
+      width: "100%",
+    }}
+  >
+    Conservez vos photos
+  </strong>
 
-          <div
-            style={{
-              color: "#bbbbbb",
-              fontSize: "14px",
-              lineHeight: "1.6",
-              textAlign: "center",
-              maxWidth: "360px",
-              margin: "0 auto",
-            }}
-          >
-            Gardez-les sur votre téléphone pour votre sécurité.
-          </div>
-        </div>
+  <div
+    style={{
+      color: "#bbbbbb",
+      fontSize: "14px",
+      lineHeight: "1.6",
+      textAlign: "center",
+      width: "100%",
+      maxWidth: "300px",
+      margin: "0 auto",
+    }}
+  >
+    Gardez-les sur votre téléphone pour votre sécurité.
+  </div>
+</div>
 
-        <label
-          style={{
-            display: "flex",
-            flexDirection: "column",
-            alignItems: "center",
-            justifyContent: "center",
-            gap: "12px",
-            background: "#151515",
-            border: "1px solid #444444",
-            borderRadius: "14px",
-            padding: "20px",
-            cursor: "pointer",
-            margin: "0 auto 16px",
-            textAlign: "center",
-          }}
-        >
-          <input
-            type="checkbox"
-            checked={confirmation}
-            onChange={(e) => {
-              setConfirmation(e.target.checked);
-              setErreur("");
-            }}
-            style={{
-              width: "22px",
-              height: "22px",
-              margin: 0,
-            }}
-          />
+       <label
+  style={{
+    display: "flex",
+    flexDirection: "column",
+    alignItems: "center",
+    justifyContent: "center",
+    gap: "18px",
+    background: "#151515",
+    border: "1px solid #444444",
+    borderRadius: "14px",
+    padding: "28px 20px",
+    margin: "0 auto 16px",
+    textAlign: "center",
+    width: "100%",
+    boxSizing: "border-box",
+  }}
+>
+  <input
+    type="checkbox"
+    checked={confirmation}
+    onChange={(e) => {
+      setConfirmation(e.target.checked);
+      setErreur("");
+    }}
+    style={{
+      width: "22px",
+      height: "22px",
+      margin: 0,
+    }}
+  />
 
-          <span
-            style={{
-              fontSize: "15px",
-              lineHeight: "1.5",
-              textAlign: "center",
-              maxWidth: "300px",
-            }}
-          >
-            Je confirme avoir pris les 5 photos.
-          </span>
-        </label>
+  <span
+    style={{
+      display: "block",
+      fontSize: "15px",
+      lineHeight: "1.6",
+      textAlign: "center",
+      width: "100%",
+      maxWidth: "280px",
+      margin: "0 auto",
+    }}
+  >
+    Je confirme avoir pris les 5 photos.
+  </span>
+</label>
 
         {etatRetour === "dommage" && (
           <div
