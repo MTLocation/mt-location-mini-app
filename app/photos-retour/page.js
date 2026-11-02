@@ -220,14 +220,16 @@ export default function PhotosRetour() {
             maxWidth: "80%",
             height: "auto",
             display: "block",
-            margin: "0 auto 10px",
+            margin: "0 auto 16px",
           }}
         />
 
         <h1
           style={{
-            margin: "0 0 4px",
+            margin: "0 auto 10px",
             fontSize: "28px",
+            textAlign: "center",
+            width: "100%",
           }}
         >
           Photos de retour
@@ -236,9 +238,11 @@ export default function PhotosRetour() {
         <p
           style={{
             color: "#aaaaaa",
-            margin: "0 0 14px",
+            margin: "0 auto 18px",
             fontSize: "15px",
             lineHeight: "1.5",
+            textAlign: "center",
+            maxWidth: "380px",
           }}
         >
           Avant de quitter, prenez les 5 photos suivantes.
@@ -250,26 +254,40 @@ export default function PhotosRetour() {
             background: "#151515",
             border: "1px solid #444444",
             borderRadius: "14px",
-            padding: "18px",
-            marginBottom: "12px",
+            padding: "24px 18px",
+            margin: "0 auto 16px",
             boxSizing: "border-box",
-            textAlign: "left",
+            textAlign: "center",
           }}
         >
-          <div style={{ marginBottom: "12px", fontWeight: "700" }}>
+          <div
+            style={{
+              marginBottom: "18px",
+              fontWeight: "700",
+              fontSize: "18px",
+              textAlign: "center",
+            }}
+          >
             Photos à prendre :
           </div>
 
-          <div style={{ lineHeight: "1.9", color: "#dddddd" }}>
-            1. Avant de la remorque
+          <div
+            style={{
+              lineHeight: "1.9",
+              color: "#dddddd",
+              fontSize: "15px",
+              textAlign: "center",
+            }}
+          >
+            Avant de la remorque
             <br />
-            2. Arrière de la remorque
+            Arrière de la remorque
             <br />
-            3. Côté conducteur
+            Côté conducteur
             <br />
-            4. Côté passager
+            Côté passager
             <br />
-            5. Intérieur
+            Intérieur
           </div>
         </div>
 
@@ -278,12 +296,19 @@ export default function PhotosRetour() {
             background: "#151515",
             border: "1px solid #555555",
             borderRadius: "14px",
-            padding: "16px",
-            marginBottom: "14px",
-            textAlign: "left",
+            padding: "22px 18px",
+            margin: "0 auto 16px",
+            textAlign: "center",
           }}
         >
-          <strong style={{ display: "block", marginBottom: "8px" }}>
+          <strong
+            style={{
+              display: "block",
+              marginBottom: "12px",
+              fontSize: "17px",
+              textAlign: "center",
+            }}
+          >
             Conservez vos photos
           </strong>
 
@@ -291,7 +316,10 @@ export default function PhotosRetour() {
             style={{
               color: "#bbbbbb",
               fontSize: "14px",
-              lineHeight: "1.5",
+              lineHeight: "1.6",
+              textAlign: "center",
+              maxWidth: "360px",
+              margin: "0 auto",
             }}
           >
             Gardez-les sur votre téléphone jusqu’à la fermeture complète de la
@@ -302,15 +330,17 @@ export default function PhotosRetour() {
         <label
           style={{
             display: "flex",
-            alignItems: "flex-start",
+            flexDirection: "column",
+            alignItems: "center",
+            justifyContent: "center",
             gap: "12px",
-            textAlign: "left",
             background: "#151515",
             border: "1px solid #444444",
             borderRadius: "14px",
-            padding: "16px",
+            padding: "20px",
             cursor: "pointer",
-            marginBottom: "14px",
+            margin: "0 auto 16px",
+            textAlign: "center",
           }}
         >
           <input
@@ -323,18 +353,19 @@ export default function PhotosRetour() {
             style={{
               width: "22px",
               height: "22px",
-              marginTop: "1px",
-              flexShrink: 0,
+              margin: 0,
             }}
           />
 
           <span
             style={{
               fontSize: "15px",
-              lineHeight: "1.45",
+              lineHeight: "1.5",
+              textAlign: "center",
+              maxWidth: "300px",
             }}
           >
-            Je confirme avoir pris les 5 photos demandées. 
+            Je confirme avoir pris les 5 photos demandées.
           </span>
         </label>
 
@@ -345,20 +376,29 @@ export default function PhotosRetour() {
               background: "#151515",
               border: "1px solid #aa5555",
               borderRadius: "14px",
-              padding: "14px",
-              marginBottom: "14px",
+              padding: "18px",
+              margin: "0 auto 16px",
               boxSizing: "border-box",
               textAlign: "center",
             }}
           >
-            <strong>PHOTO DU DOMMAGE</strong>
+            <strong
+              style={{
+                display: "block",
+                textAlign: "center",
+              }}
+            >
+              PHOTO DU DOMMAGE
+            </strong>
 
             <p
               style={{
                 color: "#bbbbbb",
                 fontSize: "14px",
-                lineHeight: "1.4",
-                margin: "8px 0 12px",
+                lineHeight: "1.5",
+                margin: "10px auto 14px",
+                textAlign: "center",
+                maxWidth: "340px",
               }}
             >
               Cette photo sera transmise à MT Location Remorques.
@@ -389,6 +429,7 @@ export default function PhotosRetour() {
                 background: "#0b0b0b",
                 cursor: processing || uploading ? "default" : "pointer",
                 opacity: processing || uploading ? 0.6 : 1,
+                textAlign: "center",
               }}
             >
               <span
@@ -399,6 +440,7 @@ export default function PhotosRetour() {
                   transform: "translate(-50%, -50%)",
                   fontWeight: "700",
                   whiteSpace: "nowrap",
+                  textAlign: "center",
                 }}
               >
                 {processing
@@ -433,7 +475,10 @@ export default function PhotosRetour() {
             style={{
               color: "#ff6b6b",
               fontSize: "14px",
-              margin: "8px 0 12px",
+              lineHeight: "1.5",
+              margin: "8px auto 14px",
+              textAlign: "center",
+              maxWidth: "360px",
             }}
           >
             {erreur}
@@ -454,6 +499,9 @@ export default function PhotosRetour() {
             fontSize: "18px",
             fontWeight: "700",
             cursor: peutContinuer ? "pointer" : "default",
+            textAlign: "center",
+            display: "block",
+            margin: "0 auto",
           }}
         >
           {uploading ? "Enregistrement du dommage..." : "Finaliser le retour"}
