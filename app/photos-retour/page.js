@@ -406,7 +406,7 @@ export default function PhotosRetour() {
                 maxWidth: "340px",
               }}
             >
-              Cette photo sera transmise à MT Location Remorques.
+               Sera transmise à MT Location Remorques.
             </p>
 
             {dommage?.preview && (
