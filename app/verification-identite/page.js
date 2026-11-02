@@ -107,7 +107,7 @@ export default function VerificationIdentite() {
             width: "100%",
           }}
         >
-          Vérification d’identité
+          Mon identité
         </h1>
 
         <p
@@ -120,8 +120,7 @@ export default function VerificationIdentite() {
             maxWidth: "380px",
           }}
         >
-          Pour votre sécurité et celle de MT Location Remorques, Stripe
-          vérifiera votre permis de conduire et votre identité.
+          Stripe vérifiera votre permis de conduire et votre identité.
         </p>
 
         <div
@@ -159,9 +158,9 @@ export default function VerificationIdentite() {
           >
             Votre permis de conduire
             <br />
-            La caméra de votre téléphone
+            votre caméra de cellulaire
             <br />
-            Quelques instants pour prendre un selfie
+            Prendre un selfie
           </div>
         </div>
 
@@ -175,7 +174,7 @@ export default function VerificationIdentite() {
             maxWidth: "360px",
           }}
         >
-          La vérification est effectuée de façon sécurisée par Stripe.
+          La vérification est effectuée de façon sécurisée par Stripe identity.
         </p>
 
         {error && (
