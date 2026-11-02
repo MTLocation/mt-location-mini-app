@@ -120,7 +120,7 @@ export default function VerificationIdentite() {
             maxWidth: "380px",
           }}
         >
-         vérification de votre identité.
+         
         </p>
 
         <div
