@@ -120,7 +120,7 @@ export default function VerificationIdentite() {
             maxWidth: "380px",
           }}
         >
-          Stripe vérifiera votre permis de conduire et votre identité.
+         vérification de votre identité.
         </p>
 
         <div
@@ -174,7 +174,7 @@ export default function VerificationIdentite() {
             maxWidth: "360px",
           }}
         >
-          La vérification est effectuée de façon sécurisée par Stripe identity.
+         Vérification sécurisée effectuée par Stripe Identity.
         </p>
 
         {error && (
