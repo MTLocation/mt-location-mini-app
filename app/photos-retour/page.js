@@ -245,7 +245,7 @@ export default function PhotosRetour() {
             maxWidth: "380px",
           }}
         >
-Prenez les 5 photos suivantes.
+
         </p>
 
         <div
@@ -268,7 +268,7 @@ Prenez les 5 photos suivantes.
               textAlign: "center",
             }}
           >
-            Photos à prendre :
+           5 Photos à prendre :
           </div>
 
           <div
