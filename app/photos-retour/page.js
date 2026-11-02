@@ -241,7 +241,7 @@ export default function PhotosRetour() {
             lineHeight: "1.5",
           }}
         >
-          Avant de quitter, prenez les 5 photos suivantes avec votre téléphone.
+          Avant de quitter, prenez les 5 photos suivantes.
         </p>
 
         <div
@@ -295,8 +295,7 @@ export default function PhotosRetour() {
             }}
           >
             Gardez-les sur votre téléphone jusqu’à la fermeture complète de la
-            location. Elles pourront servir à confirmer l’état de la remorque
-            lors du retour.
+            location pour votre sécurité.
           </div>
         </div>
 
@@ -335,8 +334,7 @@ export default function PhotosRetour() {
               lineHeight: "1.45",
             }}
           >
-            Je confirme avoir pris les 5 photos demandées et les avoir
-            conservées sur mon téléphone.
+            Je confirme avoir pris les 5 photos demandées. 
           </span>
         </label>
 
